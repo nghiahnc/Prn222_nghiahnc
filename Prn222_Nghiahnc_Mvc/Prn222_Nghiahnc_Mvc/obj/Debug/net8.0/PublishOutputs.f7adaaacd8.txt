@@ -1,0 +1,7 @@
+D:\PRN111\Final_NhonNT_23_06\Prn222_Nghiahnc_Mvc\Prn222_Nghiahnc_Mvc\obj\Debug\net8.0\PubTmp\Out\Prn222_Nghiahnc_Mvc.exe
+D:\PRN111\Final_NhonNT_23_06\Prn222_Nghiahnc_Mvc\Prn222_Nghiahnc_Mvc\obj\Debug\net8.0\PubTmp\Out\appsettings.Development.json
+D:\PRN111\Final_NhonNT_23_06\Prn222_Nghiahnc_Mvc\Prn222_Nghiahnc_Mvc\obj\Debug\net8.0\PubTmp\Out\appsettings.json
+D:\PRN111\Final_NhonNT_23_06\Prn222_Nghiahnc_Mvc\Prn222_Nghiahnc_Mvc\obj\Debug\net8.0\PubTmp\Out\Prn222_Nghiahnc_Mvc.dll
+D:\PRN111\Final_NhonNT_23_06\Prn222_Nghiahnc_Mvc\Prn222_Nghiahnc_Mvc\obj\Debug\net8.0\PubTmp\Out\Prn222_Nghiahnc_Mvc.deps.json
+D:\PRN111\Final_NhonNT_23_06\Prn222_Nghiahnc_Mvc\Prn222_Nghiahnc_Mvc\obj\Debug\net8.0\PubTmp\Out\Prn222_Nghiahnc_Mvc.runtimeconfig.json
+D:\PRN111\Final_NhonNT_23_06\Prn222_Nghiahnc_Mvc\Prn222_Nghiahnc_Mvc\obj\Debug\net8.0\PubTmp\Out\Prn222_Nghiahnc_Mvc.pdb

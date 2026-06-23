@@ -1,0 +1,44 @@
+﻿@model Domain.User
+
+<h2>Create User</h2>
+
+<form asp-action="Create" method="post">
+
+    <div>
+        <label asp-for="UserName"></label>
+        <input asp-for="UserName" />
+    </div>
+
+    <div>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" />
+    </div>
+
+    <div>
+        <label asp-for="Phone"></label>
+        <input asp-for="Phone" />
+    </div>
+
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+    </div>
+
+    <div>
+        <label asp-for="Role"></label>
+        <input asp-for="Role" type="number" />
+    </div>
+
+    <div>
+        <label asp-for="MembershipId"></label>
+        <input asp-for="MembershipId" type="number" />
+    </div>
+
+    <div>
+        <label asp-for="Status"></label>
+        <input asp-for="Status" type="number" />
+    </div>
+
+    <button type="submit">Save</button>
+
+</form>

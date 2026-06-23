@@ -1,0 +1,12 @@
+﻿@model Domain.User
+
+<h2>Edit User</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <label>Name</label>
+    <input asp-for="UserName" />
+
+    <button type="submit">Update</button>
+</form>

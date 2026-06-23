@@ -1,0 +1,11 @@
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Domain\bin\Debug\net8.0\Domain.deps.json
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Domain\bin\Debug\net8.0\Domain.dll
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Domain\bin\Debug\net8.0\Domain.pdb
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Domain\obj\Debug\net8.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Domain\obj\Debug\net8.0\Domain.AssemblyInfoInputs.cache
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Domain\obj\Debug\net8.0\Domain.AssemblyInfo.cs
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Domain\obj\Debug\net8.0\Domain.csproj.CoreCompileInputs.cache
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Domain\obj\Debug\net8.0\Domain.dll
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Domain\obj\Debug\net8.0\refint\Domain.dll
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Domain\obj\Debug\net8.0\Domain.pdb
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Domain\obj\Debug\net8.0\ref\Domain.dll

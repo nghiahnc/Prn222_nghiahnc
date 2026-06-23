@@ -1,0 +1,17 @@
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Data\bin\Debug\net8.0\Data.deps.json
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Data\bin\Debug\net8.0\Data.runtimeconfig.json
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Data\bin\Debug\net8.0\Data.dll
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Data\bin\Debug\net8.0\Data.pdb
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Data\bin\Debug\net8.0\Domain.dll
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Data\bin\Debug\net8.0\Domain.pdb
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Data\obj\Debug\net8.0\Data.csproj.AssemblyReference.cache
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Data\obj\Debug\net8.0\Data.GeneratedMSBuildEditorConfig.editorconfig
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Data\obj\Debug\net8.0\Data.AssemblyInfoInputs.cache
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Data\obj\Debug\net8.0\Data.AssemblyInfo.cs
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Data\obj\Debug\net8.0\Data.csproj.CoreCompileInputs.cache
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Data\obj\Debug\net8.0\Data.csproj.Up2Date
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Data\obj\Debug\net8.0\Data.dll
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Data\obj\Debug\net8.0\refint\Data.dll
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Data\obj\Debug\net8.0\Data.pdb
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Data\obj\Debug\net8.0\Data.genruntimeconfig.cache
+D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Data\obj\Debug\net8.0\ref\Data.dll

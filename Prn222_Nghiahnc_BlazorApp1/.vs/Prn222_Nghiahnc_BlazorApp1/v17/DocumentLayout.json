@@ -1,0 +1,70 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_BlazorApp1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C30CDFD0-19B0-4F11-913D-0EB7210E3AA5}|Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj|d:\\prn111\\final_nhonnt_23_06\\prn222_nghiahnc_blazorapp1\\prn222_nghiahnc_blazorapp1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C30CDFD0-19B0-4F11-913D-0EB7210E3AA5}|Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj|solutionrelative:prn222_nghiahnc_blazorapp1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C30CDFD0-19B0-4F11-913D-0EB7210E3AA5}|Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj|d:\\prn111\\final_nhonnt_23_06\\prn222_nghiahnc_blazorapp1\\prn222_nghiahnc_blazorapp1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{C30CDFD0-19B0-4F11-913D-0EB7210E3AA5}|Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj|solutionrelative:prn222_nghiahnc_blazorapp1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C30CDFD0-19B0-4F11-913D-0EB7210E3AA5}|Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj|d:\\prn111\\final_nhonnt_23_06\\prn222_nghiahnc_blazorapp1\\prn222_nghiahnc_blazorapp1\\prn222_nghiahnc_blazorapp1.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{C30CDFD0-19B0-4F11-913D-0EB7210E3AA5}|Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj|solutionrelative:prn222_nghiahnc_blazorapp1\\prn222_nghiahnc_blazorapp1.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1\\Program.cs",
+              "RelativeDocumentMoniker": "Prn222_Nghiahnc_BlazorApp1\\Program.cs",
+              "ToolTip": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1\\Program.cs",
+              "RelativeToolTip": "Prn222_Nghiahnc_BlazorApp1\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-22T22:28:45.373Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1\\appsettings.json",
+              "RelativeDocumentMoniker": "Prn222_Nghiahnc_BlazorApp1\\appsettings.json",
+              "ToolTip": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1\\appsettings.json",
+              "RelativeToolTip": "Prn222_Nghiahnc_BlazorApp1\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-06-22T22:28:42.875Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Prn222_Nghiahnc_BlazorApp1",
+              "DocumentMoniker": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj",
+              "RelativeDocumentMoniker": "Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj",
+              "ToolTip": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj",
+              "RelativeToolTip": "Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-06-22T22:28:37.363Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

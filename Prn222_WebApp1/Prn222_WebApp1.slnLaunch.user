@@ -1,0 +1,19 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "..\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "..\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "..\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

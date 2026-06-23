@@ -1,0 +1,7 @@
+D:\PRN111\Final_NhonNT_23_06\Prn222_Nghiahnc_Razor\Prn222_Nghiahnc_Razor\obj\Debug\net8.0\PubTmp\Out\Prn222_Nghiahnc_Razor.exe
+D:\PRN111\Final_NhonNT_23_06\Prn222_Nghiahnc_Razor\Prn222_Nghiahnc_Razor\obj\Debug\net8.0\PubTmp\Out\appsettings.Development.json
+D:\PRN111\Final_NhonNT_23_06\Prn222_Nghiahnc_Razor\Prn222_Nghiahnc_Razor\obj\Debug\net8.0\PubTmp\Out\appsettings.json
+D:\PRN111\Final_NhonNT_23_06\Prn222_Nghiahnc_Razor\Prn222_Nghiahnc_Razor\obj\Debug\net8.0\PubTmp\Out\Prn222_Nghiahnc_Razor.dll
+D:\PRN111\Final_NhonNT_23_06\Prn222_Nghiahnc_Razor\Prn222_Nghiahnc_Razor\obj\Debug\net8.0\PubTmp\Out\Prn222_Nghiahnc_Razor.deps.json
+D:\PRN111\Final_NhonNT_23_06\Prn222_Nghiahnc_Razor\Prn222_Nghiahnc_Razor\obj\Debug\net8.0\PubTmp\Out\Prn222_Nghiahnc_Razor.runtimeconfig.json
+D:\PRN111\Final_NhonNT_23_06\Prn222_Nghiahnc_Razor\Prn222_Nghiahnc_Razor\obj\Debug\net8.0\PubTmp\Out\Prn222_Nghiahnc_Razor.pdb

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc.csproj": {}
+    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc.csproj": {}
   },
   "projects": {
-    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc.csproj": {
+    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc.csproj",
+        "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc.csproj",
         "projectName": "Prn222_Nghiahnc_Mvc",
-        "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc.csproj",
+        "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc.csproj",
         "packagesPath": "C:\\Users\\ourki\\.nuget\\packages\\",
-        "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\obj\\",
+        "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,14 +32,14 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Data\\Data.csproj": {
-                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Data\\Data.csproj"
+              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Data\\Data.csproj": {
+                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Data\\Data.csproj"
               },
-              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Repositories\\Repositories.csproj": {
-                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Repositories\\Repositories.csproj"
+              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Repositories\\Repositories.csproj": {
+                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Repositories\\Repositories.csproj"
               },
-              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Services\\Services.csproj": {
-                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Services\\Services.csproj"
+              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Services\\Services.csproj": {
+                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Services\\Services.csproj"
               }
             }
           }
@@ -117,14 +117,14 @@
         }
       }
     },
-    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Data\\Data.csproj": {
+    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Data\\Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Data\\Data.csproj",
+        "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Data\\Data.csproj",
         "projectName": "Data",
-        "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Data\\Data.csproj",
+        "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Data\\Data.csproj",
         "packagesPath": "C:\\Users\\ourki\\.nuget\\packages\\",
-        "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Data\\obj\\",
+        "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -145,8 +145,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Domain\\Domain.csproj"
+              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj"
               }
             }
           }
@@ -202,14 +202,14 @@
         }
       }
     },
-    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Domain\\Domain.csproj": {
+    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Domain\\Domain.csproj",
+        "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Domain\\Domain.csproj",
+        "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\ourki\\.nuget\\packages\\",
-        "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Domain\\obj\\",
+        "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -267,14 +267,14 @@
         }
       }
     },
-    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Repositories\\Repositories.csproj": {
+    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Repositories\\Repositories.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Repositories\\Repositories.csproj",
+        "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Repositories\\Repositories.csproj",
         "projectName": "Repositories",
-        "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Repositories\\Repositories.csproj",
+        "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Repositories\\Repositories.csproj",
         "packagesPath": "C:\\Users\\ourki\\.nuget\\packages\\",
-        "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Repositories\\obj\\",
+        "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Repositories\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -295,11 +295,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Data\\Data.csproj": {
-                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Data\\Data.csproj"
+              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Data\\Data.csproj": {
+                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Data\\Data.csproj"
               },
-              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Domain\\Domain.csproj"
+              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj"
               }
             }
           }
@@ -349,14 +349,14 @@
         }
       }
     },
-    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Services\\Services.csproj": {
+    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Services\\Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Services\\Services.csproj",
+        "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Services\\Services.csproj",
         "projectName": "Services",
-        "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Services\\Services.csproj",
+        "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Services\\Services.csproj",
         "packagesPath": "C:\\Users\\ourki\\.nuget\\packages\\",
-        "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Services\\obj\\",
+        "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Services\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -377,11 +377,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Domain\\Domain.csproj"
+              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj"
               },
-              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Repositories\\Repositories.csproj": {
-                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Repositories\\Repositories.csproj"
+              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Repositories\\Repositories.csproj": {
+                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Repositories\\Repositories.csproj"
               }
             }
           }

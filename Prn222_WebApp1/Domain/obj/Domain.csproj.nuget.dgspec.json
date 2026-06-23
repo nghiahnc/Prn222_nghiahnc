@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Domain\\Domain.csproj": {}
+    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Domain\\Domain.csproj": {
+    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Domain\\Domain.csproj",
+        "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Domain\\Domain.csproj",
+        "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\ourki\\.nuget\\packages\\",
-        "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Domain\\obj\\",
+        "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

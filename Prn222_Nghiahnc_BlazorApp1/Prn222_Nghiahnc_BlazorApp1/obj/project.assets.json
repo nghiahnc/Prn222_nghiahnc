@@ -2743,11 +2743,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj",
+      "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj",
       "projectName": "Prn222_Nghiahnc_BlazorApp1",
-      "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj",
+      "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj",
       "packagesPath": "C:\\Users\\ourki\\.nuget\\packages\\",
-      "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1\\obj\\",
+      "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -2768,14 +2768,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Data\\Data.csproj": {
-              "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Data\\Data.csproj"
+            "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Data\\Data.csproj": {
+              "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Data\\Data.csproj"
             },
-            "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Repositories\\Repositories.csproj": {
-              "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Repositories\\Repositories.csproj"
+            "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Repositories\\Repositories.csproj": {
+              "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Repositories\\Repositories.csproj"
             },
-            "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Services\\Services.csproj": {
-              "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Services\\Services.csproj"
+            "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Services\\Services.csproj": {
+              "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Services\\Services.csproj"
             }
           }
         }

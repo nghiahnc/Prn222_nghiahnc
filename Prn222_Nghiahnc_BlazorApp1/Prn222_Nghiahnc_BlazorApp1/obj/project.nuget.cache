@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qMn0LkkeiRQ=",
+  "dgSpecHash": "NbunAnf9osc=",
   "success": true,
-  "projectFilePath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj",
+  "projectFilePath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ourki\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\ourki\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

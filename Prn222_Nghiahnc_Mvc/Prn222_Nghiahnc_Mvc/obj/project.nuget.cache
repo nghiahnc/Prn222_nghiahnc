@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6vDjO41aizU=",
+  "dgSpecHash": "6eCPrnamWG0=",
   "success": true,
-  "projectFilePath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc.csproj",
+  "projectFilePath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ourki\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\ourki\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

@@ -144,7 +144,7 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Prn222_Nghiahnc_BlazorApp1",
+              "Title": "Prn222_Nghiahnc_BlazorApp1.csproj",
               "DocumentMoniker": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj",
               "RelativeDocumentMoniker": "..\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj",
               "ToolTip": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1.csproj",
@@ -164,8 +164,7 @@
               "RelativeToolTip": "Repositories\\UserRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAC8AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-22T23:04:03.576Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-22T23:04:03.576Z"
             },
             {
               "$type": "Document",
@@ -177,8 +176,7 @@
               "RelativeToolTip": "Data\\DemoMVC2Context.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-23T00:22:24.225Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-23T00:22:24.225Z"
             },
             {
               "$type": "Document",
@@ -190,8 +188,7 @@
               "RelativeToolTip": "..\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\Views\\User\\Index.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-06-22T23:50:58.263Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-22T23:50:58.263Z"
             },
             {
               "$type": "Document",
@@ -203,8 +200,7 @@
               "RelativeToolTip": "Domain\\User.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-22T22:59:33.106Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-22T22:59:33.106Z"
             },
             {
               "$type": "Document",
@@ -216,13 +212,12 @@
               "RelativeToolTip": "..\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\Program.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAiwBsAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-23T00:03:49.124Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-23T00:03:49.124Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "Services",
+              "Title": "Services.csproj",
               "DocumentMoniker": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Services\\Services.csproj",
               "RelativeDocumentMoniker": "Services\\Services.csproj",
               "ToolTip": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Services\\Services.csproj",
@@ -248,7 +243,7 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Prn222_Nghiahnc_Razor",
+              "Title": "Prn222_Nghiahnc_Razor.csproj",
               "DocumentMoniker": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor.csproj",
               "RelativeDocumentMoniker": "..\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor.csproj",
               "ToolTip": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor.csproj",
@@ -261,7 +256,7 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Prn222_Nghiahnc_Mvc",
+              "Title": "Prn222_Nghiahnc_Mvc.csproj",
               "DocumentMoniker": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc.csproj",
               "RelativeDocumentMoniker": "..\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc.csproj",
               "ToolTip": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc.csproj",
@@ -281,8 +276,7 @@
               "RelativeToolTip": "..\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\Controllers\\UserController.cs",
               "ViewState": "AgIAABoAAAAAAAAAAADwvzwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-22T23:50:25.793Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-22T23:50:25.793Z"
             },
             {
               "$type": "Document",
@@ -294,8 +288,7 @@
               "RelativeToolTip": "Repositories\\IUserRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwBIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-22T23:00:12.451Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-22T23:00:12.451Z"
             },
             {
               "$type": "Document",
@@ -307,8 +300,7 @@
               "RelativeToolTip": "Services\\UserService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAUAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-22T23:48:47.404Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-22T23:48:47.404Z"
             },
             {
               "$type": "Document",
@@ -320,13 +312,12 @@
               "RelativeToolTip": "Services\\IUserService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-22T23:48:33.347Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-22T23:48:33.347Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 16,
-              "Title": "Domain",
+              "Title": "Domain.csproj",
               "DocumentMoniker": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Domain\\Domain.csproj",
               "RelativeDocumentMoniker": "Domain\\Domain.csproj",
               "ToolTip": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Domain\\Domain.csproj",
@@ -346,8 +337,7 @@
               "RelativeToolTip": "..\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\Views\\User\\Edit.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-06-23T08:55:56.515Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-23T08:55:56.515Z"
             },
             {
               "$type": "Document",
@@ -359,8 +349,7 @@
               "RelativeToolTip": "..\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\Views\\User\\Create.cshtml",
               "ViewState": "AgIAAAgAAAAAAAAAAAAwwCsAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-06-23T08:12:52.857Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-23T08:12:52.857Z"
             },
             {
               "$type": "Document",
@@ -372,8 +361,7 @@
               "RelativeToolTip": "Data\\Data.csproj.Backup.tmp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-06-23T08:23:34.745Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-23T08:23:34.745Z"
             },
             {
               "$type": "Document",
@@ -385,8 +373,7 @@
               "RelativeToolTip": "Domain\\Transaction.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-23T08:06:48.574Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-23T08:06:48.574Z"
             },
             {
               "$type": "Document",
@@ -398,8 +385,7 @@
               "RelativeToolTip": "Domain\\Ticket.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-23T08:07:06.113Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-23T08:07:06.113Z"
             },
             {
               "$type": "Document",
@@ -411,8 +397,7 @@
               "RelativeToolTip": "Domain\\TicketType.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-23T08:07:02.307Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-23T08:07:02.307Z"
             },
             {
               "$type": "Document",
@@ -424,8 +409,7 @@
               "RelativeToolTip": "Domain\\Booking.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-23T08:07:37.064Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-23T08:07:37.064Z"
             },
             {
               "$type": "Document",
@@ -437,8 +421,7 @@
               "RelativeToolTip": "Domain\\ErrorViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-23T08:07:27.841Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-23T08:07:27.841Z"
             },
             {
               "$type": "Document",
@@ -450,8 +433,7 @@
               "RelativeToolTip": "Domain\\Class1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-22T22:55:34.34Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-22T22:55:34.34Z"
             },
             {
               "$type": "Document",
@@ -463,8 +445,7 @@
               "RelativeToolTip": "Domain\\Membership.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-23T08:07:10.097Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-23T08:07:10.097Z"
             },
             {
               "$type": "Document",
@@ -476,8 +457,7 @@
               "RelativeToolTip": "Domain\\Login.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-23T08:07:15.991Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-23T08:07:15.991Z"
             },
             {
               "$type": "Document",
@@ -489,8 +469,7 @@
               "RelativeToolTip": "Domain\\EventCategory.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-23T08:07:19.824Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-23T08:07:19.824Z"
             },
             {
               "$type": "Document",
@@ -502,8 +481,7 @@
               "RelativeToolTip": "Domain\\Event.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-23T08:07:23.627Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-23T08:07:23.627Z"
             },
             {
               "$type": "Document",
@@ -515,13 +493,12 @@
               "RelativeToolTip": "..\\Prn222_Nghiahnc_Mvc\\Prn222_Nghiahnc_Mvc\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-06-22T22:49:15.053Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-22T22:49:15.053Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 29,
-              "Title": "Data",
+              "Title": "Data.csproj",
               "DocumentMoniker": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Data\\Data.csproj",
               "RelativeDocumentMoniker": "Data\\Data.csproj",
               "ToolTip": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_WebApp1\\Data\\Data.csproj",
@@ -541,8 +518,7 @@
               "RelativeToolTip": "Data\\Class1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-23T00:21:56.915Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-23T00:21:56.915Z"
             },
             {
               "$type": "Document",
@@ -554,8 +530,7 @@
               "RelativeToolTip": "Repositories\\Class1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-22T22:55:13.25Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-22T22:55:13.25Z"
             },
             {
               "$type": "Document",
@@ -579,8 +554,7 @@
               "RelativeToolTip": "..\\Prn222_Nghiahnc_BlazorApp1\\Prn222_Nghiahnc_BlazorApp1\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-22T23:06:16.164Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-22T23:06:16.164Z"
             },
             {
               "$type": "Document",

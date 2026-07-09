@@ -1,0 +1,30 @@
+@model Domain.Event
+@{
+    ViewData["Title"] = "Delete Event";
+}
+
+<h2>Delete Event</h2>
+<h4 class="text-danger">Are you sure you want to delete this event? This action cannot be undone.</h4>
+<hr />
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h5>@Model.Name</h5>
+        <p><strong>Category:</strong> @(Model.EventCategory?.Name ?? "Uncategorized")</p>
+        <p><strong>Location:</strong> @Model.Location</p>
+        <p><strong>Start Time:</strong> @Model.TimeStart.ToString("F")</p>
+        <p><strong>Status:</strong> 
+            @if (Model.Status == 0) { <span class="badge bg-secondary">Draft</span> }
+            else if (Model.Status == 2) { <span class="badge bg-danger">Cancelled</span> }
+            else if (Model.Status == 3 || (Model.Status == 1 && Model.TimeEnd <= DateTime.Now)) { <span class="badge bg-primary">Completed</span> }
+            else if (Model.Status == 1) { <span class="badge bg-success">Published</span> }
+        </p>
+    </div>
+</div>
+
+<form asp-action="Delete" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Cancel</a>
+</form>

@@ -1,0 +1,57 @@
+@model Prn222_Nghiahnc_Mvc.Models.EventFormViewModel
+@{
+    ViewData["Title"] = "Create Event";
+}
+
+<h2>Create Event</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Event Name</label>
+                <input asp-for="Name" class="form-control" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="EventCategoryId" class="form-label">Category</label>
+                <select asp-for="EventCategoryId" class="form-select" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))" required>
+                    <option value="">-- Select Category --</option>
+                </select>
+                <span asp-validation-for="EventCategoryId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Detail" class="form-label">Detail Description</label>
+                <textarea asp-for="Detail" class="form-control" rows="3" required></textarea>
+                <span asp-validation-for="Detail" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Location" class="form-label">Location</label>
+                <input asp-for="Location" class="form-control" required />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="TimeStart" class="form-label">Start Time</label>
+                <input asp-for="TimeStart" class="form-control" type="datetime-local" required />
+                <span asp-validation-for="TimeStart" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="TimeEnd" class="form-label">End Time</label>
+                <input asp-for="TimeEnd" class="form-control" type="datetime-local" required />
+                <span asp-validation-for="TimeEnd" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

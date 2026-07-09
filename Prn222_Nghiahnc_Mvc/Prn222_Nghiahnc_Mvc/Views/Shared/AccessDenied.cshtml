@@ -1,0 +1,31 @@
+@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 text-center">
+        <div class="card shadow-lg border-danger">
+            <div class="card-header bg-danger text-white">
+                <h3 class="mb-0"><i class="bi bi-shield-lock-fill"></i> Access Denied</h3>
+            </div>
+            <div class="card-body py-5">
+                <div class="text-danger mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-shield-slash" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1.093 3.093c-.465.42-.75.882-.75 1.207 0 1.26.75 3.33 2.14 5.378C3.805 11.758 5.602 13 8 13c1.03 0 1.956-.232 2.744-.602l.707.707C10.373 13.626 9.248 14 8 14c-3 0-5.5-1.5-7-4-.5-.832-1-2-1-4 0-.616.33-1.35.856-1.996l.237-.237a.5.5 0 0 1 .7.7l-.7.7zM2.144 4.13A12.4 12.4 0 0 0 2 4c0-.98.78-2.08 1.953-2.928.324-.234.664-.44 1-.618A7.058 7.058 0 0 1 8 0c1.026 0 1.957.234 2.74.603L9.66 1.683C9.141 1.56 8.583 1.5 8 1.5c-2.04 0-3.66.75-4.666 1.472l-.1.074.877.877c.338-.287.697-.547 1.07-.777.302-.187.618-.344.945-.47L7.26 3.82c-.378.118-.737.288-1.072.502-.32.203-.618.448-.89.728l-.133.133L2.144 4.13zm2.593 2.593 1.135 1.135c-.158.261-.274.524-.343.77-.087.31-.087.616 0 .926a3.535 3.535 0 0 0 .524 1.13l.87-.87c-.12-.224-.2-.464-.236-.71-.027-.184-.027-.373 0-.557a2.03 2.03 0 0 1 .18-.558L4.737 6.723zM8 5c.535 0 1.03.11 1.473.308l.942-.942A4.478 4.478 0 0 0 8 3.5c-1.124 0-2.064.444-2.73 1.144L6.41 5.78C6.84 5.283 7.387 5 8 5z"/>
+                        <path d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                    </svg>
+                </div>
+                <h5 class="text-secondary mb-4">You do not have permission to perform this action.</h5>
+                <hr class="my-4" />
+                <div class="d-flex justify-content-center gap-3">
+                    <a asp-controller="Events" asp-action="Index" class="btn btn-primary px-4">
+                        <i class="bi bi-house-door-fill"></i> Back to Events
+                    </a>
+                    <a href="javascript:history.back()" class="btn btn-outline-secondary px-4">
+                        <i class="bi bi-arrow-left"></i> Back
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

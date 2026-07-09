@@ -1,0 +1,48 @@
+@model List<Domain.Event>
+@{
+    ViewData["Title"] = "Events";
+    var role = Context.Session.GetInt32("Role");
+    var userId = Context.Session.GetInt32("UserId");
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Events List</h2>
+    @if (role == 0 || role == 2)
+    {
+        <a asp-action="Create" class="btn btn-primary">Create New Event</a>
+    }
+</div>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">@item.Name</h5>
+                    <p class="card-text text-muted mb-1">
+                        <strong>Category:</strong> @(item.EventCategory?.Name ?? "Uncategorized")
+                    </p>
+                    <p class="card-text text-muted mb-1">
+                        <strong>Start:</strong> @item.TimeStart.ToString("g")
+                    </p>
+                    <p class="card-text text-muted mb-3">
+                        <strong>Status:</strong> 
+                        @if (item.Status == 0) { <span class="badge bg-secondary">Draft</span> }
+                        else if (item.Status == 2) { <span class="badge bg-danger">Cancelled</span> }
+                        else if (item.Status == 3 || (item.Status == 1 && item.TimeEnd <= DateTime.Now)) { <span class="badge bg-primary">Completed</span> }
+                        else if (item.Status == 1) { <span class="badge bg-success">Published</span> }
+                    </p>
+                    <div class="mt-auto">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">View Details</a>
+                        @if (role == 0 || (role == 2 && item.CreatedBy == userId))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm">Delete</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,45 @@
+@model Services.MembershipSummary
+@{
+    ViewData["Title"] = "My Membership";
+}
+
+<h2>My Membership</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <h4 class="card-title text-primary mb-3">Hi, @Model.UserName!</h4>
+                <p class="fs-5"><strong>Current Tier:</strong> 
+                    <span class="badge bg-info text-dark">@Model.Tier</span>
+                </p>
+                <p class="fs-5"><strong>Loyalty Points:</strong> @Model.Points</p>
+                <p class="fs-5"><strong>Your Benefits:</strong> @Model.Benefits</p>
+                
+                @if (Model.NextTierPoints.HasValue)
+                {
+                    <div class="alert alert-light border mt-4">
+                        <p class="mb-2"><strong>Next Tier:</strong> @(Model.Tier == "Bronze" ? "Silver" : Model.Tier == "Silver" ? "Gold" : "Platinum") (Requires @Model.NextTierPoints.Value Points)</p>
+                        <div class="progress mb-2" style="height: 10px;">
+                            @{
+                                double currentPoints = Model.Points;
+                                double requiredPoints = Model.NextTierPoints.Value;
+                                double progressPercent = (currentPoints / requiredPoints) * 100;
+                                if (progressPercent > 100) progressPercent = 100;
+                            }
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: @(progressPercent)%;" aria-valuenow="@Model.Points" aria-valuemin="0" aria-valuemax="@Model.NextTierPoints.Value"></div>
+                        </div>
+                        <p class="small text-muted mb-0">You need <strong>@Model.PointsToNextTier</strong> more points to upgrade your membership tier.</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-success mt-4">
+                        <p class="mb-0"><strong>Congratulations!</strong> You have reached the maximum loyalty tier (**Platinum**).</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

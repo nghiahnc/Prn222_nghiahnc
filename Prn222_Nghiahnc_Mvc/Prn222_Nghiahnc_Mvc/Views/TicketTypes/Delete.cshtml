@@ -1,0 +1,24 @@
+@model Domain.TicketType
+@{
+    ViewData["Title"] = "Delete Ticket Type";
+}
+
+<h2>Delete Ticket Type</h2>
+<h4 class="text-danger">Are you sure you want to delete this ticket type?</h4>
+<hr />
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h5>@Model.Name</h5>
+        <p><strong>Event:</strong> @(Model.Event?.Name ?? $"Event #{Model.EventId}")</p>
+        <p><strong>Price:</strong> @Model.Price.ToString("C")</p>
+        <p><strong>Quantity:</strong> @Model.Quantity</p>
+    </div>
+</div>
+
+<form asp-action="Delete" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a asp-action="Index" asp-route-eventId="@Model.EventId" class="btn btn-outline-secondary">Cancel</a>
+</form>

@@ -1,0 +1,52 @@
+@model List<Domain.RefundCancelPolicy>
+@{
+    ViewData["Title"] = "Refund & Cancellation Policies";
+}
+
+<h2>Refund & Cancellation Policies</h2>
+<hr />
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        @if (Model == null || Model.Count == 0)
+        {
+            <p class="text-muted mb-0">No policies configured.</p>
+        }
+        else
+        {
+            <table class="table table-striped table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Allow Refund</th>
+                        <th>Refund Before (Hours)</th>
+                        <th>Refund Percent</th>
+                        <th>Allow Cancel</th>
+                        <th>Cancel Before (Hours)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@(item.Event?.Name ?? $"Event #{item.EventId}")</td>
+                            <td>@(item.AllowRefund ? "Yes" : "No")</td>
+                            <td>@(item.AllowRefund ? item.RefundBeforeHours.ToString() : "-")</td>
+                            <td>@(item.AllowRefund ? $"{item.RefundPercent}%" : "-")</td>
+                            <td>@(item.AllowCancel ? "Yes" : "No")</td>
+                            <td>@(item.AllowCancel ? item.CancelBeforeHours.ToString() : "-")</td>
+                            <td>
+                                <a asp-action="Manage" asp-route-eventId="@item.EventId" class="btn btn-sm btn-outline-primary">Manage</a>
+                                <form asp-action="Delete" asp-route-eventId="@item.EventId" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this policy?');">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

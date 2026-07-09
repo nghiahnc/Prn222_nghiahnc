@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -19,12 +19,45 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        @if (Context.Session.GetInt32("UserId") != null)
+                        {
+                            var role = Context.Session.GetInt32("Role");
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Events" asp-action="Index">Events</a>
+                            </li>
+                            @if (role == 1)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Memberships" asp-action="MyMembership">My Membership</a>
+                                </li>
+                            }
+                            @if (role == 0)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Memberships" asp-action="Index">Membership List</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    <ul class="navbar-nav">
+                        @if (Context.Session.GetInt32("UserId") != null)
+                        {
+                            <li class="nav-item align-self-center me-3 text-muted">
+                                Welcome, @Context.Session.GetString("UserName")
+                            </li>
+                            <li class="nav-item">
+                                <form asp-controller="Logins" asp-action="Logout" method="post" class="form-inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-link nav-link text-dark border-0 bg-transparent p-0">Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Logins" asp-action="Login">Login</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

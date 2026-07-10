@@ -1,0 +1,42 @@
+@page "{id:int}"
+@model QrModel
+
+@{
+    ViewData["Title"] = "QR-Code Ticket";
+    var qrValue = Model.Ticket?.QR ?? string.Empty;
+    var qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=240x240&data="
+        + System.Net.WebUtility.UrlEncode(qrValue);
+}
+
+<div class="mb-3">
+    <a asp-page="./Index" class="btn btn-sm btn-outline-secondary">Back</a>
+</div>
+
+<h1 class="h3">QR-Code Ticket</h1>
+
+@if (Model.Ticket != null)
+{
+    <div class="row g-4 align-items-start mt-2">
+        <div class="col-md-auto">
+            <img src="@qrUrl" width="240" height="240" alt="QR code for ticket @Model.Ticket.Id" class="border rounded p-2 bg-white" />
+        </div>
+        <div class="col-md">
+            <dl class="row">
+                <dt class="col-sm-3">Ticket</dt>
+                <dd class="col-sm-9">#@Model.Ticket.Id</dd>
+
+                <dt class="col-sm-3">Event</dt>
+                <dd class="col-sm-9">@Model.Ticket.TicketType?.Event?.Name</dd>
+
+                <dt class="col-sm-3">Ticket Type</dt>
+                <dd class="col-sm-9">@Model.Ticket.TicketType?.Name</dd>
+
+                <dt class="col-sm-3">QR</dt>
+                <dd class="col-sm-9"><code>@qrValue</code></dd>
+
+                <dt class="col-sm-3">Check-in</dt>
+                <dd class="col-sm-9">@(Model.Ticket.IsCheckedIn ? Model.Ticket.CheckInTime?.ToString("f") : "Not checked in")</dd>
+            </dl>
+        </div>
+    </div>
+}

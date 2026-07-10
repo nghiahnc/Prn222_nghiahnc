@@ -1,0 +1,38 @@
+@page
+@model ScanModel
+
+@{
+    ViewData["Title"] = "Scan QR-Code Ticket";
+}
+
+<h1 class="h3 mb-4">Scan QR-Code Ticket</h1>
+
+<form method="post" class="mb-4">
+    <div class="mb-3">
+        <label class="form-label" asp-for="Qr"></label>
+        <textarea class="form-control" asp-for="Qr" rows="3"></textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">Validate</button>
+</form>
+
+@if (!string.IsNullOrWhiteSpace(Model.Message))
+{
+    <div class="alert alert-info">@Model.Message</div>
+}
+
+@if (Model.Ticket != null)
+{
+    <dl class="row">
+        <dt class="col-sm-3">Ticket</dt>
+        <dd class="col-sm-9">#@Model.Ticket.Id</dd>
+
+        <dt class="col-sm-3">Event</dt>
+        <dd class="col-sm-9">@Model.Ticket.TicketType?.Event?.Name</dd>
+
+        <dt class="col-sm-3">Ticket Type</dt>
+        <dd class="col-sm-9">@Model.Ticket.TicketType?.Name</dd>
+
+        <dt class="col-sm-3">Check-in</dt>
+        <dd class="col-sm-9">@(Model.Ticket.IsCheckedIn ? Model.Ticket.CheckInTime?.ToString("f") : "Not checked in")</dd>
+    </dl>
+}

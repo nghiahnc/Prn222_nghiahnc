@@ -1,0 +1,45 @@
+@page "{id:int}"
+@model DetailsModel
+
+@{
+    ViewData["Title"] = "Category Details";
+}
+
+<div class="mb-3">
+    <a asp-page="./Index" class="btn btn-sm btn-outline-secondary">Back</a>
+</div>
+
+<h1 class="h3">@Model.Category?.Name</h1>
+<p class="text-muted">@Model.Category?.Description</p>
+
+<h2 class="h5 mt-4">Events</h2>
+<div class="table-responsive">
+    <table class="table table-sm align-middle">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Start</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Events)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Location</td>
+                <td>@item.TimeStart.ToString("g")</td>
+                <td>
+                    <a class="btn btn-sm btn-outline-primary" asp-page="/Customer/Events/Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+@if (!Model.Events.Any())
+{
+    <div class="alert alert-info">No events in this category.</div>
+}

@@ -1,0 +1,53 @@
+@page
+@model IndexModel
+
+@{
+    ViewData["Title"] = "Membership & Rewards";
+}
+
+<h1 class="h3 mb-4">Membership & Rewards</h1>
+
+@if (!string.IsNullOrWhiteSpace(Model.Result))
+{
+    <div class="alert alert-success">@Model.Result</div>
+}
+
+<dl class="row">
+    <dt class="col-sm-3">User</dt>
+    <dd class="col-sm-9">@Model.Summary?.User.UserName</dd>
+
+    <dt class="col-sm-3">Current Tier</dt>
+    <dd class="col-sm-9">@(Model.Summary?.Membership == null ? "Bronze" : $"{Model.Summary.Membership.Name} ({Model.Summary.Membership.Tier})")</dd>
+
+    <dt class="col-sm-3">Tier Benefit</dt>
+    <dd class="col-sm-9">@(Model.Summary?.TierDiscount ?? 0)% discount on booking</dd>
+
+    <dt class="col-sm-3">Earned Points</dt>
+    <dd class="col-sm-9">@Model.Summary?.EarnedPoints</dd>
+
+    <dt class="col-sm-3">Redeemed Points</dt>
+    <dd class="col-sm-9">@Model.Summary?.RedeemedPoints</dd>
+
+    <dt class="col-sm-3">Available Points</dt>
+    <dd class="col-sm-9">@Model.Summary?.AvailablePoints</dd>
+</dl>
+
+<div class="alert alert-secondary">
+    Every 100,000 VND paid earns 10 points. Silver starts at 500 points, Gold at 2,000 points, Platinum at 5,000 points.
+</div>
+
+<form method="post" class="row g-3 align-items-end mb-4">
+    <div class="col-md-5">
+        <label class="form-label" asp-for="DiscountCode"></label>
+        <input class="form-control" asp-for="DiscountCode" placeholder="PRN2026, STUDENT, SAVE10" />
+    </div>
+    <div class="col-md-4">
+        <label class="form-label" asp-for="RedeemPoints"></label>
+        <input class="form-control" asp-for="RedeemPoints" type="number" min="0" max="@(Model.Summary?.AvailablePoints ?? 0)" />
+    </div>
+    <div class="col-md-3 d-grid">
+        <button type="submit" class="btn btn-primary">Redeem</button>
+    </div>
+</form>
+
+<a asp-page="/Customer/Memberships/Index" class="btn btn-sm btn-outline-secondary">View tiers</a>

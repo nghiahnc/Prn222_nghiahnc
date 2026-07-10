@@ -4,7 +4,11 @@ using Repositories;
 using Services;
 using static System.Formats.Asn1.AsnWriter;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    ContentRootPath = ResolveContentRoot()
+});
 
 // MVC
 builder.Services.AddControllersWithViews();
@@ -27,6 +31,8 @@ builder.Services.AddSession(options =>
 // DI
 builder.Services.AddScoped<IUserRepository, UserRepository>(); 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ICustomerWorkflowService, CustomerWorkflowService>();
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -48,3 +54,27 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+static string ResolveContentRoot()
+{
+    var currentDirectory = Directory.GetCurrentDirectory();
+    if (Directory.Exists(Path.Combine(currentDirectory, "wwwroot"))
+        && Directory.Exists(Path.Combine(currentDirectory, "Views")))
+    {
+        return currentDirectory;
+    }
+
+    var directory = new DirectoryInfo(AppContext.BaseDirectory);
+    while (directory != null)
+    {
+        if (Directory.Exists(Path.Combine(directory.FullName, "wwwroot"))
+            && Directory.Exists(Path.Combine(directory.FullName, "Views")))
+        {
+            return directory.FullName;
+        }
+
+        directory = directory.Parent;
+    }
+
+    return currentDirectory;
+}

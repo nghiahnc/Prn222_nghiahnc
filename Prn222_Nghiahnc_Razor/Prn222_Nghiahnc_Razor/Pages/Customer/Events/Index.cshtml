@@ -1,0 +1,94 @@
+@page
+@model IndexModel
+
+@{
+    ViewData["Title"] = "Events";
+}
+
+<h1 class="h3 mb-4">Events</h1>
+
+<form method="get" class="row g-2 align-items-end mb-4">
+    <div class="col-md-3">
+        <label class="form-label" asp-for="Search"></label>
+        <input class="form-control" asp-for="Search" />
+    </div>
+    <div class="col-md-2">
+        <label class="form-label" asp-for="CategoryId">Category</label>
+        <select class="form-select" asp-for="CategoryId" asp-items="Model.CategoryOptions">
+            <option value="">All</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label class="form-label" asp-for="DateFilter">Date</label>
+        <select class="form-select" asp-for="DateFilter">
+            <option value="upcoming">Upcoming</option>
+            <option value="today">Today</option>
+            <option value="past">Past</option>
+            <option value="all">All</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label class="form-label" asp-for="Location"></label>
+        <select class="form-select" asp-for="Location" asp-items="Model.LocationOptions">
+            <option value="">All</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label class="form-label" asp-for="TicketTypeId">Ticket Type</label>
+        <select class="form-select" asp-for="TicketTypeId" asp-items="Model.TicketTypeOptions">
+            <option value="">All</option>
+        </select>
+    </div>
+    <div class="col-md-1 d-grid">
+        <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-sm align-middle">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Location</th>
+                <th>Start</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Events)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.CategoryName</td>
+                <td>@item.Location</td>
+                <td>@item.TimeStart.ToString("g")</td>
+                <td>@Model.StatusLabel(item.Status)</td>
+                <td>
+                    <a class="btn btn-sm btn-outline-primary" asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+@if (!Model.Events.Any())
+{
+    <div class="alert alert-info">No events found.</div>
+}
+
+<nav>
+    <ul class="pagination">
+        <li class="page-item @(Model.PageNumber <= 1 ? "disabled" : "")">
+            <a class="page-link" asp-route-pageNumber="@(Model.PageNumber - 1)" asp-route-search="@Model.Search" asp-route-categoryId="@Model.CategoryId" asp-route-dateFilter="@Model.DateFilter" asp-route-location="@Model.Location" asp-route-ticketTypeId="@Model.TicketTypeId">Previous</a>
+        </li>
+        <li class="page-item disabled">
+            <span class="page-link">@Model.PageNumber / @Model.TotalPages</span>
+        </li>
+        <li class="page-item @(Model.PageNumber >= Model.TotalPages ? "disabled" : "")">
+            <a class="page-link" asp-route-pageNumber="@(Model.PageNumber + 1)" asp-route-search="@Model.Search" asp-route-categoryId="@Model.CategoryId" asp-route-dateFilter="@Model.DateFilter" asp-route-location="@Model.Location" asp-route-ticketTypeId="@Model.TicketTypeId">Next</a>
+        </li>
+    </ul>
+</nav>

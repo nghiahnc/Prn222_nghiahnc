@@ -1,0 +1,42 @@
+@model BookingHistoryViewModel
+
+@{
+    ViewData["Title"] = "Booking History";
+}
+
+<h1 class="h3 mb-4">Booking History</h1>
+
+<div class="table-responsive">
+    <table class="table table-sm align-middle">
+        <thead>
+            <tr>
+                <th>Booking</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Payment Status</th>
+                <th>Payment</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var booking in Model.Bookings)
+        {
+            <tr>
+                <td>#@booking.Id</td>
+                <td>@booking.CreatedAt.ToString("g")</td>
+                <td>@CustomerLabels.BookingStatus(booking.Status)</td>
+                <td>@CustomerLabels.PaymentStatus(booking.Transaction?.Status ?? -1)</td>
+                <td>@booking.Transaction?.Detail</td>
+                <td>
+                    <a class="btn btn-sm btn-outline-primary" asp-controller="Bookings" asp-action="Details" asp-route-id="@booking.Id">Details</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+@if (!Model.Bookings.Any())
+{
+    <div class="alert alert-info">No bookings yet.</div>
+}

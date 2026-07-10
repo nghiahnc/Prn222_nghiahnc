@@ -1,0 +1,41 @@
+@page
+@model IndexModel
+
+@{
+    ViewData["Title"] = "Tickets";
+}
+
+<h1 class="h3 mb-4">Tickets</h1>
+
+<div class="table-responsive">
+    <table class="table table-sm align-middle">
+        <thead>
+            <tr>
+                <th>Ticket</th>
+                <th>Event</th>
+                <th>Type</th>
+                <th>Check-in</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var ticket in Model.Tickets)
+        {
+            <tr>
+                <td>#@ticket.Id</td>
+                <td>@ticket.TicketType?.Event?.Name</td>
+                <td>@ticket.TicketType?.Name</td>
+                <td>@(ticket.IsCheckedIn ? ticket.CheckInTime?.ToString("g") : "Not checked in")</td>
+                <td>
+                    <a class="btn btn-sm btn-outline-primary" asp-page="./Qr" asp-route-id="@ticket.Id">QR</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+@if (!Model.Tickets.Any())
+{
+    <div class="alert alert-info">No tickets yet.</div>
+}

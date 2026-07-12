@@ -19,6 +19,8 @@ namespace MVC.Data2
         public DbSet<Ticket> Ticket { get; set; }
         public DbSet<TicketType> TicketType { get; set; }
         public DbSet<RefundCancelPolicy> RefundCancelPolicy { get; set; }
+        public DbSet<SystemSetting> SystemSettings { get; set; }
+        public DbSet<PaymentGatewayConfig> PaymentGatewayConfigs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,6 +36,8 @@ namespace MVC.Data2
             modelBuilder.Entity<Ticket>().ToTable("Ticket");
             modelBuilder.Entity<TicketType>().ToTable("TicketType");
             modelBuilder.Entity<RefundCancelPolicy>().ToTable("RefundCancelPolicy");
+            modelBuilder.Entity<SystemSetting>().ToTable("SystemSetting");
+            modelBuilder.Entity<PaymentGatewayConfig>().ToTable("PaymentGateway");
 
             // Event -> EventCategory (one-to-many)
             modelBuilder.Entity<Event>()

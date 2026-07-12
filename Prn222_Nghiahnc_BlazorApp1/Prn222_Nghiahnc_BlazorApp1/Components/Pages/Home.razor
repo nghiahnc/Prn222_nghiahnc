@@ -1,7 +1,10 @@
-﻿@page "/"
+@page "/"
+@inject NavigationManager NavigationManager
 
-<PageTitle>Home</PageTitle>
-
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
+@code {
+    protected override void OnInitialized()
+    {
+        // Redirect the root path to the Admin User Directory
+        NavigationManager.NavigateTo("/admin/accounts");
+    }
+}

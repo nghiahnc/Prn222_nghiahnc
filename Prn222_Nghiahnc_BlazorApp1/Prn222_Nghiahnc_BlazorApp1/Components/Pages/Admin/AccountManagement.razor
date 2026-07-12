@@ -1,0 +1,296 @@
+@page "/admin/accounts"
+@attribute [Authorize(Roles = "1")]
+@using Domain
+@using Services
+@using Microsoft.JSInterop
+@inject IUserService UserService
+@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
+
+<div class="container-fluid mt-4">
+    <div class="card card-modern">
+        <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <h5 class="mb-0"><i class="bi bi-people-fill text-primary me-2"></i> Account Management & Directory</h5>
+            
+            <div class="d-flex flex-wrap gap-2">
+                <!-- Search -->
+                <div class="input-group input-group-sm" style="width: 250px;">
+                    <span class="input-group-text bg-light border-0"><i class="bi bi-search"></i></span>
+                    <input type="text" class="form-control border-0 bg-light" placeholder="Search by name or email..." @bind="searchTerm" @bind:event="oninput" />
+                </div>
+
+                <!-- Role Filter -->
+                <select class="form-select form-select-sm bg-light border-0" style="width: 140px;" @bind="filterRole">
+                    <option value="0">All Roles</option>
+                    <option value="1">Admins</option>
+                    <option value="2">Organizers</option>
+                    <option value="3">Users</option>
+                </select>
+
+                <!-- Status Filter -->
+                <select class="form-select form-select-sm bg-light border-0" style="width: 140px;" @bind="filterStatus">
+                    <option value="0">All Statuses</option>
+                    <option value="1">Active</option>
+                    <option value="2">Banned</option>
+                    <option value="3">Pending</option>
+                </select>
+            </div>
+        </div>
+        <div class="card-body p-0">
+
+            <AdminAlert @ref="alert" />
+            <ConfirmationModal @ref="confirmModal" OnConfirm="HandleConfirm" />
+
+            @if (users == null)
+            {
+                <div class="d-flex justify-content-center my-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-modern">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (PagedUsers.Count == 0)
+                            {
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted py-4">No accounts found matching your criteria.</td>
+                                </tr>
+                            }
+                            @foreach (var user in PagedUsers)
+                            {
+                                <tr>
+                                    <td class="text-muted fw-bold">#@user.Id</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-placeholder">@(string.IsNullOrEmpty(user.UserName) ? "?" : user.UserName.Substring(0, 1).ToUpper())</div>
+                                            <span class="fw-semibold">@user.UserName</span>
+                                        </div>
+                                    </td>
+                                    <td><a href="mailto:@user.Email" class="text-decoration-none text-primary">@user.Email</a></td>
+                                    <td class="text-muted">@user.Phone</td>
+                                    <td>
+                                        @if (user.Role == 1)
+                                        {
+                                            <span class="badge badge-soft-danger"><i class="bi bi-shield-lock"></i> Admin</span>
+                                        }
+                                        else if (user.Role == 2)
+                                        {
+                                            <span class="badge badge-soft-info"><i class="bi bi-briefcase"></i> Organizer</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-soft-secondary"><i class="bi bi-person"></i> User</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (user.Status == 1)
+                                        {
+                                            <span class="badge badge-soft-success"><i class="bi bi-check-circle"></i> Active</span>
+                                        }
+                                        else if (user.Status == 2)
+                                        {
+                                            <span class="badge badge-soft-danger"><i class="bi bi-dash-circle"></i> Banned</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-soft-warning"><i class="bi bi-hourglass-split"></i> Pending</span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        @if (user.Role == 1)
+                                        {
+                                            <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" disabled title="Cannot modify Admins">
+                                                <i class="bi bi-lock-fill"></i> System Admin
+                                            </button>
+                                        }
+                                        else if (user.Status != 2)
+                                        {
+                                            <button class="btn btn-sm btn-outline-danger rounded-pill px-3" @onclick="() => BanUser(user)" title="Ban / Deactivate Account">
+                                                <i class="bi bi-person-x"></i> Ban
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-sm btn-outline-success rounded-pill px-3" @onclick="() => ActivateUser(user)" title="Reactivate Account">
+                                                <i class="bi bi-person-check"></i> Reactivate
+                                            </button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination Controls -->
+                @if (TotalPages > 1)
+                {
+                    <div class="card-footer bg-white d-flex justify-content-between align-items-center p-3 border-top-0">
+                        <span class="text-muted small">Showing @(((currentPage - 1) * pageSize) + 1) to @(Math.Min(currentPage * pageSize, FilteredUsers.Count)) of @FilteredUsers.Count entries</span>
+                        <nav>
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                                    <button class="page-link" @onclick="PrevPage"><i class="bi bi-chevron-left"></i></button>
+                                </li>
+                                @for (int i = 1; i <= TotalPages; i++)
+                                {
+                                    int pageNum = i;
+                                    <li class="page-item @(currentPage == pageNum ? "active" : "")">
+                                        <button class="page-link" @onclick="() => GoToPage(pageNum)">@pageNum</button>
+                                    </li>
+                                }
+                                <li class="page-item @(currentPage == TotalPages ? "disabled" : "")">
+                                    <button class="page-link" @onclick="NextPage"><i class="bi bi-chevron-right"></i></button>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<User>? users;
+    private AdminAlert alert = default!;
+    private ConfirmationModal confirmModal = default!;
+    private Func<Task>? pendingAction;
+
+    // Filters and Search
+    private string _searchTerm = string.Empty;
+    private string searchTerm 
+    { 
+        get => _searchTerm; 
+        set { _searchTerm = value; currentPage = 1; } 
+    }
+    
+    private int _filterRole = 0;
+    private int filterRole 
+    { 
+        get => _filterRole; 
+        set { _filterRole = value; currentPage = 1; } 
+    }
+
+    private int _filterStatus = 0;
+    private int filterStatus 
+    { 
+        get => _filterStatus; 
+        set { _filterStatus = value; currentPage = 1; } 
+    }
+
+    // Pagination
+    private int currentPage = 1;
+    private int pageSize = 10;
+
+    private List<User> FilteredUsers => (users ?? new List<User>())
+        .Where(u => string.IsNullOrWhiteSpace(searchTerm) || 
+                    (u.UserName?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (u.Email?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false))
+        .Where(u => filterRole == 0 || u.Role == filterRole)
+        .Where(u => filterStatus == 0 || u.Status == filterStatus)
+        .ToList();
+
+    private List<User> PagedUsers => FilteredUsers
+        .Skip((currentPage - 1) * pageSize)
+        .Take(pageSize)
+        .ToList();
+
+    private int TotalPages => (int)Math.Ceiling(FilteredUsers.Count / (double)pageSize);
+
+    protected override void OnInitialized()
+    {
+        LoadUsers();
+    }
+
+    private void LoadUsers()
+    {
+        try
+        {
+            users = UserService.GetAllUsers();
+        }
+        catch (Exception ex)
+        {
+            alert?.Show($"Failed to load users: {ex.Message}", true);
+        }
+    }
+
+    private void BanUser(User user)
+    {
+        pendingAction = async () =>
+        {
+            try
+            {
+                user.Status = 2; // Banned
+                UserService.UpdateUser(user);
+                alert?.Show($"Account '{user.UserName}' has been banned.", true);
+                LoadUsers();
+            }
+            catch (Exception ex)
+            {
+                alert?.Show($"Error banning user: {ex.Message}", true);
+                LoadUsers();
+            }
+        };
+        confirmModal.Show("Ban Account", $"Are you sure you want to ban '{user.UserName}'?", "Ban User", "danger");
+    }
+
+    private void ActivateUser(User user)
+    {
+        pendingAction = async () =>
+        {
+            try
+            {
+                user.Status = 1; // Active
+                UserService.UpdateUser(user);
+                alert?.Show($"Account '{user.UserName}' has been reactivated.");
+                LoadUsers();
+            }
+            catch (Exception ex)
+            {
+                alert?.Show($"Error reactivating user: {ex.Message}", true);
+                LoadUsers();
+            }
+        };
+        confirmModal.Show("Reactivate Account", $"Are you sure you want to reactivate '{user.UserName}'?", "Reactivate", "success");
+    }
+
+    private async Task HandleConfirm()
+    {
+        if (pendingAction != null)
+        {
+            await pendingAction();
+            pendingAction = null;
+        }
+    }
+
+    private void PrevPage()
+    {
+        if (currentPage > 1) currentPage--;
+    }
+
+    private void NextPage()
+    {
+        if (currentPage < TotalPages) currentPage++;
+    }
+
+    private void GoToPage(int pageNum)
+    {
+        currentPage = pageNum;
+    }
+}

@@ -1,0 +1,230 @@
+@page "/admin/approve-organizers"
+@attribute [Authorize(Roles = "1")]
+@using Domain
+@using Services
+@using Microsoft.JSInterop
+@inject IUserService UserService
+@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
+
+<div class="container-fluid mt-4">
+    <div class="card card-modern">
+        <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <h5 class="mb-0"><i class="bi bi-person-check-fill text-warning me-2"></i> Approve Organizer Registrations</h5>
+            
+            <div class="d-flex">
+                <!-- Search -->
+                <div class="input-group input-group-sm" style="width: 250px;">
+                    <span class="input-group-text bg-light border-0"><i class="bi bi-search"></i></span>
+                    <input type="text" class="form-control border-0 bg-light" placeholder="Search by username..." @bind="searchTerm" @bind:event="oninput" />
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-0">
+
+            <AdminAlert @ref="alert" />
+            <ConfirmationModal @ref="confirmModal" OnConfirm="HandleConfirm" />
+
+            @if (pendingOrganizers == null)
+            {
+                <div class="d-flex justify-content-center my-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            }
+            else if (pendingOrganizers.Count == 0 && string.IsNullOrWhiteSpace(searchTerm))
+            {
+                <div class="text-center text-muted py-5">
+                    <i class="bi bi-check-circle display-1 text-success mb-3"></i>
+                    <h4>All caught up!</h4>
+                    <p>There are no pending organizer registrations at the moment.</p>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-modern">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (PagedOrganizers.Count == 0)
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted py-4">No pending organizers found matching your search.</td>
+                                </tr>
+                            }
+                            @foreach (var user in PagedOrganizers)
+                            {
+                                <tr>
+                                    <td class="text-muted fw-bold">#@user.Id</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-placeholder text-warning bg-warning bg-opacity-10">
+                                                @(string.IsNullOrEmpty(user.UserName) ? "?" : user.UserName.Substring(0, 1).ToUpper())
+                                            </div>
+                                            <span class="fw-semibold">@user.UserName</span>
+                                        </div>
+                                    </td>
+                                    <td><a href="mailto:@user.Email" class="text-decoration-none">@user.Email</a></td>
+                                    <td class="text-muted">@user.Phone</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-sm btn-outline-success me-2 rounded-pill px-3" @onclick="() => Approve(user)" title="Approve">
+                                            <i class="bi bi-check-lg"></i> Approve
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger rounded-pill px-3" @onclick="() => Reject(user)" title="Reject">
+                                            <i class="bi bi-x-lg"></i> Reject
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination Controls -->
+                @if (TotalPages > 1)
+                {
+                    <div class="card-footer bg-white d-flex justify-content-between align-items-center p-3 border-top-0">
+                        <span class="text-muted small">Showing @(((currentPage - 1) * pageSize) + 1) to @(Math.Min(currentPage * pageSize, FilteredOrganizers.Count)) of @FilteredOrganizers.Count entries</span>
+                        <nav>
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                                    <button class="page-link" @onclick="PrevPage"><i class="bi bi-chevron-left"></i></button>
+                                </li>
+                                @for (int i = 1; i <= TotalPages; i++)
+                                {
+                                    int pageNum = i;
+                                    <li class="page-item @(currentPage == pageNum ? "active" : "")">
+                                        <button class="page-link" @onclick="() => GoToPage(pageNum)">@pageNum</button>
+                                    </li>
+                                }
+                                <li class="page-item @(currentPage == TotalPages ? "disabled" : "")">
+                                    <button class="page-link" @onclick="NextPage"><i class="bi bi-chevron-right"></i></button>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<User>? pendingOrganizers;
+    private AdminAlert alert = default!;
+    private ConfirmationModal confirmModal = default!;
+    private Func<Task>? pendingAction;
+
+    // Search
+    private string _searchTerm = string.Empty;
+    private string searchTerm 
+    { 
+        get => _searchTerm; 
+        set { _searchTerm = value; currentPage = 1; } 
+    }
+
+    // Pagination
+    private int currentPage = 1;
+    private int pageSize = 10;
+
+    private List<User> FilteredOrganizers => (pendingOrganizers ?? new List<User>())
+        .Where(u => string.IsNullOrWhiteSpace(searchTerm) || 
+                    (u.UserName?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false))
+        .ToList();
+
+    private List<User> PagedOrganizers => FilteredOrganizers
+        .Skip((currentPage - 1) * pageSize)
+        .Take(pageSize)
+        .ToList();
+
+    private int TotalPages => (int)Math.Ceiling(FilteredOrganizers.Count / (double)pageSize);
+
+    protected override void OnInitialized()
+    {
+        LoadPendingOrganizers();
+    }
+
+    private void LoadPendingOrganizers()
+    {
+        try
+        {
+            // Role 2 is Organizer, Status 0 is Pending
+            pendingOrganizers = UserService.GetAllUsers().Where(u => u.Role == 2 && u.Status == 0).ToList();
+        }
+        catch (Exception ex)
+        {
+            alert?.Show($"Failed to load pending organizers: {ex.Message}", true);
+        }
+    }
+
+    private void Approve(User user)
+    {
+        pendingAction = async () =>
+        {
+            try
+            {
+                user.Status = 1; // Active
+                UserService.UpdateUser(user);
+                LoadPendingOrganizers();
+                alert?.Show($"Organizer '{user.UserName}' has been approved successfully.");
+            }
+            catch (Exception ex)
+            {
+                alert?.Show($"Error approving organizer: {ex.Message}", true);
+            }
+        };
+        confirmModal.Show("Approve Organizer", $"Are you sure you want to approve '{user.UserName}'?", "Approve", "success");
+    }
+
+    private void Reject(User user)
+    {
+        pendingAction = async () =>
+        {
+            try
+            {
+                user.Status = 2; // Banned/Rejected
+                UserService.UpdateUser(user);
+                LoadPendingOrganizers();
+                alert?.Show($"Organizer '{user.UserName}' registration was rejected.", true);
+            }
+            catch (Exception ex)
+            {
+                alert?.Show($"Error rejecting organizer: {ex.Message}", true);
+            }
+        };
+        confirmModal.Show("Reject Organizer", $"Are you sure you want to reject and ban the registration for '{user.UserName}'?", "Reject", "danger");
+    }
+
+    private async Task HandleConfirm()
+    {
+        if (pendingAction != null)
+        {
+            await pendingAction();
+            pendingAction = null;
+        }
+    }
+
+    private void PrevPage()
+    {
+        if (currentPage > 1) currentPage--;
+    }
+
+    private void NextPage()
+    {
+        if (currentPage < TotalPages) currentPage++;
+    }
+
+    private void GoToPage(int pageNum)
+    {
+        currentPage = pageNum;
+    }
+}

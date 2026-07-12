@@ -1,0 +1,55 @@
+<div class="modal fade @(IsVisible ? "show d-block" : "")" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content card-modern">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold text-dark">@Title</h5>
+                <button type="button" class="btn-close" @onclick="Hide" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted mb-0">@Message</p>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-light rounded-pill px-4" @onclick="Hide">Cancel</button>
+                <button type="button" class="btn btn-@ConfirmButtonColor rounded-pill px-4" @onclick="Confirm">@ConfirmButtonText</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    public bool IsVisible { get; private set; }
+
+    public string Title { get; private set; } = "Confirm Action";
+    public string Message { get; private set; } = "Are you sure you want to perform this action?";
+    public string ConfirmButtonText { get; private set; } = "Confirm";
+    public string ConfirmButtonColor { get; private set; } = "danger";
+
+    [Parameter]
+    public EventCallback OnConfirm { get; set; }
+
+    public void Show(string title, string message, string confirmText = "Confirm", string color = "danger")
+    {
+        Title = title;
+        Message = message;
+        ConfirmButtonText = confirmText;
+        ConfirmButtonColor = color;
+        IsVisible = true;
+        StateHasChanged();
+    }
+
+    public void Hide()
+    {
+        IsVisible = false;
+        StateHasChanged();
+    }
+
+    private async Task Confirm()
+    {
+        IsVisible = false;
+        StateHasChanged();
+        if (OnConfirm.HasDelegate)
+        {
+            await OnConfirm.InvokeAsync();
+        }
+    }
+}

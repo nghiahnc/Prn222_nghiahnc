@@ -18,7 +18,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.Cookie.Name = "admin_auth_token";
         options.LoginPath = "/login";
-        options.Cookie.MaxAge = TimeSpan.FromMinutes(60);
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60); // Server-side expiration
         options.AccessDeniedPath = "/access-denied";
     });
 

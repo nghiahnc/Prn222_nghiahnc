@@ -1,30 +1,74 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-vibrant shadow-sm">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">Prn222_Nghiahnc_BlazorApp1</a>
+        <a class="navbar-brand fw-bold" href="admin/accounts"><i class="bi bi-shield-check me-2"></i>Admin Portal</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar" aria-controls="adminNavbar" aria-expanded="false" aria-label="Toggle navigation" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="@NavMenuCssClass navbar-collapse" id="adminNavbar" @onclick="CollapseNavMenu">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <AuthorizeView Roles="1">
+                    <Authorized>
+                        <li class="nav-item">
+                            <NavLink class="nav-link px-3" href="admin/accounts">
+                                <i class="bi bi-person-x-fill me-1"></i> Account Management
+                            </NavLink>
+                        </li>
+                        <li class="nav-item">
+                            <NavLink class="nav-link px-3" href="admin/approve-organizers">
+                                <i class="bi bi-person-check-fill me-1"></i> Approve Organizers
+                            </NavLink>
+                        </li>
+                        <li class="nav-item">
+                            <NavLink class="nav-link px-3" href="admin/transaction-disputes">
+                                <i class="bi bi-exclamation-triangle-fill me-1"></i> Disputes
+                            </NavLink>
+                        </li>
+                        <li class="nav-item">
+                            <NavLink class="nav-link px-3" href="admin/system-settings">
+                                <i class="bi bi-gear-fill me-1"></i> System Settings
+                            </NavLink>
+                        </li>
+                        <li class="nav-item">
+                            <NavLink class="nav-link px-3" href="admin/payment-gateways">
+                                <i class="bi bi-credit-card-fill me-1"></i> Payment Gateways
+                            </NavLink>
+                        </li>
+                        <li class="nav-item ms-lg-3">
+                            <span class="nav-link px-3 text-light">
+                                <i class="bi bi-person-circle me-1"></i> Hello, @context.User.Identity?.Name!
+                            </span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-3 text-danger fw-bold" href="/api/auth/logout">
+                                <i class="bi bi-box-arrow-right me-1"></i> Logout
+                            </a>
+                        </li>
+                    </Authorized>
+                    <NotAuthorized>
+                        <li class="nav-item">
+                            <NavLink class="nav-link px-3" href="login">
+                                <i class="bi bi-box-arrow-in-right me-1"></i> Login
+                            </NavLink>
+                        </li>
+                    </NotAuthorized>
+                </AuthorizeView>
+            </ul>
+        </div>
     </div>
-</div>
+</nav>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+@code {
+    private bool collapseNavMenu = true;
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
-    </nav>
-</div>
-
+    private void CollapseNavMenu()
+    {
+        collapseNavMenu = true;
+    }
+}

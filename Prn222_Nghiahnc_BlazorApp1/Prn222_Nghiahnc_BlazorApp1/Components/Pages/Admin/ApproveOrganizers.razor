@@ -95,7 +95,7 @@
                     <div class="card-footer bg-white d-flex justify-content-between align-items-center p-3 border-top-0">
                         <span class="text-muted small">Showing @(((currentPage - 1) * pageSize) + 1) to @(Math.Min(currentPage * pageSize, FilteredOrganizers.Count)) of @FilteredOrganizers.Count entries</span>
                         <nav>
-                            <ul class="pagination pagination-sm mb-0">
+                            <ul class="pagination pagination-sm pagination-modern mb-0">
                                 <li class="page-item @(currentPage == 1 ? "disabled" : "")">
                                     <button class="page-link" @onclick="PrevPage"><i class="bi bi-chevron-left"></i></button>
                                 </li>

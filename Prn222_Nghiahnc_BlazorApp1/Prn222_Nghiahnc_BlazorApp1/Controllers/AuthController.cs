@@ -47,7 +47,7 @@ namespace Prn222_Nghiahnc_BlazorApp1.Controllers
 
             var authProperties = new AuthenticationProperties
             {
-                IsPersistent = true
+                IsPersistent = false
             };
 
             await HttpContext.SignInAsync(

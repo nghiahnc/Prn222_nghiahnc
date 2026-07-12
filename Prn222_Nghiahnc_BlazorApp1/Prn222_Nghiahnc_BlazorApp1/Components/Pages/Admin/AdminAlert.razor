@@ -1,0 +1,25 @@
+<div class="alert @AlertClass alert-dismissible fade show" role="alert" style="display: @(string.IsNullOrEmpty(Message) ? "none" : "block")">
+    <strong>@Title</strong> @Message
+    <button type="button" class="btn-close" aria-label="Close" @onclick="Clear"></button>
+</div>
+
+@code {
+    [Parameter] public string Message { get; set; } = string.Empty;
+    [Parameter] public bool IsError { get; set; } = false;
+
+    private string AlertClass => IsError ? "alert-danger" : "alert-success";
+    private string Title => IsError ? "Error!" : "Success!";
+
+    public void Show(string message, bool isError = false)
+    {
+        Message = message;
+        IsError = isError;
+        StateHasChanged();
+    }
+
+    public void Clear()
+    {
+        Message = string.Empty;
+        StateHasChanged();
+    }
+}

@@ -13,6 +13,7 @@ namespace Repositories
         void Create(User user);
         void Update(User user);
         void Delete(int id);
+        Task<List<User>> GetUsersHaveEmailAsync();
     }
 
 }

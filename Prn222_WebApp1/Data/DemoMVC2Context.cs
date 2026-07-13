@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Domain;
 
 namespace MVC.Data2
@@ -10,70 +10,50 @@ namespace MVC.Data2
         {
         }
 
-        public DbSet<User> User { get; set; }
-        public DbSet<Booking> Booking { get; set; }
-        public DbSet<Event> Event { get; set; }
-        public DbSet<EventCategory> EventCategorie { get; set; }
-        public DbSet<Membership> Membership { get; set; }
-        public DbSet<Transaction> Transaction { get; set; }
-        public DbSet<Ticket> Ticket { get; set; }
-        public DbSet<TicketType> TicketType { get; set; }
-        public DbSet<RefundCancelPolicy> RefundCancelPolicy { get; set; }
+        public DbSet<User> User { get; set; } = default!;
+        public DbSet<Booking> Booking { get; set; } = default!;
+        public DbSet<Event> Event { get; set; } = default!;
+        public DbSet<EventCategory> EventCategory { get; set; } = default!;
+        public DbSet<Membership> Membership { get; set; } = default!;
+        public DbSet<Transaction> Transaction { get; set; } = default!;
+        public DbSet<Ticket> Ticket { get; set; } = default!;
+        public DbSet<TicketType> TicketType { get; set; } = default!;
+        public DbSet<Login> Login { get; set; } = default!;
+
+        public DbSet<OrganizerAuditLog> OrganizerAuditLogs { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Table mappings
-            modelBuilder.Entity<User>().ToTable("User");
-            modelBuilder.Entity<Booking>().ToTable("Booking");
-            modelBuilder.Entity<Event>().ToTable("Event");
-            modelBuilder.Entity<EventCategory>().ToTable("EventCategory");
-            modelBuilder.Entity<Membership>().ToTable("Membership");
-            modelBuilder.Entity<Transaction>().ToTable("Transaction");
+            modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<Booking>().ToTable("Bookings");
+            modelBuilder.Entity<Event>().ToTable("Events");
+            modelBuilder.Entity<EventCategory>().ToTable("EventCategories");
+
             modelBuilder.Entity<Ticket>().ToTable("Ticket");
             modelBuilder.Entity<TicketType>().ToTable("TicketType");
-            modelBuilder.Entity<RefundCancelPolicy>().ToTable("RefundCancelPolicy");
+            modelBuilder.Entity<Transaction>().ToTable("Transaction");
+            modelBuilder.Entity<Membership>().ToTable("Membership");
+            modelBuilder.Entity<Login>().ToTable("Login");
 
-            // Event -> EventCategory (one-to-many)
-            modelBuilder.Entity<Event>()
-                .HasOne(e => e.EventCategory)
-                .WithMany(ec => ec.Events)
-                .HasForeignKey(e => e.EventCategoryId);
+            modelBuilder.Entity<OrganizerAuditLog>().ToTable("OrganizerAuditLogs");
 
-            // Event -> User (CreatedBy)
             modelBuilder.Entity<Event>()
                 .HasOne(e => e.Creator)
                 .WithMany()
                 .HasForeignKey(e => e.CreatedBy)
-                .IsRequired(false);
+                .OnDelete(DeleteBehavior.Restrict);
 
-            // Event -> TicketType (one-to-many)
+            modelBuilder.Entity<OrganizerAuditLog>()
+                .HasOne(l => l.Organizer)
+                .WithMany()
+                .HasForeignKey(l => l.OrganizerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<TicketType>()
-                .HasOne(tt => tt.Event)
-                .WithMany(e => e.TicketTypes)
-                .HasForeignKey(tt => tt.EventId);
-
-            // Event -> RefundCancelPolicy (one-to-one)
-            modelBuilder.Entity<RefundCancelPolicy>()
-                .HasKey(r => r.EventId);
-
-            modelBuilder.Entity<RefundCancelPolicy>()
-                .HasOne(r => r.Event)
-                .WithOne(e => e.RefundCancelPolicy)
-                .HasForeignKey<RefundCancelPolicy>(r => r.EventId);
-
-            // TicketType.Price precision
-            modelBuilder.Entity<TicketType>()
-                .Property(tt => tt.Price)
+                .Property(t => t.Price)
                 .HasPrecision(18, 2);
-
-            // User -> Membership (optional one-to-many)
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Membership)
-                .WithMany(m => m.Users)
-                .HasForeignKey(u => u.MembershipId)
-                .IsRequired(false);
         }
     }
 }

@@ -1,8 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "vI4Jidn4WA4=",
+  "dgSpecHash": "MS8unJaPnvM=",
   "success": true,
-  "projectFilePath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Domain\\Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ADMIN\\.nuget\\packages\\bouncycastle.cryptography\\2.6.2\\bouncycastle.cryptography.2.6.2.nupkg.sha512",
+    "C:\\Users\\ADMIN\\.nuget\\packages\\mailkit\\4.17.0\\mailkit.4.17.0.nupkg.sha512",
+    "C:\\Users\\ADMIN\\.nuget\\packages\\mimekit\\4.17.0\\mimekit.4.17.0.nupkg.sha512",
+    "C:\\Users\\ADMIN\\.nuget\\packages\\system.formats.asn1\\8.0.1\\system.formats.asn1.8.0.1.nupkg.sha512",
+    "C:\\Users\\ADMIN\\.nuget\\packages\\system.security.cryptography.pkcs\\8.0.1\\system.security.cryptography.pkcs.8.0.1.nupkg.sha512"
+  ],
   "logs": []
 }

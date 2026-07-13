@@ -9,3 +9,15 @@ D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Domain\obj\Debug\net8.0\Domain.dll
 D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Domain\obj\Debug\net8.0\refint\Domain.dll
 D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Domain\obj\Debug\net8.0\Domain.pdb
 D:\PRN111\Final_NhonNT_23_06\Prn222_WebApp1\Domain\obj\Debug\net8.0\ref\Domain.dll
+D:\chuyennganh7\PRN222\Prn222_nghiahnc-main\Prn222_nghiahnc-main\Prn222_WebApp1\Domain\bin\Debug\net8.0\Domain.deps.json
+D:\chuyennganh7\PRN222\Prn222_nghiahnc-main\Prn222_nghiahnc-main\Prn222_WebApp1\Domain\bin\Debug\net8.0\Domain.dll
+D:\chuyennganh7\PRN222\Prn222_nghiahnc-main\Prn222_nghiahnc-main\Prn222_WebApp1\Domain\bin\Debug\net8.0\Domain.pdb
+D:\chuyennganh7\PRN222\Prn222_nghiahnc-main\Prn222_nghiahnc-main\Prn222_WebApp1\Domain\obj\Debug\net8.0\Domain.csproj.AssemblyReference.cache
+D:\chuyennganh7\PRN222\Prn222_nghiahnc-main\Prn222_nghiahnc-main\Prn222_WebApp1\Domain\obj\Debug\net8.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\chuyennganh7\PRN222\Prn222_nghiahnc-main\Prn222_nghiahnc-main\Prn222_WebApp1\Domain\obj\Debug\net8.0\Domain.AssemblyInfoInputs.cache
+D:\chuyennganh7\PRN222\Prn222_nghiahnc-main\Prn222_nghiahnc-main\Prn222_WebApp1\Domain\obj\Debug\net8.0\Domain.AssemblyInfo.cs
+D:\chuyennganh7\PRN222\Prn222_nghiahnc-main\Prn222_nghiahnc-main\Prn222_WebApp1\Domain\obj\Debug\net8.0\Domain.csproj.CoreCompileInputs.cache
+D:\chuyennganh7\PRN222\Prn222_nghiahnc-main\Prn222_nghiahnc-main\Prn222_WebApp1\Domain\obj\Debug\net8.0\Domain.dll
+D:\chuyennganh7\PRN222\Prn222_nghiahnc-main\Prn222_nghiahnc-main\Prn222_WebApp1\Domain\obj\Debug\net8.0\refint\Domain.dll
+D:\chuyennganh7\PRN222\Prn222_nghiahnc-main\Prn222_nghiahnc-main\Prn222_WebApp1\Domain\obj\Debug\net8.0\Domain.pdb
+D:\chuyennganh7\PRN222\Prn222_nghiahnc-main\Prn222_nghiahnc-main\Prn222_WebApp1\Domain\obj\Debug\net8.0\ref\Domain.dll

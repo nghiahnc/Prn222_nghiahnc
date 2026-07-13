@@ -9,41 +9,41 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Prn222_Nghiahnc_Razor
 build_property.RootNamespace = Prn222_Nghiahnc_Razor
-build_property.ProjectDir = D:\PRN111\Final_NhonNT_23_06\Prn222_nghiahnc\Prn222_Nghiahnc_Razor\Prn222_Nghiahnc_Razor\
+build_property.ProjectDir = D:\chuyennganh7\PRN222\Prn222_nghiahnc-main\Prn222_nghiahnc-main\Prn222_Nghiahnc_Razor\Prn222_Nghiahnc_Razor\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\PRN111\Final_NhonNT_23_06\Prn222_nghiahnc\Prn222_Nghiahnc_Razor\Prn222_Nghiahnc_Razor
+build_property.MSBuildProjectDirectory = D:\chuyennganh7\PRN222\Prn222_nghiahnc-main\Prn222_nghiahnc-main\Prn222_Nghiahnc_Razor\Prn222_Nghiahnc_Razor
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[D:/PRN111/Final_NhonNT_23_06/Prn222_nghiahnc/Prn222_Nghiahnc_Razor/Prn222_Nghiahnc_Razor/Pages/Error.cshtml]
+[D:/chuyennganh7/PRN222/Prn222_nghiahnc-main/Prn222_nghiahnc-main/Prn222_Nghiahnc_Razor/Prn222_Nghiahnc_Razor/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PRN111/Final_NhonNT_23_06/Prn222_nghiahnc/Prn222_Nghiahnc_Razor/Prn222_Nghiahnc_Razor/Pages/Index.cshtml]
+[D:/chuyennganh7/PRN222/Prn222_nghiahnc-main/Prn222_nghiahnc-main/Prn222_Nghiahnc_Razor/Prn222_Nghiahnc_Razor/Pages/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PRN111/Final_NhonNT_23_06/Prn222_nghiahnc/Prn222_Nghiahnc_Razor/Prn222_Nghiahnc_Razor/Pages/Privacy.cshtml]
+[D:/chuyennganh7/PRN222/Prn222_nghiahnc-main/Prn222_nghiahnc-main/Prn222_Nghiahnc_Razor/Prn222_Nghiahnc_Razor/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PRN111/Final_NhonNT_23_06/Prn222_nghiahnc/Prn222_Nghiahnc_Razor/Prn222_Nghiahnc_Razor/Pages/Shared/_ValidationScriptsPartial.cshtml]
+[D:/chuyennganh7/PRN222/Prn222_nghiahnc-main/Prn222_nghiahnc-main/Prn222_Nghiahnc_Razor/Prn222_Nghiahnc_Razor/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PRN111/Final_NhonNT_23_06/Prn222_nghiahnc/Prn222_Nghiahnc_Razor/Prn222_Nghiahnc_Razor/Pages/_ViewImports.cshtml]
+[D:/chuyennganh7/PRN222/Prn222_nghiahnc-main/Prn222_nghiahnc-main/Prn222_Nghiahnc_Razor/Prn222_Nghiahnc_Razor/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PRN111/Final_NhonNT_23_06/Prn222_nghiahnc/Prn222_Nghiahnc_Razor/Prn222_Nghiahnc_Razor/Pages/_ViewStart.cshtml]
+[D:/chuyennganh7/PRN222/Prn222_nghiahnc-main/Prn222_nghiahnc-main/Prn222_Nghiahnc_Razor/Prn222_Nghiahnc_Razor/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PRN111/Final_NhonNT_23_06/Prn222_nghiahnc/Prn222_Nghiahnc_Razor/Prn222_Nghiahnc_Razor/Pages/Shared/_Layout.cshtml]
+[D:/chuyennganh7/PRN222/Prn222_nghiahnc-main/Prn222_nghiahnc-main/Prn222_Nghiahnc_Razor/Prn222_Nghiahnc_Razor/Pages/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-9a8whstpl7

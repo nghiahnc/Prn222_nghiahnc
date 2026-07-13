@@ -1,0 +1,27 @@
+﻿
+@model Domain.OrganizerActivity
+
+<h2>Organizer Dashboard</h2>
+
+<table class="table">
+    <tr>
+        <th>Total Events</th>
+        <td>@Model.TotalEvents</td>
+    </tr>
+    <tr>
+        <th>Total Bookings</th>
+        <td>@Model.TotalBookings</td>
+    </tr>
+    <tr>
+        <th>Total Tickets Sold</th>
+        <td>@Model.TotalTicketsSold</td>
+    </tr>
+    <tr>
+        <th>Total Revenue</th>
+        <td>@Model.TotalRevenue</td>
+    </tr>
+</table>
+
+<a asp-action="TicketSales" class="btn btn-primary">Ticket Sales</a>
+<a asp-action="EventRevenue" class="btn btn-success">Event Revenue</a>
+<a asp-action="ExportReport" class="btn btn-secondary">Export CSV</a>

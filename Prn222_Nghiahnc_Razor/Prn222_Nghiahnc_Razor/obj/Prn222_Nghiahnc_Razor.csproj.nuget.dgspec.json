@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor.csproj": {}
+    "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor.csproj": {}
   },
   "projects": {
-    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor.csproj": {
+    "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor.csproj",
+        "projectUniqueName": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor.csproj",
         "projectName": "Prn222_Nghiahnc_Razor",
-        "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor.csproj",
-        "packagesPath": "C:\\Users\\ourki\\.nuget\\packages\\",
-        "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor\\obj\\",
+        "projectPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_Nghiahnc_Razor\\Prn222_Nghiahnc_Razor\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "D:\\chuyennganh5\\prn212\\3\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ourki\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,111 +26,21 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Data\\Data.csproj": {
-                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Data\\Data.csproj"
+              "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Data\\Data.csproj": {
+                "projectPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Data\\Data.csproj"
               },
-              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Repositories\\Repositories.csproj": {
-                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Repositories\\Repositories.csproj"
+              "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Repositories\\Repositories.csproj": {
+                "projectPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Repositories\\Repositories.csproj"
               },
-              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Services\\Services.csproj": {
-                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Services\\Services.csproj"
-              }
-            }
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.300"
-      },
-      "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-              "version": "[8.0.27, 8.0.27]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Runtime.win-x64",
-              "version": "[8.0.27, 8.0.27]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-              "version": "[8.0.27, 8.0.27]"
-            }
-          ],
-          "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314/PortableRuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win-x64": {
-          "#import": []
-        }
-      }
-    },
-    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Data\\Data.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Data\\Data.csproj",
-        "projectName": "Data",
-        "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Data\\Data.csproj",
-        "packagesPath": "C:\\Users\\ourki\\.nuget\\packages\\",
-        "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Data\\obj\\",
-        "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
-        "configFilePaths": [
-          "C:\\Users\\ourki\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "net8.0"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
-            "projectReferences": {
-              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj"
+              "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Services\\Services.csproj": {
+                "projectPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Services\\Services.csproj"
               }
             }
           }
@@ -151,6 +61,108 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.17.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
+              "version": "[8.0.28, 8.0.28]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Runtime.win-x64",
+              "version": "[8.0.28, 8.0.28]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
+              "version": "[8.0.28, 8.0.28]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.315/PortableRuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
+        }
+      }
+    },
+    "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Data\\Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Data\\Data.csproj",
+        "projectName": "Data",
+        "projectPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Data\\Data.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Data\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\chuyennganh5\\prn212\\3\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Domain\\Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.17.0, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -182,24 +194,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.315/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj": {
+    "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj",
+        "projectUniqueName": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\ourki\\.nuget\\packages\\",
-        "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\obj\\",
+        "projectPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "D:\\chuyennganh5\\prn212\\3\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ourki\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -208,6 +220,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -231,6 +244,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.17.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -247,24 +266,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.315/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Repositories\\Repositories.csproj": {
+    "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Repositories\\Repositories.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Repositories\\Repositories.csproj",
+        "projectUniqueName": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Repositories\\Repositories.csproj",
         "projectName": "Repositories",
-        "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Repositories\\Repositories.csproj",
-        "packagesPath": "C:\\Users\\ourki\\.nuget\\packages\\",
-        "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Repositories\\obj\\",
+        "projectPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Repositories\\Repositories.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Repositories\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "D:\\chuyennganh5\\prn212\\3\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ourki\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -273,17 +292,18 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Data\\Data.csproj": {
-                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Data\\Data.csproj"
+              "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Data\\Data.csproj": {
+                "projectPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Data\\Data.csproj"
               },
-              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj"
+              "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Domain\\Domain.csproj"
               }
             }
           }
@@ -304,6 +324,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.17.0, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -329,24 +353,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.315/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Services\\Services.csproj": {
+    "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Services\\Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Services\\Services.csproj",
+        "projectUniqueName": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Services\\Services.csproj",
         "projectName": "Services",
-        "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Services\\Services.csproj",
-        "packagesPath": "C:\\Users\\ourki\\.nuget\\packages\\",
-        "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Services\\obj\\",
+        "projectPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Services\\Services.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Services\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "D:\\chuyennganh5\\prn212\\3\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ourki\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -355,17 +379,18 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj"
+              "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Domain\\Domain.csproj"
               },
-              "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Repositories\\Repositories.csproj": {
-                "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Repositories\\Repositories.csproj"
+              "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Repositories\\Repositories.csproj": {
+                "projectPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Repositories\\Repositories.csproj"
               }
             }
           }
@@ -385,6 +410,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.17.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -401,7 +432,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.315/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

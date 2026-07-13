@@ -1,53 +1,60 @@
+﻿using Services;
 using Microsoft.EntityFrameworkCore;
 using MVC.Data2;
+using Prn222_Nghiahnc_Mvc.BackgroundServices;
 using Repositories;
-using Services;
-using static System.Formats.Asn1.AsnWriter;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // MVC
-builder.Services.AddControllersWithViews(options =>
-{
-    options.Filters.Add<Prn222_Nghiahnc_Mvc.Filters.SecurityExceptionFilter>();
-});
+builder.Services.AddControllersWithViews();
 
-// DbContext hay do chổ này tại vì mvc cũng có data.DemoMVC2Context mà repo cx có v 
+// DbContext: dùng DbContext nằm trong Data/DAL project
 builder.Services.AddDbContext<DemoMVC2Context>(options =>
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")
-    ));
+        builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Session (chuẩn hơn)
+// Session
 builder.Services.AddDistributedMemoryCache();
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.Name = ".Prn222Mvc.Session";
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
-    options.Cookie.SameSite = SameSiteMode.Lax;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
 });
 
-// DI
-builder.Services.AddScoped<IUserRepository, UserRepository>(); 
+// Email config
+builder.Services.Configure<EmailSettings>(
+    builder.Configuration.GetSection("EmailSettings"));
+
+// Repositories - DAL
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+
+// Services - BLL
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IEventReminderService, EventReminderService>();
 
-builder.Services.AddScoped<IEventRepository, EventRepository>();
-builder.Services.AddScoped<IEventCategoryRepository, EventCategoryRepository>();
-builder.Services.AddScoped<ITicketTypeRepository, TicketTypeRepository>();
-builder.Services.AddScoped<IRefundCancelPolicyRepository, RefundCancelPolicyRepository>();
-builder.Services.AddScoped<IMembershipRepository, MembershipRepository>();
+// Background service
+builder.Services.AddHostedService<EventReminderBackgroundService>();
 
-builder.Services.AddScoped<IEventService, EventService>();
-builder.Services.AddScoped<ITicketTypeService, TicketTypeService>();
-builder.Services.AddScoped<IRefundCancelPolicyService, RefundCancelPolicyService>();
-builder.Services.AddScoped<IMembershipService, MembershipService>();
+//SERRVICES
+builder.Services.AddScoped<IOrganizerReportRepository, OrganizerReportRepository>();
+builder.Services.AddScoped<IOrganizerReportService, OrganizerReportService>();
+// auditlogs
+builder.Services.AddScoped<IOrganizerAuditLogRepository, OrganizerAuditLogRepository>();
+builder.Services.AddScoped<IOrganizerAuditLogService, OrganizerAuditLogService>();
+// QRTicket
+builder.Services.AddScoped<ITicketIssueRepository, TicketIssueRepository>();
+builder.Services.AddScoped<ITicketIssueService, TicketIssueService>();
+builder.Services.AddScoped<IQRCodeService, QRCodeService>();
 
-var cultureInfo = new System.Globalization.CultureInfo("vi-VN");
-System.Globalization.CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
 
 var app = builder.Build();
 
@@ -66,12 +73,17 @@ app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "root",
-    pattern: "",
-    defaults: new { controller = "Logins", action = "Login" });
-
-app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapGet("/test-login-organizer", context =>
+{
+    context.Session.SetInt32("UserId", 1002);
+    context.Session.SetInt32("Role", 2);
+
+    context.Response.Redirect("/OrganizerReports/Dashboard");
+
+    return Task.CompletedTask;
+});
 
 app.Run();

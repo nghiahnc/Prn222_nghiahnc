@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.17.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Prn222_WebApp1\Data\Data.csproj" />
     <ProjectReference Include="..\..\Prn222_WebApp1\Repositories\Repositories.csproj" />
     <ProjectReference Include="..\..\Prn222_WebApp1\Services\Services.csproj" />

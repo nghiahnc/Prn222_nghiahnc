@@ -18,9 +18,21 @@ namespace Domain
 
         public int TransactionId { get; set; }
 
-        // Navigation properties
+        // xac nhan booking
+        public bool ConfirmationSent { get; set; }
+
+        public DateTime? ConfirmationSentAt { get; set; }
+
+        // nhac nho event
+        public bool ReminderSent { get; set; }
+
+        public DateTime? ReminderSentAt { get; set; }
+
         public User? User { get; set; }
 
         public Transaction? Transaction { get; set; }
+
+        public ICollection<Ticket> Tickets { get; set; }
+            = new List<Ticket>();
     }
 }

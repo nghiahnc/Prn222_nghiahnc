@@ -1,5 +1,7 @@
 ﻿using Domain;
+using Microsoft.EntityFrameworkCore;
 using MVC.Data2;
+
 
 namespace Repositories
 {
@@ -43,6 +45,13 @@ namespace Repositories
                 _context.User.Remove(user);
                 _context.SaveChanges();
             }
+        }
+
+        public async Task<List<User>> GetUsersHaveEmailAsync()
+        {
+            return await _context.User
+                .Where(u => !string.IsNullOrEmpty(u.Email))
+                .ToListAsync();
         }
     }
 }

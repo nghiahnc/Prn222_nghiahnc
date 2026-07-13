@@ -10,6 +10,7 @@
         "dependencies": {
           "Data": "1.0.0",
           "Domain": "1.0.0",
+          "MailKit": "4.17.0",
           "Microsoft.EntityFrameworkCore": "8.0.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.0"
         },
@@ -48,6 +49,26 @@
           "lib/netstandard2.0/Azure.Identity.dll": {
             "assemblyVersion": "1.7.0.0",
             "fileVersion": "1.700.22.46903"
+          }
+        }
+      },
+      "BouncyCastle.Cryptography/2.6.2": {
+        "runtime": {
+          "lib/net6.0/BouncyCastle.Cryptography.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.6.2.46322"
+          }
+        }
+      },
+      "MailKit/4.17.0": {
+        "dependencies": {
+          "MimeKit": "4.17.0",
+          "System.Formats.Asn1": "8.0.1"
+        },
+        "runtime": {
+          "lib/net8.0/MailKit.dll": {
+            "assemblyVersion": "4.17.0.0",
+            "fileVersion": "4.17.0.0"
           }
         }
       },
@@ -386,6 +407,18 @@
           }
         }
       },
+      "MimeKit/4.17.0": {
+        "dependencies": {
+          "BouncyCastle.Cryptography": "2.6.2",
+          "System.Security.Cryptography.Pkcs": "8.0.1"
+        },
+        "runtime": {
+          "lib/net8.0/MimeKit.dll": {
+            "assemblyVersion": "4.17.0.0",
+            "fileVersion": "4.17.0.0"
+          }
+        }
+      },
       "System.Configuration.ConfigurationManager/6.0.1": {
         "dependencies": {
           "System.Security.Cryptography.ProtectedData": "6.0.0",
@@ -428,7 +461,7 @@
           }
         }
       },
-      "System.Formats.Asn1/5.0.0": {},
+      "System.Formats.Asn1/8.0.1": {},
       "System.IdentityModel.Tokens.Jwt/6.24.0": {
         "dependencies": {
           "Microsoft.IdentityModel.JsonWebTokens": "6.24.0",
@@ -484,7 +517,23 @@
       "System.Security.AccessControl/6.0.0": {},
       "System.Security.Cryptography.Cng/5.0.0": {
         "dependencies": {
-          "System.Formats.Asn1": "5.0.0"
+          "System.Formats.Asn1": "8.0.1"
+        }
+      },
+      "System.Security.Cryptography.Pkcs/8.0.1": {
+        "runtime": {
+          "lib/net8.0/System.Security.Cryptography.Pkcs.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1024.46610"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net8.0/System.Security.Cryptography.Pkcs.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1024.46610"
+          }
         }
       },
       "System.Security.Cryptography.ProtectedData/6.0.0": {
@@ -557,6 +606,7 @@
       "Data/1.0.0": {
         "dependencies": {
           "Domain": "1.0.0",
+          "MailKit": "4.17.0",
           "Microsoft.EntityFrameworkCore": "8.0.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.0"
         },
@@ -568,6 +618,9 @@
         }
       },
       "Domain/1.0.0": {
+        "dependencies": {
+          "MailKit": "4.17.0"
+        },
         "runtime": {
           "Domain.dll": {
             "assemblyVersion": "1.0.0.0",
@@ -596,6 +649,20 @@
       "sha512": "sha512-eHEiCO/8+MfNc9nH5dVew/+FvxdaGrkRL4OMNwIz0W79+wtJyEoeRlXJ3SrXhoy9XR58geBYKmzMR83VO7bcAw==",
       "path": "azure.identity/1.7.0",
       "hashPath": "azure.identity.1.7.0.nupkg.sha512"
+    },
+    "BouncyCastle.Cryptography/2.6.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7oWOcvnntmMKNzDLsdxAYqApt+AjpRpP2CShjMfIa3umZ42UQMvH0tl1qAliYPNYO6vTdcGMqnRrCPmsfzTI1w==",
+      "path": "bouncycastle.cryptography/2.6.2",
+      "hashPath": "bouncycastle.cryptography.2.6.2.nupkg.sha512"
+    },
+    "MailKit/4.17.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1nUAVLxM9fhT/78we6/AGsCesnpn5dRNLLeRqOfr52Wnk87pzVwo5YMTMyqnmoXrYc7piGhmayiMA/OgDluIjg==",
+      "path": "mailkit/4.17.0",
+      "hashPath": "mailkit.4.17.0.nupkg.sha512"
     },
     "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
       "type": "package",
@@ -807,6 +874,13 @@
       "path": "microsoft.win32.systemevents/6.0.0",
       "hashPath": "microsoft.win32.systemevents.6.0.0.nupkg.sha512"
     },
+    "MimeKit/4.17.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-h/KXsCreJf8RpR/PSAtlbvYtZFndp9N8Wn1Bs248AL7ITyhn+AiIY5bLTvt60tbN2mu6g8KadtBNWygTji2lqg==",
+      "path": "mimekit/4.17.0",
+      "hashPath": "mimekit.4.17.0.nupkg.sha512"
+    },
     "System.Configuration.ConfigurationManager/6.0.1": {
       "type": "package",
       "serviceable": true,
@@ -828,12 +902,12 @@
       "path": "system.drawing.common/6.0.0",
       "hashPath": "system.drawing.common.6.0.0.nupkg.sha512"
     },
-    "System.Formats.Asn1/5.0.0": {
+    "System.Formats.Asn1/8.0.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-MTvUIktmemNB+El0Fgw9egyqT9AYSIk6DTJeoDSpc3GIHxHCMo8COqkWT1mptX5tZ1SlQ6HJZ0OsSvMth1c12w==",
-      "path": "system.formats.asn1/5.0.0",
-      "hashPath": "system.formats.asn1.5.0.0.nupkg.sha512"
+      "sha512": "sha512-XqKba7Mm/koKSjKMfW82olQdmfbI5yqeoLV/tidRp7fbh5rmHAQ5raDI/7SU0swTzv+jgqtUGkzmFxuUg0it1A==",
+      "path": "system.formats.asn1/8.0.1",
+      "hashPath": "system.formats.asn1.8.0.1.nupkg.sha512"
     },
     "System.IdentityModel.Tokens.Jwt/6.24.0": {
       "type": "package",
@@ -897,6 +971,13 @@
       "sha512": "sha512-jIMXsKn94T9JY7PvPq/tMfqa6GAaHpElRDpmG+SuL+D3+sTw2M8VhnibKnN8Tq+4JqbPJ/f+BwtLeDMEnzAvRg==",
       "path": "system.security.cryptography.cng/5.0.0",
       "hashPath": "system.security.cryptography.cng.5.0.0.nupkg.sha512"
+    },
+    "System.Security.Cryptography.Pkcs/8.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-CoCRHFym33aUSf/NtWSVSZa99dkd0Hm7OCZUxORBjRB16LNhIEOf8THPqzIYlvKM0nNDAPTRBa1FxEECrgaxxA==",
+      "path": "system.security.cryptography.pkcs/8.0.1",
+      "hashPath": "system.security.cryptography.pkcs.8.0.1.nupkg.sha512"
     },
     "System.Security.Cryptography.ProtectedData/6.0.0": {
       "type": "package",

@@ -1,0 +1,40 @@
+﻿@model List<Domain.OrganizerAuditLog>
+
+@{
+    ViewData["Title"] = "Organizer Audit Logs";
+}
+
+<h2>Organizer Audit Logs</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Time</th>
+            <th>Action</th>
+            <th>Detail</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model == null || !Model.Any())
+        {
+            <tr>
+                <td colspan="3">No audit logs found.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var log in Model)
+            {
+                <tr>
+                    <td>@log.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td>@log.Action</td>
+                    <td>@log.Detail</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<a asp-controller="OrganizerReports" asp-action="Dashboard" class="btn btn-secondary">
+    Back to Dashboard
+</a>

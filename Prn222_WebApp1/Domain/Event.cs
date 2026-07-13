@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,14 +24,11 @@ namespace Domain
 
         public int Status { get; set; }
 
-        // Navigation Property
-        public int CreatedBy { get; set; }
+        public int? CreatedBy { get; set; }
+
         public User? Creator { get; set; }
 
+        // Navigation Property
         public EventCategory? EventCategory { get; set; }
-
-        public ICollection<TicketType> TicketTypes { get; set; } = new List<TicketType>();
-
-        public RefundCancelPolicy? RefundCancelPolicy { get; set; }
     }
 }

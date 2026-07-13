@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj": {}
+    "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj": {
+    "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj",
+        "projectUniqueName": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\ourki\\.nuget\\packages\\",
-        "outputPath": "D:\\PRN111\\Final_NhonNT_23_06\\Prn222_nghiahnc\\Prn222_WebApp1\\Domain\\obj\\",
+        "projectPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "D:\\chuyennganh7\\PRN222\\Prn222_nghiahnc-main\\Prn222_nghiahnc-main\\Prn222_WebApp1\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "D:\\chuyennganh5\\prn212\\3\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ourki\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -49,6 +50,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.17.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -65,7 +72,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.315/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

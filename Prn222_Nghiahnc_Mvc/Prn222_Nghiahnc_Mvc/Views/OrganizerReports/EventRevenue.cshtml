@@ -1,0 +1,21 @@
+﻿@model List<Domain.EventRevenue>
+
+<h2>Event Revenue</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Event</th>
+            <th>Revenue</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.EventName</td>
+                <td>@item.Revenue</td>
+            </tr>
+        }
+    </tbody>
+</table>

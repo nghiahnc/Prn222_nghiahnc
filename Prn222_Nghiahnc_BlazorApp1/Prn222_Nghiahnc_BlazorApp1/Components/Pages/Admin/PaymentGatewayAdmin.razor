@@ -1,36 +1,157 @@
 @page "/admin/payment-gateways"
 @attribute [Authorize(Roles = "1")]
 @using Domain
-@using Services
-@using Microsoft.JSInterop
+@using global::Services
 @inject IPaymentGatewayConfigService PaymentGatewayConfigService
-@inject IJSRuntime JSRuntime
+@inject Prn222_Nghiahnc_BlazorApp1.Services.AdminSessionService Session
 @rendermode InteractiveServer
 
-<div class="container-fluid mt-4">
-    <div class="card card-modern">
-        <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-            <h5 class="mb-0"><i class="bi bi-credit-card-fill text-success me-2"></i> Payment Gateway Configurations</h5>
-            
-            <div class="d-flex">
-                <!-- Search -->
-                <div class="input-group input-group-sm" style="width: 250px;">
-                    <span class="input-group-text bg-light border-0"><i class="bi bi-search"></i></span>
-                    <input type="text" class="form-control border-0 bg-light" placeholder="Search provider..." @bind="searchTerm" @bind:event="oninput" />
+<PageTitle>Payment Gateways — Admin Portal</PageTitle>
+
+<div class="container-fluid">
+
+    <!-- Page Title -->
+    <div class="page-title-section">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="admin/accounts">Dashboard</a></li>
+                <li class="breadcrumb-item active">Payment Gateways</li>
+            </ol>
+        </nav>
+        <h4><i class="bi bi-credit-card-fill text-success me-2"></i>Configure Payment Gateways</h4>
+        <p>Manage payment provider integrations. Add, update or remove gateway API configurations.</p>
+    </div>
+
+    <!-- Stats -->
+    @if (configs != null)
+    {
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon blue">
+                        <i class="bi bi-credit-card-fill"></i>
+                    </div>
+                    <div class="stat-card-body">
+                        <h3>@configs.Count</h3>
+                        <small>Total Gateways</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon green">
+                        <i class="bi bi-toggle-on"></i>
+                    </div>
+                    <div class="stat-card-body">
+                        <h3>@configs.Count(c => c.IsActive)</h3>
+                        <small>Active</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon red">
+                        <i class="bi bi-toggle-off"></i>
+                    </div>
+                    <div class="stat-card-body">
+                        <h3>@configs.Count(c => !c.IsActive)</h3>
+                        <small>Inactive</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon purple">
+                        <i class="bi bi-shield-lock-fill"></i>
+                    </div>
+                    <div class="stat-card-body">
+                        <h3>Encrypted</h3>
+                        <small>Key Storage</small>
+                    </div>
                 </div>
             </div>
         </div>
+    }
+
+    <!-- Security Notice -->
+    <div class="alert d-flex align-items-center gap-3 mb-4"
+         style="background:#f0fdf4;border:none;border-left:4px solid #22c55e;border-radius:12px;color:#166534;font-size:.875rem;">
+        <i class="bi bi-shield-lock-fill" style="font-size:1.25rem;color:#22c55e;flex-shrink:0;"></i>
+        <div>
+            <strong>Security Notice:</strong> API keys and secret keys are stored in the database.
+            Ensure only trusted administrators have access to this page.
+            Secret keys are masked by default.
+        </div>
+    </div>
+
+    <!-- Main Card -->
+    <div class="card card-modern">
+        <!-- Header -->
+        <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <h5 class="mb-0">
+                <i class="bi bi-list-check me-2 text-success"></i>Gateway Configurations
+            </h5>
+            <div class="d-flex flex-wrap gap-2 align-items-center">
+                <!-- Active Filter -->
+                <select class="form-select form-select-sm bg-light border-0" style="width:140px;" @bind="filterActive">
+                    <option value="-1">All Gateways</option>
+                    <option value="1">Active Only</option>
+                    <option value="0">Inactive Only</option>
+                </select>
+                <!-- Search -->
+                <div class="input-group input-group-sm" style="width:240px;">
+                    <span class="input-group-text bg-light border-0">
+                        <i class="bi bi-search text-muted"></i>
+                    </span>
+                    <input type="text" class="form-control border-0 bg-light"
+                           placeholder="Search provider name..."
+                           @bind="searchTerm" @bind:event="oninput" />
+                    @if (!string.IsNullOrEmpty(searchTerm))
+                    {
+                        <button class="input-group-text bg-light border-0 btn p-0 pe-2"
+                                @onclick="() => searchTerm = string.Empty">
+                            <i class="bi bi-x text-muted"></i>
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert + Confirm -->
+        <AdminAlert @ref="alert" />
+        <ConfirmationModal @ref="confirmModal" OnConfirm="HandleConfirm" />
+
+        <!-- Table -->
         <div class="card-body p-0">
-
-            <AdminAlert @ref="alert" />
-            <ConfirmationModal @ref="confirmModal" OnConfirm="HandleConfirm" />
-
             @if (configs == null)
             {
-                <div class="d-flex justify-content-center my-4">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
+                <div class="loading-container">
+                    <div class="spinner-modern"></div>
+                    <span>Loading payment gateway configurations...</span>
+                </div>
+            }
+            else if (FilteredConfigs.Count == 0)
+            {
+                <div class="empty-state">
+                    @if (string.IsNullOrWhiteSpace(searchTerm) && filterActive == -1)
+                    {
+                        <div class="display-icon">
+                            <i class="bi bi-credit-card"></i>
+                        </div>
+                        <h5>No Payment Gateways</h5>
+                        <p>No payment gateway configurations found. Add your first gateway using the form below.</p>
+                    }
+                    else
+                    {
+                        <div class="display-icon">
+                            <i class="bi bi-search"></i>
+                        </div>
+                        <h5>No Matching Gateways</h5>
+                        <p>No gateways match your current filters.</p>
+                        <button class="btn btn-outline-primary btn-sm rounded-pill mt-2" @onclick="ClearFilters">
+                            Clear Filters
+                        </button>
+                    }
                 </div>
             }
             else
@@ -39,46 +160,85 @@
                     <table class="table table-modern">
                         <thead>
                             <tr>
-                                <th>Provider Name</th>
-                                <th>API Key</th>
-                                <th>Secret Key</th>
-                                <th class="text-center">Active</th>
-                                <th class="text-center">Action</th>
+                                <th style="width:180px;">Provider</th>
+                                <th style="min-width:200px;">API Key</th>
+                                <th style="min-width:200px;">Secret Key</th>
+                                <th class="text-center" style="width:100px;">Active</th>
+                                <th class="text-center" style="width:160px;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (PagedConfigs.Count == 0)
-                            {
-                                <tr>
-                                    <td colspan="5" class="text-center text-muted py-4">
-                                        @(string.IsNullOrWhiteSpace(searchTerm) ? "No payment gateways configured. Add one below." : "No gateways found matching your search.")
-                                    </td>
-                                </tr>
-                            }
                             @foreach (var config in PagedConfigs)
                             {
                                 <tr>
                                     <td>
-                                        <input type="text" class="form-control form-control-sm rounded-pill px-3" @bind="config.Name" style="max-width: 200px;" />
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="stat-card-icon green"
+                                                 style="width:32px;height:32px;border-radius:8px;font-size:.9rem;">
+                                                <i class="bi bi-credit-card-fill"></i>
+                                            </div>
+                                            <!-- BUGFIX: use @onchange not @bind to avoid EditContext conflicts -->
+                                            <input type="text"
+                                                   class="form-control table-input"
+                                                   style="max-width:140px;"
+                                                   value="@config.Name"
+                                                   @onchange="e => config.Name = e.Value?.ToString() ?? string.Empty"
+                                                   placeholder="Provider name" />
+                                        </div>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control form-control-sm rounded-pill px-3" @bind="config.ApiKey" />
+                                        <input type="text"
+                                               class="form-control table-input"
+                                               value="@config.ApiKey"
+                                               @onchange="e => config.ApiKey = e.Value?.ToString() ?? string.Empty"
+                                               placeholder="API Key" />
                                     </td>
                                     <td>
-                                        <input type="password" class="form-control form-control-sm rounded-pill px-3" @bind="config.SecretKey" />
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="form-check form-switch d-flex justify-content-center">
-                                            <input class="form-check-input" type="checkbox" @bind="config.IsActive" title="Toggle Active Status" />
+                                        <div class="input-group" style="max-width:260px;">
+                                            <input type="@(showSecret.Contains(config.Id) ? "text" : "password")"
+                                                   class="form-control table-input"
+                                                   style="border-radius:6px 0 0 6px;"
+                                                   value="@config.SecretKey"
+                                                   @onchange="e => config.SecretKey = e.Value?.ToString() ?? string.Empty"
+                                                   placeholder="Secret Key" />
+                                            <button class="btn btn-light btn-sm border"
+                                                    style="border-radius:0 6px 6px 0;border-left:none;"
+                                                    type="button"
+                                                    @onclick="() => ToggleSecret(config.Id)"
+                                                    title="@(showSecret.Contains(config.Id) ? "Hide" : "Show") secret">
+                                                <i class="bi @(showSecret.Contains(config.Id) ? "bi-eye-slash" : "bi-eye")"></i>
+                                            </button>
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-sm btn-outline-primary me-2 rounded-pill px-3" @onclick="() => SaveConfig(config)" title="Save">
-                                            <i class="bi bi-save"></i> Save
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger rounded-pill px-3" @onclick="() => DeleteConfig(config)" title="Delete">
-                                            <i class="bi bi-trash"></i> Delete
-                                        </button>
+                                        <div class="form-check form-switch d-flex justify-content-center align-items-center m-0">
+                                            <input class="form-check-input" type="checkbox"
+                                                   checked="@config.IsActive"
+                                                   @onchange="e => config.IsActive = (bool)(e.Value ?? false)"
+                                                   title="Toggle active status" />
+                                        </div>
+                                        <div style="font-size:.72rem;margin-top:4px;">
+                                            @if (config.IsActive)
+                                            {
+                                                <span style="color:#16a34a;font-weight:600;">Active</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="color:#dc2626;font-weight:600;">Inactive</span>
+                                            }
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <button class="btn btn-sm btn-outline-primary rounded-pill px-3"
+                                                    @onclick="() => SaveConfig(config)" title="Save changes">
+                                                <i class="bi bi-save me-1"></i>Save
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger rounded-pill px-3"
+                                                    @onclick="() => DeleteConfig(config)" title="Delete">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             }
@@ -86,15 +246,20 @@
                     </table>
                 </div>
 
-                <!-- Pagination Controls -->
+                <!-- Pagination -->
                 @if (TotalPages > 1)
                 {
-                    <div class="card-footer bg-white d-flex justify-content-between align-items-center p-3 border-top-0">
-                        <span class="text-muted small">Showing @(((currentPage - 1) * pageSize) + 1) to @(Math.Min(currentPage * pageSize, FilteredConfigs.Count)) of @FilteredConfigs.Count entries</span>
-                        <nav>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <span style="font-size:.8rem;color:#6b7280;">
+                            Showing <strong>@(((currentPage - 1) * pageSize) + 1)</strong>–<strong>@(Math.Min(currentPage * pageSize, FilteredConfigs.Count))</strong>
+                            of <strong>@FilteredConfigs.Count</strong> gateways
+                        </span>
+                        <nav aria-label="Pagination">
                             <ul class="pagination pagination-sm pagination-modern mb-0">
                                 <li class="page-item @(currentPage == 1 ? "disabled" : "")">
-                                    <button class="page-link" @onclick="PrevPage"><i class="bi bi-chevron-left"></i></button>
+                                    <button class="page-link" @onclick="PrevPage" disabled="@(currentPage == 1)">
+                                        <i class="bi bi-chevron-left"></i>
+                                    </button>
                                 </li>
                                 @for (int i = 1; i <= TotalPages; i++)
                                 {
@@ -104,45 +269,67 @@
                                     </li>
                                 }
                                 <li class="page-item @(currentPage == TotalPages ? "disabled" : "")">
-                                    <button class="page-link" @onclick="NextPage"><i class="bi bi-chevron-right"></i></button>
+                                    <button class="page-link" @onclick="NextPage" disabled="@(currentPage == TotalPages)">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </button>
                                 </li>
                             </ul>
                         </nav>
                     </div>
                 }
-
-                <div class="card-footer bg-light p-4">
-                    <h6 class="fw-bold mb-3 text-secondary">Add New Gateway Configuration</h6>
-                    <EditForm Model="@newConfig" OnValidSubmit="AddConfig">
-                        <DataAnnotationsValidator />
-                        <ValidationSummary class="text-danger small" />
-
-                        <div class="row g-3 align-items-center">
-                            <div class="col-md-3">
-                                <InputText class="form-control rounded-pill px-3" placeholder="Provider Name (e.g. Stripe)" @bind-Value="newConfig.Name" />
-                                <ValidationMessage For="@(() => newConfig.Name)" class="text-danger small mt-1" />
-                            </div>
-                            <div class="col-md-3">
-                                <InputText class="form-control rounded-pill px-3" placeholder="API Key" @bind-Value="newConfig.ApiKey" />
-                                <ValidationMessage For="@(() => newConfig.ApiKey)" class="text-danger small mt-1" />
-                            </div>
-                            <div class="col-md-3">
-                                <InputText class="form-control rounded-pill px-3" placeholder="Secret Key" @bind-Value="newConfig.SecretKey" type="password" />
-                                <ValidationMessage For="@(() => newConfig.SecretKey)" class="text-danger small mt-1" />
-                            </div>
-                            <div class="col-md-1 text-center">
-                                <div class="form-check form-switch d-flex justify-content-center mb-1">
-                                    <InputCheckbox class="form-check-input" @bind-Value="newConfig.IsActive" id="isActiveCheck" />
-                                </div>
-                                <label class="form-check-label small text-muted" for="isActiveCheck">Active</label>
-                            </div>
-                            <div class="col-md-2 text-center">
-                                <button type="submit" class="btn btn-success rounded-pill px-4 w-100"><i class="bi bi-plus-lg me-1"></i> Add</button>
-                            </div>
-                        </div>
-                    </EditForm>
-                </div>
             }
+        </div>
+
+        <!-- Add New Config Form -->
+        <div class="section-add-form">
+            <h6><i class="bi bi-plus-circle me-2"></i>Add New Payment Gateway</h6>
+            <EditForm Model="@newConfig" OnValidSubmit="AddConfig">
+                <DataAnnotationsValidator />
+
+                <div class="row g-3 align-items-start">
+                    <div class="col-md-3">
+                        <label class="form-label" style="font-size:.78rem;font-weight:600;color:#6b7280;margin-bottom:.3rem;">
+                            PROVIDER NAME <span class="text-danger">*</span>
+                        </label>
+                        <InputText class="form-control"
+                                   placeholder="e.g. Stripe, PayPal, VNPay"
+                                   @bind-Value="newConfig.Name" />
+                        <ValidationMessage For="@(() => newConfig.Name)" class="text-danger" style="font-size:.75rem;" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" style="font-size:.78rem;font-weight:600;color:#6b7280;margin-bottom:.3rem;">
+                            API KEY <span class="text-danger">*</span>
+                        </label>
+                        <InputText class="form-control"
+                                   placeholder="pk_live_..."
+                                   @bind-Value="newConfig.ApiKey" />
+                        <ValidationMessage For="@(() => newConfig.ApiKey)" class="text-danger" style="font-size:.75rem;" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" style="font-size:.78rem;font-weight:600;color:#6b7280;margin-bottom:.3rem;">
+                            SECRET KEY <span class="text-danger">*</span>
+                        </label>
+                        <InputText class="form-control"
+                                   placeholder="sk_live_..."
+                                   type="password"
+                                   @bind-Value="newConfig.SecretKey" />
+                        <ValidationMessage For="@(() => newConfig.SecretKey)" class="text-danger" style="font-size:.75rem;" />
+                    </div>
+                    <div class="col-md-1 d-flex flex-column align-items-center">
+                        <label class="form-label" style="font-size:.78rem;font-weight:600;color:#6b7280;margin-bottom:.5rem;">
+                            ACTIVE
+                        </label>
+                        <div class="form-check form-switch">
+                            <InputCheckbox class="form-check-input" @bind-Value="newConfig.IsActive" id="newIsActive" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-success rounded-pill px-4 w-100">
+                            <i class="bi bi-plus-lg me-1"></i>Add Gateway
+                        </button>
+                    </div>
+                </div>
+            </EditForm>
         </div>
     </div>
 </div>
@@ -150,25 +337,37 @@
 @code {
     private List<PaymentGatewayConfig>? configs;
     private PaymentGatewayConfig newConfig = new PaymentGatewayConfig();
+    private HashSet<int> showSecret = new HashSet<int>(); // Track which rows show secret
     private AdminAlert alert = default!;
     private ConfirmationModal confirmModal = default!;
     private Func<Task>? pendingAction;
 
-    // Search
-    private string _searchTerm = string.Empty;
-    private string searchTerm 
-    { 
-        get => _searchTerm; 
-        set { _searchTerm = value; currentPage = 1; } 
+    // Session-backed state
+    private string searchTerm
+    {
+        get => Session.GatewaySearchTerm;
+        set { Session.GatewaySearchTerm = value; currentPage = 1; }
     }
 
-    // Pagination
-    private int currentPage = 1;
-    private int pageSize = 10;
+    private int filterActive
+    {
+        get => Session.GatewayFilterActive;
+        set { Session.GatewayFilterActive = value; currentPage = 1; }
+    }
+
+    private int currentPage
+    {
+        get => Session.GatewayCurrentPage;
+        set => Session.GatewayCurrentPage = value;
+    }
+    private const int pageSize = 10;
 
     private List<PaymentGatewayConfig> FilteredConfigs => (configs ?? new List<PaymentGatewayConfig>())
-        .Where(c => string.IsNullOrWhiteSpace(searchTerm) || 
+        .Where(c => string.IsNullOrWhiteSpace(searchTerm) ||
                     (c.Name?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false))
+        .Where(c => filterActive == -1 ||
+                    (filterActive == 1 && c.IsActive) ||
+                    (filterActive == 0 && !c.IsActive))
         .ToList();
 
     private List<PaymentGatewayConfig> PagedConfigs => FilteredConfigs
@@ -178,8 +377,10 @@
 
     private int TotalPages => (int)Math.Ceiling(FilteredConfigs.Count / (double)pageSize);
 
-    protected override void OnInitialized()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (!firstRender) return;
+        await Task.Yield();
         LoadConfigs();
     }
 
@@ -188,70 +389,96 @@
         try
         {
             configs = PaymentGatewayConfigService.GetAllConfigs();
+            showSecret.Clear(); // Reset visibility on reload
         }
         catch (Exception ex)
         {
-            alert?.Show($"Failed to load gateway configs: {ex.Message}", true);
+            alert?.Show($"Failed to load payment gateway configurations: {ex.Message}", true);
+            configs = new List<PaymentGatewayConfig>();
         }
+    }
+
+    private void ToggleSecret(int id)
+    {
+        if (showSecret.Contains(id))
+            showSecret.Remove(id);
+        else
+            showSecret.Add(id);
+    }
+
+    private void ClearFilters()
+    {
+        searchTerm = string.Empty;
+        filterActive = -1;
+        currentPage = 1;
     }
 
     private void SaveConfig(PaymentGatewayConfig config)
     {
-        try
+        // F.E Validate required fields
+        if (string.IsNullOrWhiteSpace(config.Name))
         {
-            if (string.IsNullOrWhiteSpace(config.Name) || string.IsNullOrWhiteSpace(config.ApiKey) || string.IsNullOrWhiteSpace(config.SecretKey))
-            {
-                alert?.Show("Provider Name, API Key, and Secret Key are required.", true);
-                return;
-            }
+            alert?.Show("Provider Name is required.", true);
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(config.ApiKey))
+        {
+            alert?.Show($"API Key for '{config.Name}' is required.", true);
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(config.SecretKey))
+        {
+            alert?.Show($"Secret Key for '{config.Name}' is required.", true);
+            return;
+        }
 
-            PaymentGatewayConfigService.UpdateConfig(config);
-            alert?.Show($"Configuration for '{config.Name}' saved successfully.");
-        }
-        catch (Exception ex)
+        // B.E validation
+        var result = PaymentGatewayConfigService.UpdateConfig(config);
+        if (!result.Success)
         {
-            alert?.Show($"Error saving configuration: {ex.Message}", true);
+            alert?.Show(result.Error ?? "Failed to save configuration.", true);
+            return;
         }
+        
+        alert?.Show($"Configuration for '{config.Name}' saved successfully.");
     }
 
     private void AddConfig()
     {
-        try
+        // B.E validation
+        var result = PaymentGatewayConfigService.CreateConfig(newConfig);
+        if (!result.Success)
         {
-            // Check for duplicate provider name
-            if (configs != null && configs.Any(c => c.Name.Equals(newConfig.Name, StringComparison.OrdinalIgnoreCase)))
-            {
-                alert?.Show($"A gateway configuration for '{newConfig.Name}' already exists.", true);
-                return;
-            }
-
-            PaymentGatewayConfigService.CreateConfig(newConfig);
-            newConfig = new PaymentGatewayConfig(); // Reset form
-            LoadConfigs();
-            alert?.Show("New payment gateway configuration added successfully.");
+            alert?.Show(result.Error ?? "Failed to add gateway.", true);
+            return;
         }
-        catch (Exception ex)
-        {
-            alert?.Show($"Error adding configuration: {ex.Message}", true);
-        }
+        
+        alert?.Show($"Payment gateway '{newConfig.Name}' added successfully.");
+        newConfig = new PaymentGatewayConfig();
+        LoadConfigs();
     }
 
     private void DeleteConfig(PaymentGatewayConfig config)
     {
+        var captured = config;
         pendingAction = async () =>
         {
             try
             {
-                PaymentGatewayConfigService.DeleteConfig(config.Id);
+                PaymentGatewayConfigService.DeleteConfig(captured.Id);
                 LoadConfigs();
-                alert?.Show("Configuration deleted successfully.");
+                alert?.Show($"Payment gateway '{captured.Name}' deleted successfully.");
             }
             catch (Exception ex)
             {
-                alert?.Show($"Error deleting configuration: {ex.Message}", true);
+                alert?.Show($"Failed to delete configuration: {ex.Message}", true);
             }
         };
-        confirmModal.Show("Delete Configuration", $"Are you sure you want to delete the configuration for '{config.Name}'?", "Delete", "danger");
+        confirmModal.Show(
+            "Delete Payment Gateway",
+            $"Are you sure you want to delete the '{config.Name}' gateway configuration? All associated API keys will be permanently removed.",
+            "Delete",
+            "danger");
     }
 
     private async Task HandleConfirm()
@@ -263,18 +490,7 @@
         }
     }
 
-    private void PrevPage()
-    {
-        if (currentPage > 1) currentPage--;
-    }
-
-    private void NextPage()
-    {
-        if (currentPage < TotalPages) currentPage++;
-    }
-
-    private void GoToPage(int pageNum)
-    {
-        currentPage = pageNum;
-    }
+    private void PrevPage() { if (currentPage > 1) currentPage--; }
+    private void NextPage() { if (currentPage < TotalPages) currentPage++; }
+    private void GoToPage(int page) => currentPage = page;
 }

@@ -1,37 +1,71 @@
 @page "/login"
 @inject NavigationManager NavigationManager
 
-<PageTitle>Admin Login</PageTitle>
+<PageTitle>Admin Login — EventHub Portal</PageTitle>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0 text-center">Admin Portal Login</h4>
+<div class="login-page-wrapper">
+    <div style="width:100%;padding:1rem;">
+        <div class="login-card mx-auto">
+            <!-- Header -->
+            <div class="login-card-header">
+                <div class="mb-3">
+                    <i class="bi bi-shield-check" style="font-size:2.5rem;color:#fde047;"></i>
                 </div>
-                <div class="card-body p-4">
-                    @if (!string.IsNullOrEmpty(ErrorMessage))
-                    {
-                        <div class="alert alert-danger" role="alert">
-                            @ErrorMessage
-                        </div>
-                    }
+                <h4>Welcome Back</h4>
+                <p>EventHub Administration Portal</p>
+            </div>
 
-                    <form action="/api/auth/login" method="post">
-                        <input type="hidden" name="returnUrl" value="@ReturnUrl" />
-                        <div class="mb-3">
-                            <label class="form-label">Username</label>
-                            <input type="text" name="username" class="form-control" required autofocus />
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label">Password</label>
-                            <input type="password" name="password" class="form-control" required />
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Login</button>
-                    </form>
+            <!-- Body -->
+            <div class="login-card-body">
+
+                @if (!string.IsNullOrEmpty(ErrorMessage))
+                {
+                    <div class="alert d-flex align-items-center gap-2 mb-4"
+                         style="background:#fee2e2;border:none;border-radius:10px;border-left:4px solid #ef4444;color:#991b1b;font-size:.875rem;font-weight:500;padding:.75rem 1rem;">
+                        <i class="bi bi-exclamation-circle-fill" style="font-size:1.1rem;color:#ef4444;"></i>
+                        <span>@ErrorMessage</span>
+                    </div>
+                }
+
+                <form action="/api/auth/login" method="post">
+                    <input type="hidden" name="returnUrl" value="@ReturnUrl" />
+
+                    <div class="mb-3">
+                        <label class="form-label" style="font-size:.8125rem;font-weight:600;color:#374151;">
+                            <i class="bi bi-person me-1"></i> Username
+                        </label>
+                        <input type="text" name="username" class="form-control"
+                               placeholder="Enter your username"
+                               required autofocus
+                               style="border-radius:10px;padding:.65rem 1rem;" />
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label" style="font-size:.8125rem;font-weight:600;color:#374151;">
+                            <i class="bi bi-lock me-1"></i> Password
+                        </label>
+                        <input type="password" name="password" class="form-control"
+                               placeholder="Enter your password"
+                               required
+                               style="border-radius:10px;padding:.65rem 1rem;" />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100"
+                            style="border-radius:10px;padding:.7rem;font-size:.9rem;font-weight:700;letter-spacing:.02em;">
+                        <i class="bi bi-box-arrow-in-right me-2"></i> Sign In to Admin Portal
+                    </button>
+                </form>
+
+                <div class="mt-4 text-center" style="font-size:.75rem;color:#9ca3af;">
+                    <i class="bi bi-lock-fill me-1"></i>
+                    Secured connection &mdash; Admin access only
                 </div>
             </div>
+        </div>
+
+        <!-- Info below card -->
+        <div class="text-center mt-4" style="color:rgba(255,255,255,0.5);font-size:.75rem;">
+            &copy; @DateTime.Now.Year EventHub Platform &mdash; All rights reserved
         </div>
     </div>
 </div>

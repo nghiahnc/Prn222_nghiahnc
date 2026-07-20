@@ -1,20 +1,56 @@
-<div class="modal fade @(IsVisible ? "show d-block" : "")" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content card-modern">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold text-dark">@Title</h5>
-                <button type="button" class="btn-close" @onclick="Hide" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p class="text-muted mb-0">@Message</p>
-            </div>
-            <div class="modal-footer border-0 pt-0">
-                <button type="button" class="btn btn-light rounded-pill px-4" @onclick="Hide">Cancel</button>
-                <button type="button" class="btn btn-@ConfirmButtonColor rounded-pill px-4" @onclick="Confirm">@ConfirmButtonText</button>
+@if (IsVisible)
+{
+    <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true"
+         style="background-color: rgba(15, 23, 42, 0.55); backdrop-filter: blur(3px);">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border:none; border-radius:16px; box-shadow: 0 24px 64px rgba(0,0,0,0.2); overflow:hidden;">
+                <!-- Header -->
+                <div class="modal-header border-0 pb-0 pt-4 px-4">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="modal-icon-wrapper @IconClass">
+                            <i class="bi @IconName"></i>
+                        </div>
+                        <h5 class="modal-title fw-bold mb-0" style="font-size:1.05rem; color:#111827;">@Title</h5>
+                    </div>
+                    <button type="button" class="btn-close ms-auto" @onclick="Hide" aria-label="Close"></button>
+                </div>
+                <!-- Body -->
+                <div class="modal-body px-4 pt-3 pb-3">
+                    <p class="text-muted mb-0" style="font-size:0.875rem; line-height:1.6;">@Message</p>
+                </div>
+                <!-- Footer -->
+                <div class="modal-footer border-0 pt-0 px-4 pb-4 gap-2">
+                    <button type="button" class="btn btn-light rounded-pill px-4"
+                            style="font-size:0.84rem;" @onclick="Hide">
+                        <i class="bi bi-x me-1"></i> Cancel
+                    </button>
+                    <button type="button" class="btn btn-@ConfirmButtonColor rounded-pill px-4"
+                            style="font-size:0.84rem;" @onclick="Confirm">
+                        @ConfirmButtonText
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
+
+<style>
+    .modal-icon-wrapper {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.15rem;
+        flex-shrink: 0;
+    }
+    .modal-icon-wrapper.icon-danger  { background: #fee2e2; color: #dc2626; }
+    .modal-icon-wrapper.icon-success { background: #dcfce7; color: #16a34a; }
+    .modal-icon-wrapper.icon-warning { background: #fef9c3; color: #d97706; }
+    .modal-icon-wrapper.icon-primary { background: #dbeafe; color: #2563eb; }
+    .modal-icon-wrapper.icon-secondary { background: #f3f4f6; color: #6b7280; }
+</style>
 
 @code {
     public bool IsVisible { get; private set; }
@@ -23,6 +59,24 @@
     public string Message { get; private set; } = "Are you sure you want to perform this action?";
     public string ConfirmButtonText { get; private set; } = "Confirm";
     public string ConfirmButtonColor { get; private set; } = "danger";
+
+    private string IconClass => ConfirmButtonColor switch
+    {
+        "danger"  => "icon-danger",
+        "success" => "icon-success",
+        "warning" => "icon-warning",
+        "primary" => "icon-primary",
+        _         => "icon-secondary"
+    };
+
+    private string IconName => ConfirmButtonColor switch
+    {
+        "danger"  => "bi-exclamation-triangle-fill",
+        "success" => "bi-check-circle-fill",
+        "warning" => "bi-exclamation-circle-fill",
+        "primary" => "bi-info-circle-fill",
+        _         => "bi-question-circle-fill"
+    };
 
     [Parameter]
     public EventCallback OnConfirm { get; set; }

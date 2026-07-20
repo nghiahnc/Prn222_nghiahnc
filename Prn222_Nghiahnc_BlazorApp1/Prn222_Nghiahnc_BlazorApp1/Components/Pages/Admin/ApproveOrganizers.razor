@@ -1,44 +1,150 @@
 @page "/admin/approve-organizers"
 @attribute [Authorize(Roles = "1")]
 @using Domain
-@using Services
-@using Microsoft.JSInterop
+@using global::Services
+@using Microsoft.AspNetCore.SignalR
 @inject IUserService UserService
-@inject IJSRuntime JSRuntime
+@inject Prn222_Nghiahnc_BlazorApp1.Services.AdminSessionService Session
+@inject IHubContext<Prn222_Nghiahnc_BlazorApp1.Hubs.AdminHub> HubContext
 @rendermode InteractiveServer
 
-<div class="container-fluid mt-4">
-    <div class="card card-modern">
-        <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-            <h5 class="mb-0"><i class="bi bi-person-check-fill text-warning me-2"></i> Approve Organizer Registrations</h5>
-            
-            <div class="d-flex">
-                <!-- Search -->
-                <div class="input-group input-group-sm" style="width: 250px;">
-                    <span class="input-group-text bg-light border-0"><i class="bi bi-search"></i></span>
-                    <input type="text" class="form-control border-0 bg-light" placeholder="Search by username..." @bind="searchTerm" @bind:event="oninput" />
+<PageTitle>Approve Organizers — Admin Portal</PageTitle>
+
+<div class="container-fluid">
+
+    <!-- Page Title -->
+    <div class="page-title-section">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="admin/accounts">Dashboard</a></li>
+                <li class="breadcrumb-item active">Approve Organizers</li>
+            </ol>
+        </nav>
+        <h4><i class="bi bi-person-check-fill text-warning me-2"></i>Approve Organizer Registrations</h4>
+        <p>Review and approve or reject pending organizer account registrations.</p>
+    </div>
+
+    <!-- Summary Stats -->
+    @if (allOrganizers != null)
+    {
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon amber">
+                        <i class="bi bi-hourglass-split"></i>
+                    </div>
+                    <div class="stat-card-body">
+                        <h3>@(allOrganizers.Count(u => u.Status == 0))</h3>
+                        <small>Pending Review</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon green">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <div class="stat-card-body">
+                        <h3>@(allOrganizers.Count(u => u.Status == 1))</h3>
+                        <small>Approved</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon red">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </div>
+                    <div class="stat-card-body">
+                        <h3>@(allOrganizers.Count(u => u.Status == 2))</h3>
+                        <small>Rejected/Banned</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon blue">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <div class="stat-card-body">
+                        <h3>@(allOrganizers.Count)</h3>
+                        <small>Total Organizers</small>
+                    </div>
                 </div>
             </div>
         </div>
+    }
+
+    <!-- Main Card -->
+    <div class="card card-modern">
+        <!-- Header with search -->
+        <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <div>
+                <h5 class="mb-0">
+                    <i class="bi bi-hourglass-split text-warning me-2"></i>
+                    Pending Registrations
+                    @if (pendingOrganizers != null && pendingOrganizers.Count > 0)
+                    {
+                        <span class="badge rounded-pill ms-2"
+                              style="background:#f59e0b;color:white;font-size:.65rem;vertical-align:middle;">
+                            @pendingOrganizers.Count
+                        </span>
+                    }
+                </h5>
+            </div>
+            <div class="input-group input-group-sm" style="max-width:280px;">
+                <span class="input-group-text bg-light border-0">
+                    <i class="bi bi-search text-muted"></i>
+                </span>
+                <input type="text" class="form-control border-0 bg-light"
+                       placeholder="Search by username or email..."
+                       @bind="searchTerm" @bind:event="oninput" />
+                @if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    <button class="input-group-text bg-light border-0 btn p-0 pe-2"
+                            @onclick="() => searchTerm = string.Empty" title="Clear search">
+                        <i class="bi bi-x text-muted"></i>
+                    </button>
+                }
+            </div>
+        </div>
+
+        <!-- Alert + Confirm Modal -->
+        <AdminAlert @ref="alert" />
+        <ConfirmationModal @ref="confirmModal" OnConfirm="HandleConfirm" />
+
+        <!-- Content -->
         <div class="card-body p-0">
-
-            <AdminAlert @ref="alert" />
-            <ConfirmationModal @ref="confirmModal" OnConfirm="HandleConfirm" />
-
             @if (pendingOrganizers == null)
             {
-                <div class="d-flex justify-content-center my-4">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
+                <div class="loading-container">
+                    <div class="spinner-modern"></div>
+                    <span>Loading pending registrations...</span>
                 </div>
             }
-            else if (pendingOrganizers.Count == 0 && string.IsNullOrWhiteSpace(searchTerm))
+            else if (FilteredOrganizers.Count == 0)
             {
-                <div class="text-center text-muted py-5">
-                    <i class="bi bi-check-circle display-1 text-success mb-3"></i>
-                    <h4>All caught up!</h4>
-                    <p>There are no pending organizer registrations at the moment.</p>
+                <div class="empty-state">
+                    @if (string.IsNullOrWhiteSpace(searchTerm))
+                    {
+                        <div class="display-icon text-success">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <h5>All Caught Up!</h5>
+                        <p>There are no pending organizer registrations at the moment. Check back later.</p>
+                    }
+                    else
+                    {
+                        <div class="display-icon">
+                            <i class="bi bi-search"></i>
+                        </div>
+                        <h5>No Results Found</h5>
+                        <p>No pending organizers match "<strong>@searchTerm</strong>". Try a different search term.</p>
+                        <button class="btn btn-outline-primary btn-sm rounded-pill mt-2"
+                                @onclick="() => searchTerm = string.Empty">
+                            Clear Search
+                        </button>
+                    }
                 </div>
             }
             else
@@ -47,41 +153,71 @@
                     <table class="table table-modern">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Username</th>
+                                <th>#</th>
+                                <th>Organizer</th>
                                 <th>Email</th>
                                 <th>Phone</th>
-                                <th class="text-center">Action</th>
+                                <th>Registered</th>
+                                <th class="text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (PagedOrganizers.Count == 0)
-                            {
-                                <tr>
-                                    <td colspan="5" class="text-center text-muted py-4">No pending organizers found matching your search.</td>
-                                </tr>
-                            }
                             @foreach (var user in PagedOrganizers)
                             {
                                 <tr>
-                                    <td class="text-muted fw-bold">#@user.Id</td>
+                                    <td class="fw-bold" style="color:#9ca3af;font-size:.8rem;">
+                                        #@user.Id
+                                    </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar-placeholder text-warning bg-warning bg-opacity-10">
+                                            <div class="avatar-placeholder text-warning">
                                                 @(string.IsNullOrEmpty(user.UserName) ? "?" : user.UserName.Substring(0, 1).ToUpper())
                                             </div>
-                                            <span class="fw-semibold">@user.UserName</span>
+                                            <div>
+                                                <div class="fw-semibold" style="font-size:.875rem;">@user.UserName</div>
+                                                <div style="font-size:.75rem;color:#9ca3af;">Organizer Account</div>
+                                            </div>
                                         </div>
                                     </td>
-                                    <td><a href="mailto:@user.Email" class="text-decoration-none">@user.Email</a></td>
-                                    <td class="text-muted">@user.Phone</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(user.Email))
+                                        {
+                                            <a href="mailto:@user.Email" class="text-decoration-none"
+                                               style="font-size:.84rem;">
+                                                <i class="bi bi-envelope me-1 text-muted"></i>@user.Email
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted" style="font-size:.8rem;">No email</span>
+                                        }
+                                    </td>
+                                    <td style="font-size:.84rem;color:#6b7280;">
+                                        @if (!string.IsNullOrEmpty(user.Phone))
+                                        {
+                                            <i class="bi bi-telephone me-1"></i>@user.Phone
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">N/A</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="badge-soft-warning">
+                                            <i class="bi bi-hourglass-split me-1"></i>Pending
+                                        </span>
+                                    </td>
                                     <td class="text-center">
-                                        <button class="btn btn-sm btn-outline-success me-2 rounded-pill px-3" @onclick="() => Approve(user)" title="Approve">
-                                            <i class="bi bi-check-lg"></i> Approve
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger rounded-pill px-3" @onclick="() => Reject(user)" title="Reject">
-                                            <i class="bi bi-x-lg"></i> Reject
-                                        </button>
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <button class="btn btn-sm btn-outline-success rounded-pill px-3"
+                                                    @onclick="() => Approve(user)" title="Approve this organizer">
+                                                <i class="bi bi-check-lg me-1"></i>Approve
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger rounded-pill px-3"
+                                                    @onclick="() => Reject(user)" title="Reject this organizer">
+                                                <i class="bi bi-x-lg me-1"></i>Reject
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             }
@@ -89,15 +225,20 @@
                     </table>
                 </div>
 
-                <!-- Pagination Controls -->
+                <!-- Pagination -->
                 @if (TotalPages > 1)
                 {
-                    <div class="card-footer bg-white d-flex justify-content-between align-items-center p-3 border-top-0">
-                        <span class="text-muted small">Showing @(((currentPage - 1) * pageSize) + 1) to @(Math.Min(currentPage * pageSize, FilteredOrganizers.Count)) of @FilteredOrganizers.Count entries</span>
-                        <nav>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <span style="font-size:.8rem;color:#6b7280;">
+                            Showing <strong>@(((currentPage - 1) * pageSize) + 1)</strong>–<strong>@(Math.Min(currentPage * pageSize, FilteredOrganizers.Count))</strong>
+                            of <strong>@FilteredOrganizers.Count</strong> entries
+                        </span>
+                        <nav aria-label="Pagination">
                             <ul class="pagination pagination-sm pagination-modern mb-0">
                                 <li class="page-item @(currentPage == 1 ? "disabled" : "")">
-                                    <button class="page-link" @onclick="PrevPage"><i class="bi bi-chevron-left"></i></button>
+                                    <button class="page-link" @onclick="PrevPage" disabled="@(currentPage == 1)">
+                                        <i class="bi bi-chevron-left"></i>
+                                    </button>
                                 </li>
                                 @for (int i = 1; i <= TotalPages; i++)
                                 {
@@ -107,7 +248,9 @@
                                     </li>
                                 }
                                 <li class="page-item @(currentPage == TotalPages ? "disabled" : "")">
-                                    <button class="page-link" @onclick="NextPage"><i class="bi bi-chevron-right"></i></button>
+                                    <button class="page-link" @onclick="NextPage" disabled="@(currentPage == TotalPages)">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </button>
                                 </li>
                             </ul>
                         </nav>
@@ -119,26 +262,32 @@
 </div>
 
 @code {
+    // All organizers (role=2) for stats
+    private List<User>? allOrganizers;
+    // Only pending ones for display
     private List<User>? pendingOrganizers;
+
     private AdminAlert alert = default!;
     private ConfirmationModal confirmModal = default!;
     private Func<Task>? pendingAction;
 
-    // Search
-    private string _searchTerm = string.Empty;
-    private string searchTerm 
-    { 
-        get => _searchTerm; 
-        set { _searchTerm = value; currentPage = 1; } 
+    // Session-backed state
+    private string searchTerm
+    {
+        get => Session.OrganizerSearchTerm;
+        set { Session.OrganizerSearchTerm = value; currentPage = 1; }
     }
-
-    // Pagination
-    private int currentPage = 1;
-    private int pageSize = 10;
+    private int currentPage
+    {
+        get => Session.OrganizerCurrentPage;
+        set => Session.OrganizerCurrentPage = value;
+    }
+    private const int pageSize = 10;
 
     private List<User> FilteredOrganizers => (pendingOrganizers ?? new List<User>())
-        .Where(u => string.IsNullOrWhiteSpace(searchTerm) || 
-                    (u.UserName?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false))
+        .Where(u => string.IsNullOrWhiteSpace(searchTerm) ||
+                    (u.UserName?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (u.Email?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false))
         .ToList();
 
     private List<User> PagedOrganizers => FilteredOrganizers
@@ -148,60 +297,77 @@
 
     private int TotalPages => (int)Math.Ceiling(FilteredOrganizers.Count / (double)pageSize);
 
-    protected override void OnInitialized()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        LoadPendingOrganizers();
+        if (!firstRender) return;
+        await Task.Yield();
+        LoadData();
     }
 
-    private void LoadPendingOrganizers()
+    private void LoadData()
     {
         try
         {
-            // Role 2 is Organizer, Status 0 is Pending
-            pendingOrganizers = UserService.GetAllUsers().Where(u => u.Role == 2 && u.Status == 0).ToList();
+            var allUsers = UserService.GetAllUsers();
+            // Role 2 = Organizer
+            allOrganizers = allUsers.Where(u => u.Role == 2).ToList();
+            // Status 0 = Pending
+            pendingOrganizers = allOrganizers.Where(u => u.Status == 0).ToList();
         }
         catch (Exception ex)
         {
-            alert?.Show($"Failed to load pending organizers: {ex.Message}", true);
+            alert?.Show($"Failed to load organizer data: {ex.Message}", true);
+            pendingOrganizers = new List<User>();
+            allOrganizers = new List<User>();
         }
     }
 
     private void Approve(User user)
     {
+        var captured = user;
         pendingAction = async () =>
         {
-            try
+            // B.E validation via UserService
+            var result = UserService.ApproveOrganizer(captured.Id);
+            if (!result.Success)
             {
-                user.Status = 1; // Active
-                UserService.UpdateUser(user);
-                LoadPendingOrganizers();
-                alert?.Show($"Organizer '{user.UserName}' has been approved successfully.");
+                alert?.Show(result.Error ?? "Failed to approve organizer.", true);
+                return;
             }
-            catch (Exception ex)
-            {
-                alert?.Show($"Error approving organizer: {ex.Message}", true);
-            }
+            LoadData();
+            // SignalR: notify all admin tabs of new count
+            await Prn222_Nghiahnc_BlazorApp1.Hubs.AdminHub.NotifyOrganizerApproved(
+                HubContext, captured.UserName, UserService.GetPendingOrganizerCount());
+            alert?.Show($"Organizer '{captured.UserName}' has been approved successfully.");
         };
-        confirmModal.Show("Approve Organizer", $"Are you sure you want to approve '{user.UserName}'?", "Approve", "success");
+        confirmModal.Show(
+            "Approve Organizer",
+            $"Approve '{user.UserName}'? They will be able to create and manage events.",
+            "Approve", "success");
     }
 
     private void Reject(User user)
     {
+        var captured = user;
         pendingAction = async () =>
         {
-            try
+            // B.E validation via UserService
+            var result = UserService.RejectOrganizer(captured.Id);
+            if (!result.Success)
             {
-                user.Status = 2; // Banned/Rejected
-                UserService.UpdateUser(user);
-                LoadPendingOrganizers();
-                alert?.Show($"Organizer '{user.UserName}' registration was rejected.", true);
+                alert?.Show(result.Error ?? "Failed to reject organizer.", true);
+                return;
             }
-            catch (Exception ex)
-            {
-                alert?.Show($"Error rejecting organizer: {ex.Message}", true);
-            }
+            LoadData();
+            // SignalR: notify all admin tabs of new count
+            await Prn222_Nghiahnc_BlazorApp1.Hubs.AdminHub.NotifyOrganizerRejected(
+                HubContext, captured.UserName, UserService.GetPendingOrganizerCount());
+            alert?.Show($"Registration for '{captured.UserName}' was rejected.");
         };
-        confirmModal.Show("Reject Organizer", $"Are you sure you want to reject and ban the registration for '{user.UserName}'?", "Reject", "danger");
+        confirmModal.Show(
+            "Reject Organizer",
+            $"Reject '{user.UserName}'? Their account will be banned.",
+            "Reject", "danger");
     }
 
     private async Task HandleConfirm()
@@ -213,18 +379,7 @@
         }
     }
 
-    private void PrevPage()
-    {
-        if (currentPage > 1) currentPage--;
-    }
-
-    private void NextPage()
-    {
-        if (currentPage < TotalPages) currentPage++;
-    }
-
-    private void GoToPage(int pageNum)
-    {
-        currentPage = pageNum;
-    }
+    private void PrevPage() { if (currentPage > 1) currentPage--; }
+    private void NextPage() { if (currentPage < TotalPages) currentPage++; }
+    private void GoToPage(int page) => currentPage = page;
 }

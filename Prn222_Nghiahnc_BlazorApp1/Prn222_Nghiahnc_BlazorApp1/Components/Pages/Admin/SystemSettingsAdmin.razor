@@ -1,36 +1,137 @@
 @page "/admin/system-settings"
 @attribute [Authorize(Roles = "1")]
 @using Domain
-@using Services
-@using Microsoft.JSInterop
+@using global::Services
 @inject ISystemSettingService SystemSettingService
-@inject IJSRuntime JSRuntime
+@inject Prn222_Nghiahnc_BlazorApp1.Services.AdminSessionService Session
 @rendermode InteractiveServer
 
-<div class="container-fluid mt-4">
-    <div class="card card-modern">
-        <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-            <h5 class="mb-0"><i class="bi bi-gear-fill text-secondary me-2"></i> System Settings</h5>
-            
-            <div class="d-flex">
-                <!-- Search -->
-                <div class="input-group input-group-sm" style="width: 250px;">
-                    <span class="input-group-text bg-light border-0"><i class="bi bi-search"></i></span>
-                    <input type="text" class="form-control border-0 bg-light" placeholder="Search by key..." @bind="searchTerm" @bind:event="oninput" />
+<PageTitle>System Settings — Admin Portal</PageTitle>
+
+<div class="container-fluid">
+
+    <!-- Page Title -->
+    <div class="page-title-section">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="admin/accounts">Dashboard</a></li>
+                <li class="breadcrumb-item active">System Settings</li>
+            </ol>
+        </nav>
+        <h4><i class="bi bi-gear-fill text-secondary me-2"></i>Update System Settings</h4>
+        <p>Configure global platform settings. Changes take effect immediately after saving.</p>
+    </div>
+
+    <!-- Stats -->
+    @if (settings != null)
+    {
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-4">
+                <div class="stat-card">
+                    <div class="stat-card-icon blue">
+                        <i class="bi bi-sliders"></i>
+                    </div>
+                    <div class="stat-card-body">
+                        <h3>@settings.Count</h3>
+                        <small>Total Settings</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4">
+                <div class="stat-card">
+                    <div class="stat-card-icon green">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <div class="stat-card-body">
+                        <h3>@DateTime.Now.ToString("HH:mm")</h3>
+                        <small>Last Check (Server Time)</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4">
+                <div class="stat-card">
+                    <div class="stat-card-icon purple">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <div class="stat-card-body">
+                        <h3>Live</h3>
+                        <small>Config Status</small>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="card-body p-0">
-            
-            <AdminAlert @ref="alert" />
-            <ConfirmationModal @ref="confirmModal" OnConfirm="HandleConfirm" />
+    }
 
+    <!-- Warning Banner -->
+    <div class="alert d-flex align-items-center gap-3 mb-4"
+         style="background:#fef9c3;border:none;border-left:4px solid #f59e0b;border-radius:12px;color:#854d0e;font-size:.875rem;">
+        <i class="bi bi-exclamation-triangle-fill" style="font-size:1.25rem;color:#f59e0b;flex-shrink:0;"></i>
+        <div>
+            <strong>Caution:</strong> Changes to system settings affect the entire platform immediately.
+            Please review each change carefully before saving.
+        </div>
+    </div>
+
+    <!-- Main Card -->
+    <div class="card card-modern">
+        <!-- Header -->
+        <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <h5 class="mb-0">
+                <i class="bi bi-list-check me-2 text-secondary"></i>Configuration Keys
+            </h5>
+            <div class="input-group input-group-sm" style="max-width:260px;">
+                <span class="input-group-text bg-light border-0">
+                    <i class="bi bi-search text-muted"></i>
+                </span>
+                <input type="text" class="form-control border-0 bg-light"
+                       placeholder="Search by key or description..."
+                       @bind="searchTerm" @bind:event="oninput" />
+                @if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    <button class="input-group-text bg-light border-0 btn p-0 pe-2"
+                            @onclick="() => searchTerm = string.Empty">
+                        <i class="bi bi-x text-muted"></i>
+                    </button>
+                }
+            </div>
+        </div>
+
+        <!-- Alert + Confirm -->
+        <AdminAlert @ref="alert" />
+        <ConfirmationModal @ref="confirmModal" OnConfirm="HandleConfirm" />
+
+        <!-- Table -->
+        <div class="card-body p-0">
             @if (settings == null)
             {
-                <div class="d-flex justify-content-center my-4">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
+                <div class="loading-container">
+                    <div class="spinner-modern"></div>
+                    <span>Loading system settings...</span>
+                </div>
+            }
+            else if (FilteredSettings.Count == 0)
+            {
+                <div class="empty-state">
+                    @if (string.IsNullOrWhiteSpace(searchTerm))
+                    {
+                        <div class="display-icon">
+                            <i class="bi bi-gear"></i>
+                        </div>
+                        <h5>No Settings Configured</h5>
+                        <p>No system settings found. Use the form below to add your first configuration key.</p>
+                    }
+                    else
+                    {
+                        <div class="display-icon">
+                            <i class="bi bi-search"></i>
+                        </div>
+                        <h5>No Matching Settings</h5>
+                        <p>No settings found matching "<strong>@searchTerm</strong>".</p>
+                        <button class="btn btn-outline-primary btn-sm rounded-pill mt-2"
+                                @onclick="() => searchTerm = string.Empty">
+                            Clear Search
+                        </button>
+                    }
                 </div>
             }
             else
@@ -39,36 +140,45 @@
                     <table class="table table-modern">
                         <thead>
                             <tr>
-                                <th>Key</th>
-                                <th>Value</th>
+                                <th style="width:220px;">Setting Key</th>
+                                <th style="min-width:200px;">Value</th>
                                 <th>Description</th>
-                                <th class="text-center">Action</th>
+                                <th class="text-center" style="width:160px;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (PagedSettings.Count == 0)
-                            {
-                                <tr>
-                                    <td colspan="4" class="text-center text-muted py-4">
-                                        @(string.IsNullOrWhiteSpace(searchTerm) ? "No system settings found. Add one below." : "No settings found matching your search.")
-                                    </td>
-                                </tr>
-                            }
                             @foreach (var setting in PagedSettings)
                             {
                                 <tr>
-                                    <td><span class="badge badge-soft-secondary px-3 py-2">@setting.SettingKey</span></td>
                                     <td>
-                                        <input type="text" class="form-control form-control-sm rounded-pill px-3" @bind="setting.SettingValue" style="max-width: 300px;" />
+                                        <span class="badge-soft-secondary fw-semibold px-3 py-2"
+                                              style="font-family:monospace;font-size:.78rem;">
+                                            @setting.SettingKey
+                                        </span>
                                     </td>
-                                    <td class="text-muted" style="font-size: 0.9rem;">@setting.Description</td>
+                                    <td>
+                                        <!-- BUGFIX: Use @bind with EditContext-free approach for inline editing -->
+                                        <input type="text"
+                                               class="form-control table-input"
+                                               style="max-width:300px;"
+                                               value="@setting.SettingValue"
+                                               @onchange="e => setting.SettingValue = e.Value?.ToString() ?? string.Empty"
+                                               placeholder="Enter value..." />
+                                    </td>
+                                    <td style="font-size:.84rem;color:#6b7280;max-width:300px;">
+                                        @(string.IsNullOrWhiteSpace(setting.Description) ? "—" : setting.Description)
+                                    </td>
                                     <td class="text-center">
-                                        <button class="btn btn-sm btn-outline-primary me-2 rounded-pill px-3" @onclick="() => SaveSetting(setting)" title="Save">
-                                            <i class="bi bi-save"></i> Save
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger rounded-pill px-3" @onclick="() => DeleteSetting(setting)" title="Delete">
-                                            <i class="bi bi-trash"></i> Delete
-                                        </button>
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <button class="btn btn-sm btn-outline-primary rounded-pill px-3"
+                                                    @onclick="() => SaveSetting(setting)" title="Save changes">
+                                                <i class="bi bi-save me-1"></i>Save
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger rounded-pill px-3"
+                                                    @onclick="() => DeleteSetting(setting)" title="Delete this setting">
+                                                <i class="bi bi-trash3 me-1"></i>
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             }
@@ -76,15 +186,20 @@
                     </table>
                 </div>
 
-                <!-- Pagination Controls -->
+                <!-- Pagination -->
                 @if (TotalPages > 1)
                 {
-                    <div class="card-footer bg-white d-flex justify-content-between align-items-center p-3 border-top-0">
-                        <span class="text-muted small">Showing @(((currentPage - 1) * pageSize) + 1) to @(Math.Min(currentPage * pageSize, FilteredSettings.Count)) of @FilteredSettings.Count entries</span>
-                        <nav>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <span style="font-size:.8rem;color:#6b7280;">
+                            Showing <strong>@(((currentPage - 1) * pageSize) + 1)</strong>–<strong>@(Math.Min(currentPage * pageSize, FilteredSettings.Count))</strong>
+                            of <strong>@FilteredSettings.Count</strong> settings
+                        </span>
+                        <nav aria-label="Pagination">
                             <ul class="pagination pagination-sm pagination-modern mb-0">
                                 <li class="page-item @(currentPage == 1 ? "disabled" : "")">
-                                    <button class="page-link" @onclick="PrevPage"><i class="bi bi-chevron-left"></i></button>
+                                    <button class="page-link" @onclick="PrevPage" disabled="@(currentPage == 1)">
+                                        <i class="bi bi-chevron-left"></i>
+                                    </button>
                                 </li>
                                 @for (int i = 1; i <= TotalPages; i++)
                                 {
@@ -94,39 +209,59 @@
                                     </li>
                                 }
                                 <li class="page-item @(currentPage == TotalPages ? "disabled" : "")">
-                                    <button class="page-link" @onclick="NextPage"><i class="bi bi-chevron-right"></i></button>
+                                    <button class="page-link" @onclick="NextPage" disabled="@(currentPage == TotalPages)">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </button>
                                 </li>
                             </ul>
                         </nav>
                     </div>
                 }
-
-                <div class="card-footer bg-light p-4">
-                    <h6 class="fw-bold mb-3 text-secondary">Add New Setting</h6>
-                    <EditForm Model="@newSetting" OnValidSubmit="AddSetting">
-                        <DataAnnotationsValidator />
-                        <ValidationSummary class="text-danger small" />
-
-                        <div class="row g-3 align-items-center">
-                            <div class="col-md-3">
-                                <InputText class="form-control rounded-pill px-3" placeholder="Key (e.g., SiteName)" @bind-Value="newSetting.SettingKey" />
-                                <ValidationMessage For="@(() => newSetting.SettingKey)" class="text-danger small mt-1" />
-                            </div>
-                            <div class="col-md-3">
-                                <InputText class="form-control rounded-pill px-3" placeholder="Value" @bind-Value="newSetting.SettingValue" />
-                                <ValidationMessage For="@(() => newSetting.SettingValue)" class="text-danger small mt-1" />
-                            </div>
-                            <div class="col-md-4">
-                                <InputText class="form-control rounded-pill px-3" placeholder="Optional description" @bind-Value="newSetting.Description" />
-                                <ValidationMessage For="@(() => newSetting.Description)" class="text-danger small mt-1" />
-                            </div>
-                            <div class="col-md-2 text-center">
-                                <button type="submit" class="btn btn-success rounded-pill px-4 w-100"><i class="bi bi-plus-lg me-1"></i> Add</button>
-                            </div>
-                        </div>
-                    </EditForm>
-                </div>
             }
+        </div>
+
+        <!-- Add New Setting Form -->
+        <div class="section-add-form">
+            <h6><i class="bi bi-plus-circle me-2"></i>Add New Setting</h6>
+            <EditForm Model="@newSetting" OnValidSubmit="AddSetting">
+                <DataAnnotationsValidator />
+
+                <div class="row g-3 align-items-start">
+                    <div class="col-md-3">
+                        <label class="form-label" style="font-size:.78rem;font-weight:600;color:#6b7280;margin-bottom:.3rem;">
+                            SETTING KEY <span class="text-danger">*</span>
+                        </label>
+                        <InputText class="form-control"
+                                   placeholder="e.g. SiteName, MaxTickets"
+                                   @bind-Value="newSetting.SettingKey"
+                                   style="font-family:monospace;font-size:.84rem;" />
+                        <ValidationMessage For="@(() => newSetting.SettingKey)" class="text-danger" style="font-size:.75rem;" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" style="font-size:.78rem;font-weight:600;color:#6b7280;margin-bottom:.3rem;">
+                            VALUE <span class="text-danger">*</span>
+                        </label>
+                        <InputText class="form-control"
+                                   placeholder="Setting value..."
+                                   @bind-Value="newSetting.SettingValue" />
+                        <ValidationMessage For="@(() => newSetting.SettingValue)" class="text-danger" style="font-size:.75rem;" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label" style="font-size:.78rem;font-weight:600;color:#6b7280;margin-bottom:.3rem;">
+                            DESCRIPTION <span style="color:#9ca3af;">(optional)</span>
+                        </label>
+                        <InputText class="form-control"
+                                   placeholder="What does this setting control?"
+                                   @bind-Value="newSetting.Description" />
+                        <ValidationMessage For="@(() => newSetting.Description)" class="text-danger" style="font-size:.75rem;" />
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-success rounded-pill px-4 w-100">
+                            <i class="bi bi-plus-lg me-1"></i>Add Setting
+                        </button>
+                    </div>
+                </div>
+            </EditForm>
         </div>
     </div>
 </div>
@@ -138,21 +273,24 @@
     private ConfirmationModal confirmModal = default!;
     private Func<Task>? pendingAction;
 
-    // Search
-    private string _searchTerm = string.Empty;
-    private string searchTerm 
-    { 
-        get => _searchTerm; 
-        set { _searchTerm = value; currentPage = 1; } 
+    private string searchTerm
+    {
+        get => Session.SettingsSearchTerm;
+        set { Session.SettingsSearchTerm = value; currentPage = 1; }
     }
 
-    // Pagination
-    private int currentPage = 1;
-    private int pageSize = 10;
+    private int currentPage
+    {
+        get => Session.SettingsCurrentPage;
+        set => Session.SettingsCurrentPage = value;
+    }
+    private const int pageSize = 10;
 
     private List<SystemSetting> FilteredSettings => (settings ?? new List<SystemSetting>())
-        .Where(s => string.IsNullOrWhiteSpace(searchTerm) || 
-                    (s.SettingKey?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false))
+        .Where(s => string.IsNullOrWhiteSpace(searchTerm) ||
+                    (s.SettingKey?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (s.Description?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (s.SettingValue?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false))
         .ToList();
 
     private List<SystemSetting> PagedSettings => FilteredSettings
@@ -162,8 +300,10 @@
 
     private int TotalPages => (int)Math.Ceiling(FilteredSettings.Count / (double)pageSize);
 
-    protected override void OnInitialized()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (!firstRender) return;
+        await Task.Yield();
         LoadSettings();
     }
 
@@ -175,67 +315,72 @@
         }
         catch (Exception ex)
         {
-            alert?.Show($"Failed to load settings: {ex.Message}", true);
+            alert?.Show($"Failed to load system settings: {ex.Message}", true);
+            settings = new List<SystemSetting>();
         }
     }
 
     private void SaveSetting(SystemSetting setting)
     {
-        try
+        // F.E validation
+        if (string.IsNullOrWhiteSpace(setting.SettingKey))
         {
-            if (string.IsNullOrWhiteSpace(setting.SettingValue))
-            {
-                alert?.Show("Setting Value cannot be empty.", true);
-                return;
-            }
-            
-            SystemSettingService.UpdateSetting(setting);
-            alert?.Show($"Setting '{setting.SettingKey}' updated successfully.");
+            alert?.Show("Setting Key cannot be empty.", true);
+            return;
         }
-        catch (Exception ex)
+        if (string.IsNullOrWhiteSpace(setting.SettingValue))
         {
-            alert?.Show($"Error updating setting: {ex.Message}", true);
+            alert?.Show($"The value for '{setting.SettingKey}' cannot be empty.", true);
+            return;
         }
+
+        // B.E validation
+        var result = SystemSettingService.UpdateSetting(setting);
+        if (!result.Success)
+        {
+            alert?.Show(result.Error ?? "Failed to save setting.", true);
+            return;
+        }
+        
+        alert?.Show($"Setting '{setting.SettingKey}' updated successfully.");
     }
 
     private void AddSetting()
     {
-        try
+        // B.E validation
+        var result = SystemSettingService.CreateSetting(newSetting);
+        if (!result.Success)
         {
-            // Check for duplicate key
-            if (settings != null && settings.Any(s => s.SettingKey.Equals(newSetting.SettingKey, StringComparison.OrdinalIgnoreCase)))
-            {
-                alert?.Show($"The key '{newSetting.SettingKey}' already exists.", true);
-                return;
-            }
-
-            SystemSettingService.CreateSetting(newSetting);
-            newSetting = new SystemSetting(); // Reset form
-            LoadSettings();
-            alert?.Show("New setting added successfully.");
+            alert?.Show(result.Error ?? "Failed to add setting.", true);
+            return;
         }
-        catch (Exception ex)
-        {
-            alert?.Show($"Error adding setting: {ex.Message}", true);
-        }
+        
+        alert?.Show($"Setting '{newSetting.SettingKey}' added successfully.");
+        newSetting = new SystemSetting(); // Reset form
+        LoadSettings();
     }
 
     private void DeleteSetting(SystemSetting setting)
     {
+        var captured = setting;
         pendingAction = async () =>
         {
             try
             {
-                SystemSettingService.DeleteSetting(setting.Id);
+                SystemSettingService.DeleteSetting(captured.Id);
                 LoadSettings();
-                alert?.Show("Setting deleted successfully.");
+                alert?.Show($"Setting '{captured.SettingKey}' deleted successfully.");
             }
             catch (Exception ex)
             {
-                alert?.Show($"Error deleting setting: {ex.Message}", true);
+                alert?.Show($"Failed to delete setting: {ex.Message}", true);
             }
         };
-        confirmModal.Show("Delete Setting", $"Are you sure you want to delete the setting '{setting.SettingKey}'?", "Delete", "danger");
+        confirmModal.Show(
+            "Delete Setting",
+            $"Are you sure you want to permanently delete the setting '{setting.SettingKey}'? This action cannot be undone.",
+            "Delete",
+            "danger");
     }
 
     private async Task HandleConfirm()
@@ -247,18 +392,7 @@
         }
     }
 
-    private void PrevPage()
-    {
-        if (currentPage > 1) currentPage--;
-    }
-
-    private void NextPage()
-    {
-        if (currentPage < TotalPages) currentPage++;
-    }
-
-    private void GoToPage(int pageNum)
-    {
-        currentPage = pageNum;
-    }
+    private void PrevPage() { if (currentPage > 1) currentPage--; }
+    private void NextPage() { if (currentPage < TotalPages) currentPage++; }
+    private void GoToPage(int page) => currentPage = page;
 }

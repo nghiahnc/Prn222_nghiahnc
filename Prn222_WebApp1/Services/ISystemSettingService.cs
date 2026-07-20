@@ -7,8 +7,8 @@ namespace Services
     {
         List<SystemSetting> GetAllSettings();
         SystemSetting? GetSettingById(int id);
-        void CreateSetting(SystemSetting setting);
-        void UpdateSetting(SystemSetting setting);
+        ServiceResult CreateSetting(SystemSetting setting);
+        ServiceResult UpdateSetting(SystemSetting setting);
         void DeleteSetting(int id);
     }
 }

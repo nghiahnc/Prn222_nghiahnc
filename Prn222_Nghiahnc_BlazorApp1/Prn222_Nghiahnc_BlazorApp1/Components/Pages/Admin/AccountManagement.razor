@@ -1,52 +1,174 @@
 @page "/admin/accounts"
 @attribute [Authorize(Roles = "1")]
 @using Domain
-@using Services
-@using Microsoft.JSInterop
+@using global::Services
+@using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.AspNetCore.SignalR
 @inject IUserService UserService
-@inject IJSRuntime JSRuntime
+@inject Prn222_Nghiahnc_BlazorApp1.Services.AdminSessionService Session
+@inject IHubContext<Prn222_Nghiahnc_BlazorApp1.Hubs.AdminHub> HubContext
+@inject NavigationManager Navigation
 @rendermode InteractiveServer
 
-<div class="container-fluid mt-4">
-    <div class="card card-modern">
-        <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-            <h5 class="mb-0"><i class="bi bi-people-fill text-primary me-2"></i> Account Management & Directory</h5>
-            
-            <div class="d-flex flex-wrap gap-2">
-                <!-- Search -->
-                <div class="input-group input-group-sm" style="width: 250px;">
-                    <span class="input-group-text bg-light border-0"><i class="bi bi-search"></i></span>
-                    <input type="text" class="form-control border-0 bg-light" placeholder="Search by name or email..." @bind="searchTerm" @bind:event="oninput" />
-                </div>
+<PageTitle>User & Organizer Directory — Admin Portal</PageTitle>
 
-                <!-- Role Filter -->
-                <select class="form-select form-select-sm bg-light border-0" style="width: 140px;" @bind="filterRole">
-                    <option value="0">All Roles</option>
+<div class="container-fluid">
+    <!-- Page Title -->
+    <div class="page-title-section">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+        </nav>
+        <h4><i class="bi bi-people-fill text-primary me-2"></i>User &amp; Organizer Directory</h4>
+        <p>View, search, filter, and manage all accounts. Ban reasons are required and validated server-side.</p>
+    </div>
+
+    <!-- Stats -->
+    @if (users != null)
+    {
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon blue"><i class="bi bi-people-fill"></i></div>
+                    <div class="stat-card-body"><h3>@users.Count</h3><small>Total Accounts</small></div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon green"><i class="bi bi-check-circle-fill"></i></div>
+                    <div class="stat-card-body"><h3>@users.Count(u => u.Status == 1)</h3><small>Active</small></div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon amber"><i class="bi bi-hourglass-split"></i></div>
+                    <div class="stat-card-body"><h3>@users.Count(u => u.Status == 0)</h3><small>Pending</small></div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon red"><i class="bi bi-slash-circle-fill"></i></div>
+                    <div class="stat-card-body"><h3>@users.Count(u => u.Status == 2)</h3><small>Banned</small></div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Main Card -->
+    <div class="card card-modern">
+        <!-- Toolbar (Session-restored filters) -->
+        <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <h5 class="mb-0"><i class="bi bi-table me-2 text-primary"></i>All Accounts</h5>
+            <div class="d-flex flex-wrap gap-2 align-items-center">
+                <div class="input-group input-group-sm" style="width:240px;">
+                    <span class="input-group-text bg-light border-0"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" class="form-control border-0 bg-light"
+                           placeholder="Search name, email or phone..."
+                           value="@searchTerm"
+                           @oninput="e => OnSearchChange(e.Value?.ToString() ?? string.Empty)" />
+                    @if (!string.IsNullOrEmpty(searchTerm))
+                    {
+                        <button class="input-group-text bg-light border-0 btn p-0 pe-2"
+                                @onclick="() => OnSearchChange(string.Empty)">
+                            <i class="bi bi-x text-muted"></i>
+                        </button>
+                    }
+                </div>
+                <select class="form-select form-select-sm bg-light border-0" style="width:130px;"
+                        value="@filterRole" @onchange="e => OnRoleChange(int.Parse(e.Value!.ToString()!))">
+                    <option value="-1">All Roles</option>
                     <option value="1">Admins</option>
                     <option value="2">Organizers</option>
                     <option value="3">Users</option>
                 </select>
-
-                <!-- Status Filter -->
-                <select class="form-select form-select-sm bg-light border-0" style="width: 140px;" @bind="filterStatus">
-                    <option value="0">All Statuses</option>
+                <select class="form-select form-select-sm bg-light border-0" style="width:140px;"
+                        value="@filterStatus" @onchange="e => OnStatusChange(int.Parse(e.Value!.ToString()!))">
+                    <option value="-1">All Statuses</option>
                     <option value="1">Active</option>
+                    <option value="0">Pending</option>
                     <option value="2">Banned</option>
-                    <option value="3">Pending</option>
                 </select>
             </div>
         </div>
+
+        <AdminAlert @ref="alert" />
+        <ConfirmationModal @ref="confirmModal" OnConfirm="HandleConfirm" />
+
+        <!-- Ban Reason Modal (Custom F.E + B.E Validation) -->
+        @if (showBanModal)
+        {
+            <div class="modal fade show d-block" tabindex="-1"
+                 style="background-color:rgba(15,23,42,.55);backdrop-filter:blur(3px);">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" style="border:none;border-radius:16px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.2);">
+                        <div class="modal-header border-0 pt-4 pb-0 px-4">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="modal-icon-wrapper icon-danger">
+                                    <i class="bi bi-person-x-fill"></i>
+                                </div>
+                                <h5 class="modal-title fw-bold mb-0">Ban Account</h5>
+                            </div>
+                            <button type="button" class="btn-close ms-auto"
+                                    @onclick="CloseBanModal"></button>
+                        </div>
+                        <div class="modal-body px-4 py-3">
+                            <p class="text-muted mb-3" style="font-size:.875rem;">
+                                You are about to ban <strong>@pendingBanUser?.UserName</strong>.
+                                Please provide a reason (minimum 10 characters).
+                            </p>
+                            <!-- F.E Validation: real-time character count + required -->
+                            <textarea class="form-control ban-reason-textarea @(banReasonError != null ? "is-invalid" : "")"
+                                      placeholder="Enter ban reason (e.g., Violation of terms of service — spamming event listings...)"
+                                      maxlength="500"
+                                      value="@banReason"
+                                      @oninput="ValidateBanReason"></textarea>
+                            @if (banReasonError != null)
+                            {
+                                <div class="invalid-feedback d-block" style="font-size:.78rem;">
+                                    <i class="bi bi-exclamation-circle me-1"></i>@banReasonError
+                                </div>
+                            }
+                            <div class="d-flex justify-content-end mt-1">
+                                <span style="font-size:.72rem;color:#9ca3af;">
+                                    @(banReason?.Length ?? 0)/500 characters
+                                </span>
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0 pt-0 px-4 pb-4 gap-2">
+                            <button type="button" class="btn btn-light rounded-pill px-4"
+                                    @onclick="CloseBanModal">
+                                <i class="bi bi-x me-1"></i>Cancel
+                            </button>
+                            <button type="button" class="btn btn-danger rounded-pill px-4"
+                                    @onclick="ExecuteBan"
+                                    disabled="@(banReasonError != null || string.IsNullOrWhiteSpace(banReason))">
+                                <i class="bi bi-slash-circle me-1"></i>Ban Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Table -->
         <div class="card-body p-0">
-
-            <AdminAlert @ref="alert" />
-            <ConfirmationModal @ref="confirmModal" OnConfirm="HandleConfirm" />
-
             @if (users == null)
             {
-                <div class="d-flex justify-content-center my-4">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
+                <div class="loading-container">
+                    <div class="spinner-modern"></div>
+                    <span>Loading accounts...</span>
+                </div>
+            }
+            else if (FilteredUsers.Count == 0)
+            {
+                <div class="empty-state">
+                    <div class="display-icon"><i class="bi bi-search"></i></div>
+                    <h5>No Accounts Found</h5>
+                    <p>No accounts match your current filters.</p>
+                    <button class="btn btn-outline-primary btn-sm rounded-pill mt-2" @onclick="ClearFilters">
+                        <i class="bi bi-arrow-counterclockwise me-1"></i>Clear All Filters
+                    </button>
                 </div>
             }
             else
@@ -55,79 +177,78 @@
                     <table class="table table-modern">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Username</th>
+                                <th>#</th>
+                                <th>Account</th>
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>Role</th>
                                 <th>Status</th>
-                                <th class="text-center">Action</th>
+                                <th class="text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (PagedUsers.Count == 0)
-                            {
-                                <tr>
-                                    <td colspan="7" class="text-center text-muted py-4">No accounts found matching your criteria.</td>
-                                </tr>
-                            }
                             @foreach (var user in PagedUsers)
                             {
                                 <tr>
-                                    <td class="text-muted fw-bold">#@user.Id</td>
+                                    <td class="fw-bold" style="color:#9ca3af;font-size:.8rem;">#@user.Id</td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar-placeholder">@(string.IsNullOrEmpty(user.UserName) ? "?" : user.UserName.Substring(0, 1).ToUpper())</div>
-                                            <span class="fw-semibold">@user.UserName</span>
+                                            <div class="avatar-placeholder">
+                                                @(user.UserName is { Length: > 0 } n ? char.ToUpper(n[0]).ToString() : "?")
+                                            </div>
+                                            <div>
+                                                <div class="fw-semibold" style="font-size:.875rem;">@user.UserName</div>
+                                                <div style="font-size:.72rem;color:#9ca3af;">ID: @user.Id</div>
+                                            </div>
                                         </div>
                                     </td>
-                                    <td><a href="mailto:@user.Email" class="text-decoration-none text-primary">@user.Email</a></td>
-                                    <td class="text-muted">@user.Phone</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(user.Email))
+                                        {
+                                            <a href="mailto:@user.Email" class="text-decoration-none"
+                                               style="font-size:.84rem;">@user.Email</a>
+                                        }
+                                        else { <span class="text-muted" style="font-size:.8rem;">—</span> }
+                                    </td>
+                                    <td style="font-size:.84rem;color:#6b7280;">
+                                        @(string.IsNullOrEmpty(user.Phone) ? "—" : user.Phone)
+                                    </td>
                                     <td>
                                         @if (user.Role == 1)
-                                        {
-                                            <span class="badge badge-soft-danger"><i class="bi bi-shield-lock"></i> Admin</span>
-                                        }
+                                        { <span class="badge-soft-danger"><i class="bi bi-shield-lock me-1"></i>Admin</span> }
                                         else if (user.Role == 2)
-                                        {
-                                            <span class="badge badge-soft-info"><i class="bi bi-briefcase"></i> Organizer</span>
-                                        }
+                                        { <span class="badge-soft-info"><i class="bi bi-briefcase me-1"></i>Organizer</span> }
                                         else
-                                        {
-                                            <span class="badge badge-soft-secondary"><i class="bi bi-person"></i> User</span>
-                                        }
+                                        { <span class="badge-soft-secondary"><i class="bi bi-person me-1"></i>User</span> }
                                     </td>
                                     <td>
                                         @if (user.Status == 1)
-                                        {
-                                            <span class="badge badge-soft-success"><i class="bi bi-check-circle"></i> Active</span>
-                                        }
+                                        { <span class="badge-soft-success"><i class="bi bi-check-circle me-1"></i>Active</span> }
                                         else if (user.Status == 2)
-                                        {
-                                            <span class="badge badge-soft-danger"><i class="bi bi-dash-circle"></i> Banned</span>
-                                        }
+                                        { <span class="badge-soft-danger"><i class="bi bi-slash-circle me-1"></i>Banned</span> }
                                         else
-                                        {
-                                            <span class="badge badge-soft-warning"><i class="bi bi-hourglass-split"></i> Pending</span>
-                                        }
+                                        { <span class="badge-soft-warning"><i class="bi bi-hourglass-split me-1"></i>Pending</span> }
                                     </td>
                                     <td class="text-center">
                                         @if (user.Role == 1)
                                         {
-                                            <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" disabled title="Cannot modify Admins">
-                                                <i class="bi bi-lock-fill"></i> System Admin
-                                            </button>
+                                            <span class="badge-soft-secondary">
+                                                <i class="bi bi-lock-fill me-1"></i>Protected
+                                            </span>
                                         }
-                                        else if (user.Status != 2)
+                                        else if (user.Status == 2)
                                         {
-                                            <button class="btn btn-sm btn-outline-danger rounded-pill px-3" @onclick="() => BanUser(user)" title="Ban / Deactivate Account">
-                                                <i class="bi bi-person-x"></i> Ban
+                                            <button class="btn btn-sm btn-outline-success rounded-pill px-3"
+                                                    @onclick="() => ActivateUser(user)">
+                                                <i class="bi bi-person-check me-1"></i>Reactivate
                                             </button>
                                         }
                                         else
                                         {
-                                            <button class="btn btn-sm btn-outline-success rounded-pill px-3" @onclick="() => ActivateUser(user)" title="Reactivate Account">
-                                                <i class="bi bi-person-check"></i> Reactivate
+                                            <!-- Opens Ban Reason Modal (Custom F.E Validation) -->
+                                            <button class="btn btn-sm btn-outline-danger rounded-pill px-3"
+                                                    @onclick="() => OpenBanModal(user)">
+                                                <i class="bi bi-person-x me-1"></i>Ban
                                             </button>
                                         }
                                     </td>
@@ -137,11 +258,13 @@
                     </table>
                 </div>
 
-                <!-- Pagination Controls -->
                 @if (TotalPages > 1)
                 {
-                    <div class="card-footer bg-white d-flex justify-content-between align-items-center p-3 border-top-0">
-                        <span class="text-muted small">Showing @(((currentPage - 1) * pageSize) + 1) to @(Math.Min(currentPage * pageSize, FilteredUsers.Count)) of @FilteredUsers.Count entries</span>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <span style="font-size:.8rem;color:#6b7280;">
+                            Showing <strong>@(((currentPage - 1) * pageSize) + 1)</strong>–<strong>@(Math.Min(currentPage * pageSize, FilteredUsers.Count))</strong>
+                            of <strong>@FilteredUsers.Count</strong>
+                        </span>
                         <nav>
                             <ul class="pagination pagination-sm pagination-modern mb-0">
                                 <li class="page-item @(currentPage == 1 ? "disabled" : "")">
@@ -149,9 +272,9 @@
                                 </li>
                                 @for (int i = 1; i <= TotalPages; i++)
                                 {
-                                    int pageNum = i;
-                                    <li class="page-item @(currentPage == pageNum ? "active" : "")">
-                                        <button class="page-link" @onclick="() => GoToPage(pageNum)">@pageNum</button>
+                                    int p = i;
+                                    <li class="page-item @(currentPage == p ? "active" : "")">
+                                        <button class="page-link" @onclick="() => GoToPage(p)">@p</button>
                                     </li>
                                 }
                                 <li class="page-item @(currentPage == TotalPages ? "disabled" : "")">
@@ -172,125 +295,163 @@
     private ConfirmationModal confirmModal = default!;
     private Func<Task>? pendingAction;
 
-    // Filters and Search
-    private string _searchTerm = string.Empty;
-    private string searchTerm 
-    { 
-        get => _searchTerm; 
-        set { _searchTerm = value; currentPage = 1; } 
+    // Session-backed filters — restored across navigation
+    private string searchTerm
+    {
+        get => Session.AccountSearchTerm;
+        set { Session.AccountSearchTerm = value; currentPage = 1; }
     }
-    
-    private int _filterRole = 0;
-    private int filterRole 
-    { 
-        get => _filterRole; 
-        set { _filterRole = value; currentPage = 1; } 
+    private int filterRole
+    {
+        get => Session.AccountFilterRole;
+        set { Session.AccountFilterRole = value; currentPage = 1; }
     }
-
-    private int _filterStatus = 0;
-    private int filterStatus 
-    { 
-        get => _filterStatus; 
-        set { _filterStatus = value; currentPage = 1; } 
+    private int filterStatus
+    {
+        get => Session.AccountFilterStatus;
+        set { Session.AccountFilterStatus = value; currentPage = 1; }
     }
+    private int currentPage
+    {
+        get => Session.AccountCurrentPage;
+        set => Session.AccountCurrentPage = value;
+    }
+    private const int pageSize = 10;
 
-    // Pagination
-    private int currentPage = 1;
-    private int pageSize = 10;
+    // Ban modal state
+    private bool showBanModal = false;
+    private User? pendingBanUser;
+    private string? banReason;
+    private string? banReasonError;
 
-    private List<User> FilteredUsers => (users ?? new List<User>())
-        .Where(u => string.IsNullOrWhiteSpace(searchTerm) || 
+    private List<User> FilteredUsers => (users ?? new())
+        .Where(u => string.IsNullOrWhiteSpace(searchTerm) ||
                     (u.UserName?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
-                    (u.Email?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false))
-        .Where(u => filterRole == 0 || u.Role == filterRole)
-        .Where(u => filterStatus == 0 || u.Status == filterStatus)
+                    (u.Email?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (u.Phone?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false))
+        .Where(u => filterRole == -1 || u.Role == filterRole)
+        .Where(u => filterStatus == -1 || u.Status == filterStatus)
         .ToList();
 
     private List<User> PagedUsers => FilteredUsers
-        .Skip((currentPage - 1) * pageSize)
-        .Take(pageSize)
-        .ToList();
+        .Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
 
     private int TotalPages => (int)Math.Ceiling(FilteredUsers.Count / (double)pageSize);
 
-    protected override void OnInitialized()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (!firstRender) return;
+        await Task.Yield();
         LoadUsers();
+        StateHasChanged();
     }
 
     private void LoadUsers()
     {
-        try
-        {
-            users = UserService.GetAllUsers();
-        }
+        try { users = UserService.GetAllUsers(); }
         catch (Exception ex)
         {
             alert?.Show($"Failed to load users: {ex.Message}", true);
+            users = new();
         }
     }
 
-    private void BanUser(User user)
+    // Session-backed filter methods
+    private void OnSearchChange(string value) { Session.AccountSearchTerm = value; currentPage = 1; }
+    private void OnRoleChange(int value) { Session.AccountFilterRole = value; currentPage = 1; }
+    private void OnStatusChange(int value) { Session.AccountFilterStatus = value; currentPage = 1; }
+
+    private void ClearFilters()
     {
-        pendingAction = async () =>
-        {
-            try
-            {
-                user.Status = 2; // Banned
-                UserService.UpdateUser(user);
-                alert?.Show($"Account '{user.UserName}' has been banned.", true);
-                LoadUsers();
-            }
-            catch (Exception ex)
-            {
-                alert?.Show($"Error banning user: {ex.Message}", true);
-                LoadUsers();
-            }
-        };
-        confirmModal.Show("Ban Account", $"Are you sure you want to ban '{user.UserName}'?", "Ban User", "danger");
+        Session.AccountSearchTerm = string.Empty;
+        Session.AccountFilterRole = -1;
+        Session.AccountFilterStatus = -1;
+        currentPage = 1;
     }
+
+    // ─── Ban Modal (Custom F.E + B.E Validation) ────────────────────────────
+
+    private void OpenBanModal(User user)
+    {
+        pendingBanUser = user;
+        banReason = string.Empty;
+        banReasonError = null;
+        showBanModal = true;
+    }
+
+    private void CloseBanModal()
+    {
+        showBanModal = false;
+        pendingBanUser = null;
+        banReason = null;
+        banReasonError = null;
+    }
+
+    // F.E Validation: real-time as user types
+    private void ValidateBanReason(ChangeEventArgs e)
+    {
+        banReason = e.Value?.ToString() ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(banReason))
+            banReasonError = "Ban reason is required.";
+        else if (banReason.Trim().Length < 10)
+            banReasonError = $"Ban reason must be at least 10 characters ({banReason.Trim().Length}/10).";
+        else
+            banReasonError = null;
+    }
+
+    private async Task ExecuteBan()
+    {
+        if (pendingBanUser is null) return;
+
+        // B.E Validation via Service (double validation)
+        var result = UserService.BanUser(pendingBanUser.Id, banReason ?? string.Empty);
+        if (!result.Success)
+        {
+            banReasonError = result.Error;
+            return;
+        }
+
+        var username = pendingBanUser.UserName;
+        CloseBanModal();
+        LoadUsers();
+
+        // SignalR: broadcast ban event to all admin tabs
+        await Prn222_Nghiahnc_BlazorApp1.Hubs.AdminHub.NotifyAccountBanned(HubContext, username);
+
+        alert?.Show($"Account '{username}' has been banned successfully.");
+    }
+
+    // ─── Reactivate ─────────────────────────────────────────────────────────
 
     private void ActivateUser(User user)
     {
+        var captured = user;
         pendingAction = async () =>
         {
-            try
+            // B.E validation via Service
+            var result = UserService.ActivateUser(captured.Id);
+            if (!result.Success)
             {
-                user.Status = 1; // Active
-                UserService.UpdateUser(user);
-                alert?.Show($"Account '{user.UserName}' has been reactivated.");
-                LoadUsers();
+                alert?.Show(result.Error ?? "Failed to reactivate account.", true);
+                return;
             }
-            catch (Exception ex)
-            {
-                alert?.Show($"Error reactivating user: {ex.Message}", true);
-                LoadUsers();
-            }
+            LoadUsers();
+            // SignalR broadcast
+            await Prn222_Nghiahnc_BlazorApp1.Hubs.AdminHub.NotifyAccountActivated(HubContext, captured.UserName);
+            alert?.Show($"Account '{captured.UserName}' has been reactivated.");
         };
-        confirmModal.Show("Reactivate Account", $"Are you sure you want to reactivate '{user.UserName}'?", "Reactivate", "success");
+        confirmModal.Show(
+            "Reactivate Account",
+            $"Reactivate '{user.UserName}'? They will regain full platform access.",
+            "Reactivate", "success");
     }
 
     private async Task HandleConfirm()
     {
-        if (pendingAction != null)
-        {
-            await pendingAction();
-            pendingAction = null;
-        }
+        if (pendingAction != null) { await pendingAction(); pendingAction = null; }
     }
 
-    private void PrevPage()
-    {
-        if (currentPage > 1) currentPage--;
-    }
-
-    private void NextPage()
-    {
-        if (currentPage < TotalPages) currentPage++;
-    }
-
-    private void GoToPage(int pageNum)
-    {
-        currentPage = pageNum;
-    }
+    private void PrevPage() { if (currentPage > 1) currentPage--; }
+    private void NextPage() { if (currentPage < TotalPages) currentPage++; }
+    private void GoToPage(int page) => currentPage = page;
 }

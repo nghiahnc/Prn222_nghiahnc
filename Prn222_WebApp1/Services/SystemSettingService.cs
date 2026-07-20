@@ -1,6 +1,7 @@
 using Domain;
 using Repositories;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Services
 {
@@ -23,14 +24,28 @@ namespace Services
             return _repo.GetById(id);
         }
 
-        public void CreateSetting(SystemSetting setting)
+        public ServiceResult CreateSetting(SystemSetting setting)
         {
+            if (string.IsNullOrWhiteSpace(setting.SettingKey)) return ServiceResult.Fail("Setting Key is required.");
+            if (_repo.GetAll().Any(s => s.SettingKey.Equals(setting.SettingKey, System.StringComparison.OrdinalIgnoreCase)))
+            {
+                return ServiceResult.Fail($"A setting with the key '{setting.SettingKey}' already exists.");
+            }
+
             _repo.Create(setting);
+            return ServiceResult.Ok();
         }
 
-        public void UpdateSetting(SystemSetting setting)
+        public ServiceResult UpdateSetting(SystemSetting setting)
         {
+            if (string.IsNullOrWhiteSpace(setting.SettingKey)) return ServiceResult.Fail("Setting Key is required.");
+            if (_repo.GetAll().Any(s => s.Id != setting.Id && s.SettingKey.Equals(setting.SettingKey, System.StringComparison.OrdinalIgnoreCase)))
+            {
+                return ServiceResult.Fail($"A setting with the key '{setting.SettingKey}' already exists.");
+            }
+
             _repo.Update(setting);
+            return ServiceResult.Ok();
         }
 
         public void DeleteSetting(int id)

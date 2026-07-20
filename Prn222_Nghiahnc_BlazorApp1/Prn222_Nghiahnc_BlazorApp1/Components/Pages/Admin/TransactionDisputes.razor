@@ -1,44 +1,150 @@
 @page "/admin/transaction-disputes"
 @attribute [Authorize(Roles = "1")]
 @using Domain
-@using Services
-@using Microsoft.JSInterop
+@using global::Services
+@using Microsoft.AspNetCore.SignalR
 @inject ITransactionService TransactionService
-@inject IJSRuntime JSRuntime
+@inject Prn222_Nghiahnc_BlazorApp1.Services.AdminSessionService Session
+@inject IHubContext<Prn222_Nghiahnc_BlazorApp1.Hubs.AdminHub> HubContext
 @rendermode InteractiveServer
 
-<div class="container-fluid mt-4">
-    <div class="card card-modern">
-        <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-            <h5 class="mb-0"><i class="bi bi-exclamation-triangle-fill text-warning me-2"></i> Process Transaction Disputes</h5>
-            
-            <div class="d-flex">
-                <!-- Search -->
-                <div class="input-group input-group-sm" style="width: 250px;">
-                    <span class="input-group-text bg-light border-0"><i class="bi bi-search"></i></span>
-                    <input type="text" class="form-control border-0 bg-light" placeholder="Search ID or Username..." @bind="searchTerm" @bind:event="oninput" />
+<PageTitle>Transaction Disputes — Admin Portal</PageTitle>
+
+<div class="container-fluid">
+
+    <!-- Page Title -->
+    <div class="page-title-section">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="admin/accounts">Dashboard</a></li>
+                <li class="breadcrumb-item active">Transaction Disputes</li>
+            </ol>
+        </nav>
+        <h4><i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>Process Transaction Disputes</h4>
+        <p>Review and resolve transaction disputes raised by users. Approve refunds or reject invalid claims.</p>
+    </div>
+
+    <!-- Summary Stats -->
+    @if (allTransactions != null)
+    {
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon amber">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                    </div>
+                    <div class="stat-card-body">
+                        <h3>@(allTransactions.Count(t => t.Status == 3))</h3>
+                        <small>Open Disputes</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon green">
+                        <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <div class="stat-card-body">
+                        <h3>@(allTransactions.Count(t => t.Status == 4))</h3>
+                        <small>Refunds Approved</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon red">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </div>
+                    <div class="stat-card-body">
+                        <h3>@(allTransactions.Count(t => t.Status == 5))</h3>
+                        <small>Disputes Rejected</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-card-icon blue">
+                        <i class="bi bi-receipt"></i>
+                    </div>
+                    <div class="stat-card-body">
+                        <h3>@allTransactions.Count</h3>
+                        <small>Total Transactions</small>
+                    </div>
                 </div>
             </div>
         </div>
+    }
+
+    <!-- Main Card -->
+    <div class="card card-modern">
+        <!-- Header + Filters -->
+        <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <h5 class="mb-0">
+                <i class="bi bi-exclamation-circle text-warning me-2"></i>
+                Dispute Queue
+                @if (disputedTransactions != null && disputedTransactions.Count > 0)
+                {
+                    <span class="badge rounded-pill ms-2"
+                          style="background:#f59e0b;color:white;font-size:.65rem;vertical-align:middle;">
+                        @disputedTransactions.Count
+                    </span>
+                }
+            </h5>
+            <div class="d-flex flex-wrap gap-2">
+                <div class="input-group input-group-sm" style="width:260px;">
+                    <span class="input-group-text bg-light border-0">
+                        <i class="bi bi-search text-muted"></i>
+                    </span>
+                    <input type="text" class="form-control border-0 bg-light"
+                           placeholder="Search transaction ID or username..."
+                           @bind="searchTerm" @bind:event="oninput" />
+                    @if (!string.IsNullOrEmpty(searchTerm))
+                    {
+                        <button class="input-group-text bg-light border-0 btn p-0 pe-2"
+                                @onclick="() => searchTerm = string.Empty">
+                            <i class="bi bi-x text-muted"></i>
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert + Confirm -->
+        <AdminAlert @ref="alert" />
+        <ConfirmationModal @ref="confirmModal" OnConfirm="HandleConfirm" />
+
+        <!-- Content -->
         <div class="card-body p-0">
-
-            <AdminAlert @ref="alert" />
-            <ConfirmationModal @ref="confirmModal" OnConfirm="HandleConfirm" />
-
             @if (disputedTransactions == null)
             {
-                <div class="d-flex justify-content-center my-4">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
+                <div class="loading-container">
+                    <div class="spinner-modern"></div>
+                    <span>Loading disputes...</span>
                 </div>
             }
-            else if (disputedTransactions.Count == 0 && string.IsNullOrWhiteSpace(searchTerm))
+            else if (FilteredDisputes.Count == 0)
             {
-                <div class="text-center text-muted py-5">
-                    <i class="bi bi-shield-check display-1 text-success mb-3"></i>
-                    <h4>No active disputes</h4>
-                    <p>There are currently no transaction disputes to process. Everything looks good!</p>
+                <div class="empty-state">
+                    @if (string.IsNullOrWhiteSpace(searchTerm))
+                    {
+                        <div class="display-icon text-success">
+                            <i class="bi bi-shield-check-fill"></i>
+                        </div>
+                        <h5>No Active Disputes</h5>
+                        <p>There are currently no pending transaction disputes to process. Everything looks good!</p>
+                    }
+                    else
+                    {
+                        <div class="display-icon">
+                            <i class="bi bi-search"></i>
+                        </div>
+                        <h5>No Results Found</h5>
+                        <p>No disputes found matching "<strong>@searchTerm</strong>".</p>
+                        <button class="btn btn-outline-primary btn-sm rounded-pill mt-2"
+                                @onclick="() => searchTerm = string.Empty">
+                            Clear Search
+                        </button>
+                    }
                 </div>
             }
             else
@@ -47,45 +153,63 @@
                     <table class="table table-modern">
                         <thead>
                             <tr>
-                                <th>Transaction ID</th>
-                                <th>Customer (User ID)</th>
-                                <th>Dispute Details</th>
+                                <th>Txn ID</th>
+                                <th>Customer</th>
+                                <th>Dispute Description</th>
                                 <th>Status</th>
-                                <th class="text-center">Action</th>
+                                <th class="text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (PagedDisputes.Count == 0)
-                            {
-                                <tr>
-                                    <td colspan="5" class="text-center text-muted py-4">No disputes found matching your search.</td>
-                                </tr>
-                            }
                             @foreach (var transaction in PagedDisputes)
                             {
                                 <tr>
-                                    <td class="text-muted fw-bold">#@transaction.Id</td>
+                                    <td>
+                                        <span class="fw-bold" style="font-size:.875rem;">
+                                            <i class="bi bi-hash text-muted" style="font-size:.75rem;"></i>@transaction.Id
+                                        </span>
+                                    </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar-placeholder bg-secondary bg-opacity-10 text-secondary">
-                                                <i class="bi bi-person"></i>
+                                            <div class="avatar-placeholder bg-secondary">
+                                                <i class="bi bi-person" style="font-size:.85rem;"></i>
                                             </div>
-                                            <span class="fw-semibold">@(transaction.User?.UserName ?? $"User {transaction.UserId}")</span>
+                                            <div>
+                                                <div class="fw-semibold" style="font-size:.875rem;">
+                                                    @(transaction.User?.UserName ?? "Unknown User")
+                                                </div>
+                                                <div style="font-size:.72rem;color:#9ca3af;">
+                                                    User ID: @transaction.UserId
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="text-break mb-0 text-muted" style="max-width: 400px; font-size: 0.9rem;">@transaction.Detail</p>
+                                        <p class="text-break mb-0"
+                                           style="max-width:380px;font-size:.84rem;color:#6b7280;line-height:1.5;">
+                                            @(string.IsNullOrWhiteSpace(transaction.Detail)
+                                                ? "No description provided."
+                                                : transaction.Detail)
+                                        </p>
                                     </td>
                                     <td>
-                                        <span class="badge badge-soft-warning"><i class="bi bi-exclamation-circle"></i> In Dispute</span>
+                                        <span class="badge-soft-warning">
+                                            <i class="bi bi-exclamation-circle me-1"></i>In Dispute
+                                        </span>
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-sm btn-outline-success me-2 rounded-pill px-3" @onclick="() => Resolve(transaction, 4, true)" title="Approve Refund">
-                                            <i class="bi bi-currency-dollar"></i> Approve Refund
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger rounded-pill px-3" @onclick="() => Resolve(transaction, 5, false)" title="Reject Dispute">
-                                            <i class="bi bi-x-circle"></i> Reject Dispute
-                                        </button>
+                                        <div class="d-flex gap-2 justify-content-center flex-wrap">
+                                            <button class="btn btn-sm btn-outline-success rounded-pill px-3"
+                                                    @onclick="() => ApproveRefund(transaction)"
+                                                    title="Approve Refund — mark as refunded">
+                                                <i class="bi bi-currency-dollar me-1"></i>Approve Refund
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger rounded-pill px-3"
+                                                    @onclick="() => RejectDispute(transaction)"
+                                                    title="Reject — dismiss this dispute">
+                                                <i class="bi bi-x-circle me-1"></i>Reject
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             }
@@ -93,15 +217,20 @@
                     </table>
                 </div>
 
-                <!-- Pagination Controls -->
+                <!-- Pagination -->
                 @if (TotalPages > 1)
                 {
-                    <div class="card-footer bg-white d-flex justify-content-between align-items-center p-3 border-top-0">
-                        <span class="text-muted small">Showing @(((currentPage - 1) * pageSize) + 1) to @(Math.Min(currentPage * pageSize, FilteredDisputes.Count)) of @FilteredDisputes.Count entries</span>
-                        <nav>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <span style="font-size:.8rem;color:#6b7280;">
+                            Showing <strong>@(((currentPage - 1) * pageSize) + 1)</strong>–<strong>@(Math.Min(currentPage * pageSize, FilteredDisputes.Count))</strong>
+                            of <strong>@FilteredDisputes.Count</strong> disputes
+                        </span>
+                        <nav aria-label="Pagination">
                             <ul class="pagination pagination-sm pagination-modern mb-0">
                                 <li class="page-item @(currentPage == 1 ? "disabled" : "")">
-                                    <button class="page-link" @onclick="PrevPage"><i class="bi bi-chevron-left"></i></button>
+                                    <button class="page-link" @onclick="PrevPage" disabled="@(currentPage == 1)">
+                                        <i class="bi bi-chevron-left"></i>
+                                    </button>
                                 </li>
                                 @for (int i = 1; i <= TotalPages; i++)
                                 {
@@ -111,7 +240,9 @@
                                     </li>
                                 }
                                 <li class="page-item @(currentPage == TotalPages ? "disabled" : "")">
-                                    <button class="page-link" @onclick="NextPage"><i class="bi bi-chevron-right"></i></button>
+                                    <button class="page-link" @onclick="NextPage" disabled="@(currentPage == TotalPages)">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </button>
                                 </li>
                             </ul>
                         </nav>
@@ -120,30 +251,52 @@
             }
         </div>
     </div>
+
+    <!-- Info Card: Status Reference -->
+    <div class="card card-modern mt-3">
+        <div class="card-header">
+            <h6 class="mb-0 fw-bold" style="font-size:.85rem;">
+                <i class="bi bi-info-circle me-2 text-primary"></i>Transaction Status Reference
+            </h6>
+        </div>
+        <div class="card-body py-3">
+            <div class="d-flex flex-wrap gap-3">
+                <span><span class="badge-soft-secondary me-1">Status 1</span> Completed</span>
+                <span><span class="badge-soft-info me-1">Status 2</span> Cancelled</span>
+                <span><span class="badge-soft-warning me-1">Status 3</span> In Dispute</span>
+                <span><span class="badge-soft-success me-1">Status 4</span> Refunded</span>
+                <span><span class="badge-soft-danger me-1">Status 5</span> Dispute Rejected</span>
+            </div>
+        </div>
+    </div>
 </div>
 
 @code {
+    private List<Transaction>? allTransactions;
     private List<Transaction>? disputedTransactions;
     private AdminAlert alert = default!;
     private ConfirmationModal confirmModal = default!;
     private Func<Task>? pendingAction;
 
-    // Search
-    private string _searchTerm = string.Empty;
-    private string searchTerm 
-    { 
-        get => _searchTerm; 
-        set { _searchTerm = value; currentPage = 1; } 
+    private string searchTerm
+    {
+        get => Session.DisputeSearchTerm;
+        set { Session.DisputeSearchTerm = value; currentPage = 1; }
     }
 
-    // Pagination
-    private int currentPage = 1;
-    private int pageSize = 10;
+    private int currentPage
+    {
+        get => Session.DisputeCurrentPage;
+        set => Session.DisputeCurrentPage = value;
+    }
+
+    private const int pageSize = 10;
 
     private List<Transaction> FilteredDisputes => (disputedTransactions ?? new List<Transaction>())
-        .Where(t => string.IsNullOrWhiteSpace(searchTerm) || 
+        .Where(t => string.IsNullOrWhiteSpace(searchTerm) ||
                     t.Id.ToString().Contains(searchTerm) ||
-                    (t.User?.UserName?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false))
+                    (t.User?.UserName?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (t.Detail?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false))
         .ToList();
 
     private List<Transaction> PagedDisputes => FilteredDisputes
@@ -153,8 +306,10 @@
 
     private int TotalPages => (int)Math.Ceiling(FilteredDisputes.Count / (double)pageSize);
 
-    protected override void OnInitialized()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (!firstRender) return;
+        await Task.Yield();
         LoadDisputes();
     }
 
@@ -162,47 +317,66 @@
     {
         try
         {
-            // Assuming Status 3 means Dispute
-            disputedTransactions = TransactionService.GetAllTransactions().Where(t => t.Status == 3).ToList();
+            allTransactions = TransactionService.GetAllTransactions();
+            // Status 3 = In Dispute
+            disputedTransactions = allTransactions.Where(t => t.Status == 3).ToList();
         }
         catch (Exception ex)
         {
             alert?.Show($"Failed to load transaction disputes: {ex.Message}", true);
+            disputedTransactions = new List<Transaction>();
+            allTransactions = new List<Transaction>();
         }
     }
 
-    private void Resolve(Transaction transaction, int newStatus, bool isRefund)
+    private void ApproveRefund(Transaction tx)
     {
-        string actionName = isRefund ? "approve a refund" : "reject the dispute";
-        string title = isRefund ? "Approve Refund" : "Reject Dispute";
-        string color = isRefund ? "success" : "danger";
-        string buttonText = isRefund ? "Approve Refund" : "Reject Dispute";
-
+        var captured = tx;
         pendingAction = async () =>
         {
-            try
+            // B.E validation via TransactionService
+            var result = TransactionService.ResolveDispute(captured.Id, 4);
+            if (!result.Success)
             {
-                // Status 4 = Refunded, Status 5 = Dispute Rejected
-                transaction.Status = newStatus;
-                TransactionService.UpdateTransaction(transaction);
-                LoadDisputes();
-                
-                if (isRefund)
-                {
-                    alert?.Show($"Refund approved successfully for Transaction #{transaction.Id}.");
-                }
-                else
-                {
-                    alert?.Show($"Dispute rejected for Transaction #{transaction.Id}.", true);
-                }
+                alert?.Show(result.Error ?? "Failed to process dispute.", true);
+                return;
             }
-            catch (Exception ex)
-            {
-                alert?.Show($"Error processing dispute: {ex.Message}", true);
-            }
+            LoadDisputes();
+            int openCount = TransactionService.GetOpenDisputeCount();
+            // SignalR broadcast
+            await Prn222_Nghiahnc_BlazorApp1.Hubs.AdminHub.NotifyDisputeResolved(
+                HubContext, captured.Id, true, openCount);
+            alert?.Show($"Refund approved for Transaction #{captured.Id}. Status updated to Refunded.");
         };
+        confirmModal.Show(
+            "Approve Refund",
+            $"Approve refund for Transaction #{tx.Id}? Funds will be returned to the customer.",
+            "Approve Refund", "success");
+    }
 
-        confirmModal.Show(title, $"Are you sure you want to {actionName} for Transaction #{transaction.Id}?", buttonText, color);
+    private void RejectDispute(Transaction tx)
+    {
+        var captured = tx;
+        pendingAction = async () =>
+        {
+            // B.E validation via TransactionService
+            var result = TransactionService.ResolveDispute(captured.Id, 5);
+            if (!result.Success)
+            {
+                alert?.Show(result.Error ?? "Failed to process dispute.", true);
+                return;
+            }
+            LoadDisputes();
+            int openCount = TransactionService.GetOpenDisputeCount();
+            // SignalR broadcast
+            await Prn222_Nghiahnc_BlazorApp1.Hubs.AdminHub.NotifyDisputeResolved(
+                HubContext, captured.Id, false, openCount);
+            alert?.Show($"Dispute for Transaction #{captured.Id} was rejected. Status updated to Dispute Rejected.");
+        };
+        confirmModal.Show(
+            "Reject Dispute",
+            $"Reject the dispute for Transaction #{tx.Id}? The original charge will stand.",
+            "Reject Dispute", "warning");
     }
 
     private async Task HandleConfirm()
@@ -214,18 +388,7 @@
         }
     }
 
-    private void PrevPage()
-    {
-        if (currentPage > 1) currentPage--;
-    }
-
-    private void NextPage()
-    {
-        if (currentPage < TotalPages) currentPage++;
-    }
-
-    private void GoToPage(int pageNum)
-    {
-        currentPage = pageNum;
-    }
+    private void PrevPage() { if (currentPage > 1) currentPage--; }
+    private void NextPage() { if (currentPage < TotalPages) currentPage++; }
+    private void GoToPage(int page) => currentPage = page;
 }

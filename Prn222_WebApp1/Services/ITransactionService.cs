@@ -10,5 +10,8 @@ namespace Services
         void CreateTransaction(Transaction transaction);
         void UpdateTransaction(Transaction transaction);
         void DeleteTransaction(int id);
+
+        ServiceResult ResolveDispute(int transactionId, int newStatus);
+        int GetOpenDisputeCount();
     }
 }

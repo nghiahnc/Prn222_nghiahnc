@@ -7,8 +7,8 @@ namespace Services
     {
         List<PaymentGatewayConfig> GetAllConfigs();
         PaymentGatewayConfig? GetConfigById(int id);
-        void CreateConfig(PaymentGatewayConfig config);
-        void UpdateConfig(PaymentGatewayConfig config);
+        ServiceResult CreateConfig(PaymentGatewayConfig config);
+        ServiceResult UpdateConfig(PaymentGatewayConfig config);
         void DeleteConfig(int id);
     }
 }

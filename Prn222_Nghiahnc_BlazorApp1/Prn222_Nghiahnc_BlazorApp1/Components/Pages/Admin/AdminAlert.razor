@@ -1,25 +1,80 @@
-<div class="alert @AlertClass alert-dismissible fade show" role="alert" style="display: @(string.IsNullOrEmpty(Message) ? "none" : "block")">
-    <strong>@Title</strong> @Message
-    <button type="button" class="btn-close" aria-label="Close" @onclick="Clear"></button>
-</div>
+@using Microsoft.AspNetCore.Components
+@implements IDisposable
+
+@if (IsVisible)
+{
+    <div class="admin-toast-container">
+        <div class="admin-toast @(IsError ? "toast-error" : "toast-success") @(hiding ? "hiding" : "")">
+            <span class="toast-icon">
+                @if (IsError)
+                {
+                    <i class="bi bi-exclamation-circle-fill"></i>
+                }
+                else
+                {
+                    <i class="bi bi-check-circle-fill"></i>
+                }
+            </span>
+            <div class="flex-grow-1">
+                <div class="toast-title">@(IsError ? "Error" : "Success")</div>
+                <div class="toast-body">@Message</div>
+            </div>
+            <button type="button" class="btn-close" aria-label="Close" @onclick="Clear"></button>
+        </div>
+    </div>
+}
 
 @code {
-    [Parameter] public string Message { get; set; } = string.Empty;
-    [Parameter] public bool IsError { get; set; } = false;
-
-    private string AlertClass => IsError ? "alert-danger" : "alert-success";
-    private string Title => IsError ? "Error!" : "Success!";
+    private bool IsVisible { get; set; } = false;
+    private bool IsError { get; set; } = false;
+    private string Message { get; set; } = string.Empty;
+    private bool hiding = false;
+    private System.Threading.CancellationTokenSource? _cts;
 
     public void Show(string message, bool isError = false)
     {
+        _cts?.Cancel();
+        _cts = new System.Threading.CancellationTokenSource();
         Message = message;
         IsError = isError;
+        IsVisible = true;
+        hiding = false;
         StateHasChanged();
+        _ = AutoDismiss(_cts.Token);
     }
 
     public void Clear()
     {
-        Message = string.Empty;
+        _cts?.Cancel();
+        IsVisible = false;
+        hiding = false;
         StateHasChanged();
+    }
+
+    private async Task AutoDismiss(System.Threading.CancellationToken token)
+    {
+        try
+        {
+            await Task.Delay(4000, token); // show for 4 seconds
+            if (!token.IsCancellationRequested)
+            {
+                hiding = true;
+                StateHasChanged();
+                await Task.Delay(300, token); // wait for slide-out animation
+                if (!token.IsCancellationRequested)
+                {
+                    IsVisible = false;
+                    hiding = false;
+                    StateHasChanged();
+                }
+            }
+        }
+        catch (TaskCanceledException) { }
+    }
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
     }
 }

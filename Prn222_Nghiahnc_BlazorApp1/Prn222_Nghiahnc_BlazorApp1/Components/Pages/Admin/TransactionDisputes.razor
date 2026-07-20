@@ -2,10 +2,8 @@
 @attribute [Authorize(Roles = "1")]
 @using Domain
 @using global::Services
-@using Microsoft.AspNetCore.SignalR
 @inject ITransactionService TransactionService
 @inject Prn222_Nghiahnc_BlazorApp1.Services.AdminSessionService Session
-@inject IHubContext<Prn222_Nghiahnc_BlazorApp1.Hubs.AdminHub> HubContext
 @rendermode InteractiveServer
 
 <PageTitle>Transaction Disputes — Admin Portal</PageTitle>
@@ -217,58 +215,11 @@
                     </table>
                 </div>
 
-                <!-- Pagination -->
-                @if (TotalPages > 1)
-                {
-                    <div class="card-footer d-flex justify-content-between align-items-center">
-                        <span style="font-size:.8rem;color:#6b7280;">
-                            Showing <strong>@(((currentPage - 1) * pageSize) + 1)</strong>–<strong>@(Math.Min(currentPage * pageSize, FilteredDisputes.Count))</strong>
-                            of <strong>@FilteredDisputes.Count</strong> disputes
-                        </span>
-                        <nav aria-label="Pagination">
-                            <ul class="pagination pagination-sm pagination-modern mb-0">
-                                <li class="page-item @(currentPage == 1 ? "disabled" : "")">
-                                    <button class="page-link" @onclick="PrevPage" disabled="@(currentPage == 1)">
-                                        <i class="bi bi-chevron-left"></i>
-                                    </button>
-                                </li>
-                                @for (int i = 1; i <= TotalPages; i++)
-                                {
-                                    int pageNum = i;
-                                    <li class="page-item @(currentPage == pageNum ? "active" : "")">
-                                        <button class="page-link" @onclick="() => GoToPage(pageNum)">@pageNum</button>
-                                    </li>
-                                }
-                                <li class="page-item @(currentPage == TotalPages ? "disabled" : "")">
-                                    <button class="page-link" @onclick="NextPage" disabled="@(currentPage == TotalPages)">
-                                        <i class="bi bi-chevron-right"></i>
-                                    </button>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                }
+                <!-- Pagination -->                <AdminPagination CurrentPage="currentPage" TotalPages="TotalPages" TotalCount="FilteredDisputes.Count" PageSize="pageSize" EntityName="disputes" OnPageChanged="GoToPage" />
             }
         </div>
     </div>
 
-    <!-- Info Card: Status Reference -->
-    <div class="card card-modern mt-3">
-        <div class="card-header">
-            <h6 class="mb-0 fw-bold" style="font-size:.85rem;">
-                <i class="bi bi-info-circle me-2 text-primary"></i>Transaction Status Reference
-            </h6>
-        </div>
-        <div class="card-body py-3">
-            <div class="d-flex flex-wrap gap-3">
-                <span><span class="badge-soft-secondary me-1">Status 1</span> Completed</span>
-                <span><span class="badge-soft-info me-1">Status 2</span> Cancelled</span>
-                <span><span class="badge-soft-warning me-1">Status 3</span> In Dispute</span>
-                <span><span class="badge-soft-success me-1">Status 4</span> Refunded</span>
-                <span><span class="badge-soft-danger me-1">Status 5</span> Dispute Rejected</span>
-            </div>
-        </div>
-    </div>
 </div>
 
 @code {
@@ -311,6 +262,7 @@
         if (!firstRender) return;
         await Task.Yield();
         LoadDisputes();
+        StateHasChanged();
     }
 
     private void LoadDisputes()
@@ -342,10 +294,7 @@
                 return;
             }
             LoadDisputes();
-            int openCount = TransactionService.GetOpenDisputeCount();
-            // SignalR broadcast
-            await Prn222_Nghiahnc_BlazorApp1.Hubs.AdminHub.NotifyDisputeResolved(
-                HubContext, captured.Id, true, openCount);
+            Session.NotifyCountsChanged();
             alert?.Show($"Refund approved for Transaction #{captured.Id}. Status updated to Refunded.");
         };
         confirmModal.Show(
@@ -367,10 +316,7 @@
                 return;
             }
             LoadDisputes();
-            int openCount = TransactionService.GetOpenDisputeCount();
-            // SignalR broadcast
-            await Prn222_Nghiahnc_BlazorApp1.Hubs.AdminHub.NotifyDisputeResolved(
-                HubContext, captured.Id, false, openCount);
+            Session.NotifyCountsChanged();
             alert?.Show($"Dispute for Transaction #{captured.Id} was rejected. Status updated to Dispute Rejected.");
         };
         confirmModal.Show(

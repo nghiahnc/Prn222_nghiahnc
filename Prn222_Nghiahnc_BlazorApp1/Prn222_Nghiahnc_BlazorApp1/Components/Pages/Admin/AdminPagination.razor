@@ -1,0 +1,100 @@
+@if (TotalPages > 1)
+{
+    <div class="card-footer d-flex justify-content-between align-items-center">
+        <span style="font-size:.8rem;color:#6b7280;">
+            Showing <strong>@ShowingStart</strong>–<strong>@ShowingEnd</strong> of <strong>@TotalCount</strong> @EntityName
+        </span>
+        <nav aria-label="Pagination">
+            <ul class="pagination pagination-sm pagination-modern mb-0">
+                <li class="page-item @(CurrentPage == 1 ? "disabled" : "")">
+                    <button class="page-link" @onclick="() => SelectPage(CurrentPage - 1)" disabled="@(CurrentPage == 1)">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                </li>
+                
+                @foreach (var item in GetPageItems())
+                {
+                    if (item.IsEllipsis)
+                    {
+                        <li class="page-item disabled">
+                            <span class="page-link bg-transparent border-0 text-muted" style="min-width:38px;height:38px;display:flex;align-items:center;justify-content:center;">...</span>
+                        </li>
+                    }
+                    else
+                    {
+                        var pageNum = item.PageNumber;
+                        <li class="page-item @(CurrentPage == pageNum ? "active" : "")">
+                            <button class="page-link" @onclick="() => SelectPage(pageNum)">@pageNum</button>
+                        </li>
+                    }
+                }
+
+                <li class="page-item @(CurrentPage == TotalPages ? "disabled" : "")">
+                    <button class="page-link" @onclick="() => SelectPage(CurrentPage + 1)" disabled="@(CurrentPage == TotalPages)">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+}
+
+@code {
+    [Parameter] public int CurrentPage { get; set; }
+    [Parameter] public int TotalPages { get; set; }
+    [Parameter] public int TotalCount { get; set; }
+    [Parameter] public int PageSize { get; set; }
+    [Parameter] public string EntityName { get; set; } = "entries";
+    [Parameter] public EventCallback<int> OnPageChanged { get; set; }
+
+    private int ShowingStart => ((CurrentPage - 1) * PageSize) + 1;
+    private int ShowingEnd => Math.Min(CurrentPage * PageSize, TotalCount);
+
+    private async Task SelectPage(int page)
+    {
+        if (page >= 1 && page <= TotalPages && page != CurrentPage)
+        {
+            await OnPageChanged.InvokeAsync(page);
+        }
+    }
+
+    private List<PageItem> GetPageItems()
+    {
+        var items = new List<PageItem>();
+        if (TotalPages <= 1) return items;
+
+        const int radius = 2; // pages around current page
+        
+        // Page 1
+        items.Add(new PageItem { PageNumber = 1 });
+
+        int start = Math.Max(2, CurrentPage - radius);
+        int end = Math.Min(TotalPages - 1, CurrentPage + radius);
+
+        if (start > 2)
+        {
+            items.Add(new PageItem { IsEllipsis = true });
+        }
+
+        for (int i = start; i <= end; i++)
+        {
+            items.Add(new PageItem { PageNumber = i });
+        }
+
+        if (end < TotalPages - 1)
+        {
+            items.Add(new PageItem { IsEllipsis = true });
+        }
+
+        // Last page
+        items.Add(new PageItem { PageNumber = TotalPages });
+
+        return items;
+    }
+
+    private class PageItem
+    {
+        public int PageNumber { get; set; }
+        public bool IsEllipsis { get; set; }
+    }
+}

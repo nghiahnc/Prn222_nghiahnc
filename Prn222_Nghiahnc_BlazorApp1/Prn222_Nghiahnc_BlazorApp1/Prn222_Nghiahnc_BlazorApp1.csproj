@@ -11,9 +11,4 @@
     <ProjectReference Include="..\..\Prn222_WebApp1\Repositories\Repositories.csproj" />
     <ProjectReference Include="..\..\Prn222_WebApp1\Services\Services.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.10" />
-  </ItemGroup>
-
 </Project>

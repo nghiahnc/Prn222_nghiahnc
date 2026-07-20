@@ -5,36 +5,33 @@ namespace Prn222_Nghiahnc_BlazorApp1.Services
     /// Replaces HTTP Session for Blazor — stores admin UI preferences
     /// like filter state, page size, and last search across navigation.
     ///
-    /// Technique: Session-equivalent pattern for Blazor Server.
-    /// Registered as AddScoped so state persists within one browser tab session
-    /// but resets when the tab closes or circuit disconnects.
     /// </summary>
     public class AdminSessionService
     {
-        // ─── Account Management page ───────────────────────────────────────
+        //  Account Management page 
         public string AccountSearchTerm { get; set; } = string.Empty;
         public int AccountFilterRole { get; set; } = -1;
         public int AccountFilterStatus { get; set; } = -1;
         public int AccountCurrentPage { get; set; } = 1;
 
-        // ─── Approve Organizers page ───────────────────────────────────────
+        //  Approve Organizers page 
         public string OrganizerSearchTerm { get; set; } = string.Empty;
         public int OrganizerCurrentPage { get; set; } = 1;
 
-        // ─── Transaction Disputes page ─────────────────────────────────────
+        //  Transaction Disputes page 
         public string DisputeSearchTerm { get; set; } = string.Empty;
         public int DisputeCurrentPage { get; set; } = 1;
 
-        // ─── System Settings page ──────────────────────────────────────────
+        //  System Settings page 
         public string SettingsSearchTerm { get; set; } = string.Empty;
         public int SettingsCurrentPage { get; set; } = 1;
 
-        // ─── Payment Gateway page ──────────────────────────────────────────
+        //  Payment Gateway page 
         public string GatewaySearchTerm { get; set; } = string.Empty;
         public int GatewayFilterActive { get; set; } = -1;
         public int GatewayCurrentPage { get; set; } = 1;
 
-        // ─── Global preferences ────────────────────────────────────────────
+        //  Global preferences 
         public int PageSize { get; set; } = 10;
         public string? AdminName { get; set; }
         public DateTime? LoginTime { get; set; }
@@ -52,6 +49,14 @@ namespace Prn222_Nghiahnc_BlazorApp1.Services
             if (duration.TotalHours >= 1)
                 return $"{(int)duration.TotalHours}h {duration.Minutes}m";
             return $"{duration.Minutes}m {duration.Seconds}s";
+        }
+
+        // ─── Events ────────────────────────────────────────────────────────
+        public event Action? OnCountsChanged;
+
+        public void NotifyCountsChanged()
+        {
+            OnCountsChanged?.Invoke();
         }
 
         public void ResetAll()

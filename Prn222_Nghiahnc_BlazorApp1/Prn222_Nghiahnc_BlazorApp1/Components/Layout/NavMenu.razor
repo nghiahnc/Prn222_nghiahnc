@@ -1,10 +1,9 @@
 @using Microsoft.AspNetCore.Components.Authorization
-@using Microsoft.AspNetCore.SignalR.Client
-@inject NavigationManager Navigation
 @using global::Services
 @inject IUserService UserService
 @inject ITransactionService TransactionService
-@implements IAsyncDisposable
+@inject Prn222_Nghiahnc_BlazorApp1.Services.AdminSessionService Session
+@implements IDisposable
 
 <nav class="navbar navbar-expand-lg navbar-vibrant sticky-top">
     <div class="container-fluid px-3 px-md-4">
@@ -76,15 +75,7 @@
                     </ul>
 
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-1 align-items-lg-center">
-                        <!-- SignalR connection status indicator -->
-                        <li class="nav-item d-none d-lg-block">
-                            <span class="nav-link pe-none d-flex align-items-center gap-1"
-                                  style="font-size:.72rem; opacity:.75;"
-                                  title="@(hubConnected ? "Real-time notifications active" : "Connecting...")">
-                                <span class="@(hubConnected ? "status-dot-online" : "status-dot-offline")"></span>
-                                @(hubConnected ? "Live" : "Connecting…")
-                            </span>
-                        </li>
+
 
                         <li class="nav-item">
                             <span class="nav-link d-flex align-items-center gap-2 pe-none"
@@ -124,96 +115,30 @@
     private bool collapseNavMenu = true;
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-    // Real-time badge counts (updated via SignalR)
     private int pendingOrganizers = 0;
     private int openDisputes = 0;
-    private bool hubConnected = false;
-
-    private HubConnection? _hubConnection;
 
     private void ToggleNavMenu() => collapseNavMenu = !collapseNavMenu;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override void OnInitialized()
     {
-        if (!firstRender) return;
+        Session.OnCountsChanged += RefreshCounts;
+        RefreshCounts();
+    }
 
-        // Load initial counts from DB
+    private void RefreshCounts()
+    {
         try
         {
             pendingOrganizers = UserService.GetPendingOrganizerCount();
             openDisputes      = TransactionService.GetOpenDisputeCount();
-            StateHasChanged();
+            InvokeAsync(StateHasChanged);
         }
         catch { /* Silently ignore if DB unavailable */ }
-
-        // Connect to SignalR for real-time updates
-        await ConnectSignalRAsync();
     }
 
-    private async Task ConnectSignalRAsync()
+    public void Dispose()
     {
-        try
-        {
-            _hubConnection = new HubConnectionBuilder()
-                .WithUrl(Navigation.ToAbsoluteUri("/hubs/admin"))
-                .WithAutomaticReconnect()
-                .Build();
-
-            // Listen: Background Worker broadcasts count changes every 30s
-            _hubConnection.On<int, int>("PendingCountsUpdated", (organizers, disputes) =>
-            {
-                pendingOrganizers = organizers;
-                openDisputes      = disputes;
-                InvokeAsync(StateHasChanged);
-            });
-
-            // Listen: Organizer approved/rejected (from other admin tabs)
-            _hubConnection.On<string, int>("OrganizerApproved", (_, count) =>
-            {
-                pendingOrganizers = count;
-                InvokeAsync(StateHasChanged);
-            });
-
-            _hubConnection.On<string, int>("OrganizerRejected", (_, count) =>
-            {
-                pendingOrganizers = count;
-                InvokeAsync(StateHasChanged);
-            });
-
-            // Listen: Dispute resolved (from other admin tabs)
-            _hubConnection.On<int, bool, int>("DisputeResolved", (_, __, count) =>
-            {
-                openDisputes = count;
-                InvokeAsync(StateHasChanged);
-            });
-
-            _hubConnection.Reconnected += async _ =>
-            {
-                hubConnected = true;
-                await InvokeAsync(StateHasChanged);
-            };
-            _hubConnection.Closed += async _ =>
-            {
-                hubConnected = false;
-                await InvokeAsync(StateHasChanged);
-            };
-
-            await _hubConnection.StartAsync();
-            hubConnected = true;
-            await InvokeAsync(StateHasChanged);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"[NavMenu] SignalR connection failed: {ex.Message}");
-            hubConnected = false;
-        }
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        if (_hubConnection is not null)
-        {
-            await _hubConnection.DisposeAsync();
-        }
+        Session.OnCountsChanged -= RefreshCounts;
     }
 }

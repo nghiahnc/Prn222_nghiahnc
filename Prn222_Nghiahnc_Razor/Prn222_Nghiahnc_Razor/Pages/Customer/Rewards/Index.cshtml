@@ -22,6 +22,12 @@
     <dt class="col-sm-3">Tier Benefit</dt>
     <dd class="col-sm-9">@(Model.Summary?.TierDiscount ?? 0)% discount on booking</dd>
 
+    <dt class="col-sm-3">Tier Started</dt>
+    <dd class="col-sm-9">@(Model.Summary?.User.MembershipStartedAt?.ToString("dd/MM/yyyy") ?? "Not set")</dd>
+
+    <dt class="col-sm-3">Tier Valid Until</dt>
+    <dd class="col-sm-9">@(Model.Summary?.User.MembershipExpiresAt?.ToString("dd/MM/yyyy") ?? "No expiry for Bronze")</dd>
+
     <dt class="col-sm-3">Earned Points</dt>
     <dd class="col-sm-9">@Model.Summary?.EarnedPoints</dd>
 

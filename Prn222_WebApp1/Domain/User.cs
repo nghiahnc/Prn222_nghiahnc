@@ -22,6 +22,10 @@ namespace Domain
 
         public int? MembershipId { get; set; }
 
+        public DateTime? MembershipStartedAt { get; set; }
+
+        public DateTime? MembershipExpiresAt { get; set; }
+
         public int Status { get; set; }
     }
 }

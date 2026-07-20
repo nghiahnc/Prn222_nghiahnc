@@ -47,13 +47,35 @@ namespace Repositories
             return _context.Membership.ToListAsync();
         }
 
-        public async Task UpdateUserMembershipAsync(int userId, int membershipId)
+        public async Task UpdateUserMembershipAsync(
+            int userId,
+            int membershipId,
+            DateTime? startedAt,
+            DateTime? expiresAt)
         {
             var user = await GetUserByIdAsync(userId);
             if (user != null)
             {
                 user.MembershipId = membershipId;
+                user.MembershipStartedAt = startedAt;
+                user.MembershipExpiresAt = expiresAt;
             }
+        }
+
+        public Task<List<int>> GetExpiredMembershipUserIdsAsync(DateTime asOf)
+        {
+            return _context.User
+                .Where(u => u.MembershipId != null
+                    && u.MembershipExpiresAt != null
+                    && u.MembershipExpiresAt <= asOf)
+                .Select(u => u.Id)
+                .ToListAsync();
+        }
+
+        public Task AddMembershipHistoryAsync(MembershipHistory history)
+        {
+            _context.MembershipHistory.Add(history);
+            return Task.CompletedTask;
         }
 
         public Task<int> CountEventsAsync(string? search, int? categoryId, string? dateFilter, string? location, int? ticketTypeId)
@@ -206,13 +228,28 @@ namespace Repositories
                 .FirstOrDefaultAsync(t => t.Id == ticketId);
         }
 
-        public async Task<decimal> GetPaidTicketTotalAsync(int userId, IReadOnlyCollection<int> paidStatuses)
+        public async Task<decimal> GetPaidTicketTotalAsync(
+            int userId,
+            IReadOnlyCollection<int> paidStatuses,
+            DateTime? fromInclusive = null,
+            DateTime? toExclusive = null)
         {
-            return await _context.Ticket
+            var query = _context.Ticket
                 .Where(t => t.Booking != null
                     && t.Booking.UserId == userId
-                    && paidStatuses.Contains(t.Booking.Status))
-                .Select(t => (decimal?)t.TicketType!.Price)
+                    && paidStatuses.Contains(t.Booking.Status));
+
+            if (fromInclusive.HasValue)
+            {
+                query = query.Where(t => t.Booking!.CreatedAt >= fromInclusive.Value);
+            }
+
+            if (toExclusive.HasValue)
+            {
+                query = query.Where(t => t.Booking!.CreatedAt < toExclusive.Value);
+            }
+
+            return await query.Select(t => (decimal?)t.TicketType!.Price)
                 .SumAsync() ?? 0m;
         }
 

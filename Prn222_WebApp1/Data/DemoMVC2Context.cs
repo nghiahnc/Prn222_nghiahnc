@@ -16,6 +16,7 @@ namespace MVC.Data2
         public DbSet<EventCategory> EventCategory { get; set; } = default!;
         public DbSet<Login> Login { get; set; } = default!;
         public DbSet<Membership> Membership { get; set; } = default!;
+        public DbSet<MembershipHistory> MembershipHistory { get; set; } = default!;
         public DbSet<Transaction> Transaction { get; set; } = default!;
         public DbSet<Ticket> Ticket { get; set; } = default!;
         public DbSet<TicketType> TicketType { get; set; } = default!;
@@ -28,6 +29,7 @@ namespace MVC.Data2
             modelBuilder.Entity<EventCategory>().ToTable("EventCategory");
             modelBuilder.Entity<Login>().ToTable("Login");
             modelBuilder.Entity<Membership>().ToTable("Membership");
+            modelBuilder.Entity<MembershipHistory>().ToTable("MembershipHistory");
             modelBuilder.Entity<Transaction>().ToTable("Transaction");
             modelBuilder.Entity<Ticket>().ToTable("Ticket");
             modelBuilder.Entity<TicketType>().ToTable("TicketType");
@@ -40,6 +42,41 @@ namespace MVC.Data2
                 .HasOne<Membership>()
                 .WithMany(m => m.Users)
                 .HasForeignKey(u => u.MembershipId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.MembershipExpiresAt)
+                .HasDatabaseName("IX_User_MembershipExpiresAt")
+                .HasFilter("[MembershipExpiresAt] IS NOT NULL");
+
+            modelBuilder.Entity<MembershipHistory>()
+                .Property(h => h.ChangeType)
+                .HasMaxLength(50);
+
+            modelBuilder.Entity<MembershipHistory>()
+                .Property(h => h.Reason)
+                .HasMaxLength(500);
+
+            modelBuilder.Entity<MembershipHistory>()
+                .HasIndex(h => new { h.UserId, h.ChangedAt })
+                .HasDatabaseName("IX_MembershipHistory_UserId_ChangedAt");
+
+            modelBuilder.Entity<MembershipHistory>()
+                .HasOne(h => h.User)
+                .WithMany()
+                .HasForeignKey(h => h.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<MembershipHistory>()
+                .HasOne(h => h.PreviousMembership)
+                .WithMany()
+                .HasForeignKey(h => h.PreviousMembershipId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<MembershipHistory>()
+                .HasOne(h => h.NewMembership)
+                .WithMany()
+                .HasForeignKey(h => h.NewMembershipId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Booking>()

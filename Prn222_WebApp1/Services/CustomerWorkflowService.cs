@@ -391,10 +391,44 @@ namespace Services
                 .OrderByDescending(GetTierThreshold)
                 .FirstOrDefault(m => availablePoints >= GetTierThreshold(m));
 
-            if (tier != null && user.MembershipId != tier.Id)
+            if (tier == null)
             {
-                await _repository.UpdateUserMembershipAsync(userId, tier.Id);
+                return;
             }
+
+            var now = DateTime.Now;
+            var currentTier = user.MembershipId == null
+                ? null
+                : tiers.FirstOrDefault(m => m.Id == user.MembershipId.Value);
+            var isInitialAssignment = currentTier == null;
+            var isUpgrade = currentTier != null
+                && GetTierThreshold(tier) > GetTierThreshold(currentTier);
+            var needsValidityInitialization = currentTier != null
+                && GetTierThreshold(currentTier) > 0
+                && (!user.MembershipStartedAt.HasValue || !user.MembershipExpiresAt.HasValue);
+
+            if (!isInitialAssignment && !isUpgrade && !needsValidityInitialization)
+            {
+                return;
+            }
+
+            var targetTier = isUpgrade || isInitialAssignment ? tier : currentTier!;
+            DateTime? expiresAt = GetTierThreshold(targetTier) > 0 ? now.AddMonths(12) : null;
+            var changeType = isUpgrade ? "Upgrade" : "Initialization";
+            var reason = isUpgrade
+                ? $"Upgraded after reaching {availablePoints:N0} available point(s)."
+                : "Initialized the 12-month membership validity period.";
+
+            await _repository.UpdateUserMembershipAsync(userId, targetTier.Id, now, expiresAt);
+            await _repository.AddMembershipHistoryAsync(new MembershipHistory
+            {
+                UserId = userId,
+                PreviousMembershipId = currentTier?.Id,
+                NewMembershipId = targetTier.Id,
+                ChangedAt = now,
+                ChangeType = changeType,
+                Reason = reason
+            });
         }
 
         public static string BookingStatusLabel(int status)
@@ -465,7 +499,7 @@ namespace Services
             };
         }
 
-        private static int CalculatePoints(decimal amount)
+        internal static int CalculatePoints(decimal amount)
         {
             return (int)Math.Floor(amount / 100000m) * 10;
         }

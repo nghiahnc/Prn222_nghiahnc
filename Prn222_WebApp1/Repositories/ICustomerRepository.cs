@@ -14,7 +14,9 @@ namespace Repositories
         Task<User?> GetUserByIdAsync(int userId);
         Task<Membership?> GetMembershipByIdAsync(int membershipId);
         Task<List<Membership>> GetMembershipsAsync();
-        Task UpdateUserMembershipAsync(int userId, int membershipId);
+        Task UpdateUserMembershipAsync(int userId, int membershipId, DateTime? startedAt, DateTime? expiresAt);
+        Task<List<int>> GetExpiredMembershipUserIdsAsync(DateTime asOf);
+        Task AddMembershipHistoryAsync(MembershipHistory history);
 
         Task<int> CountEventsAsync(string? search, int? categoryId, string? dateFilter, string? location, int? ticketTypeId);
         Task<List<EventEntity>> GetEventsAsync(string? search, int? categoryId, string? dateFilter, string? location, int? ticketTypeId, int skip, int take);
@@ -39,7 +41,11 @@ namespace Repositories
         Task<List<Ticket>> GetTicketsByUserAsync(int userId);
         Task<Ticket?> GetTicketWithDetailsAsync(int ticketId);
 
-        Task<decimal> GetPaidTicketTotalAsync(int userId, IReadOnlyCollection<int> paidStatuses);
+        Task<decimal> GetPaidTicketTotalAsync(
+            int userId,
+            IReadOnlyCollection<int> paidStatuses,
+            DateTime? fromInclusive = null,
+            DateTime? toExclusive = null);
         Task<List<string>> GetConfirmedRedeemDetailsAsync(int userId);
     }
 }
